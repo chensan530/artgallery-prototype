@@ -506,6 +506,62 @@ body {
         <button id="btn-withdraw" type="button" class="btn-primary w-full h-11 mt-4">提现</button>
       </div>
 
+      <!-- 结算明细（按订单） -->
+      <div class="mt-4">
+        <h2 class="text-[15px] font-bold text-[#1E293B] mb-1">结算明细（按订单）</h2>
+        <p class="text-[11px] text-[#64748B] mb-2">佣金方式入驻：实收 = 成交金额 − 佣金 − 手续费</p>
+        <div class="card divide-y divide-[#E2E8F0]">
+          <div class="p-3">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[13px] font-medium text-[#1E293B]">《山水清音》</span>
+              <span class="tag-approved">已结算</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-[#64748B]">
+              <span>成交 <b class="font-medium text-[#1E293B] tabular-nums">$3,500</b></span>
+              <span>佣金 <b class="font-medium tabular-nums" style="color: var(--state-error);">-$525</b></span>
+              <span>手续费 <b class="font-medium tabular-nums" style="color: var(--state-error);">-$101.50</b></span>
+              <span>实收 <b class="font-medium tabular-nums" style="color: var(--state-success);">$2,873.50</b></span>
+            </div>
+          </div>
+          <div class="p-3">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[13px] font-medium text-[#1E293B]">《无界之境》</span>
+              <span class="tag-pending">待结算</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-[#64748B]">
+              <span>成交 <b class="font-medium text-[#1E293B] tabular-nums">$2,800</b></span>
+              <span>佣金 <b class="font-medium tabular-nums" style="color: var(--state-error);">-$420</b></span>
+              <span>手续费 <b class="font-medium tabular-nums" style="color: var(--state-error);">-$81.20</b></span>
+              <span>实收 <b class="font-medium tabular-nums" style="color: var(--state-success);">$2,298.80</b></span>
+            </div>
+          </div>
+          <div class="p-3">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[13px] font-medium text-[#1E293B]">《沉思者》</span>
+              <span class="tag-approved">已结算</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-[#64748B]">
+              <span>成交 <b class="font-medium text-[#1E293B] tabular-nums">$1,900</b></span>
+              <span>佣金 <b class="font-medium tabular-nums" style="color: var(--state-error);">-$285</b></span>
+              <span>手续费 <b class="font-medium tabular-nums" style="color: var(--state-error);">-$55.10</b></span>
+              <span>实收 <b class="font-medium tabular-nums" style="color: var(--state-success);">$1,559.90</b></span>
+            </div>
+          </div>
+          <div class="p-3">
+            <div class="flex items-center justify-between mb-1.5">
+              <span class="text-[13px] font-medium text-[#1E293B]">《静默之诗》</span>
+              <span class="tag-pending">待结算</span>
+            </div>
+            <div class="flex items-center justify-between text-[11px] text-[#64748B]">
+              <span>成交 <b class="font-medium text-[#1E293B] tabular-nums">$1,500</b></span>
+              <span>佣金 <b class="font-medium tabular-nums" style="color: var(--state-error);">-$225</b></span>
+              <span>手续费 <b class="font-medium tabular-nums" style="color: var(--state-error);">-$43.50</b></span>
+              <span>实收 <b class="font-medium tabular-nums" style="color: var(--state-success);">$1,231.50</b></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="mt-4">
         <div class="flex items-center justify-between mb-3">
           <h2 class="text-[15px] font-bold text-[#1E293B]">近期账单</h2>
@@ -555,12 +611,278 @@ body {
         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="text-[11px] leading-none whitespace-nowrap">订单</span>
       </a>
-      <a data-nav-key="nav-profile" id="nav-profile" href="app-artist-home.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+      <a data-nav-key="nav-profile" id="nav-profile" href="app-artist-profile.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span class="text-[11px] leading-none whitespace-nowrap">我的</span>
       </a>
     </div>
   </nav>
+</div>
+
+<!-- ===== 发货 · 上传物流信息 弹窗 ===== -->
+<div id="ship-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="发货上传物流信息">
+  <div class="modal-sheet p-5">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-[16px] font-bold text-[#1E293B]">发货 · 上传物流信息</h3>
+      <button type="button" data-close-modal aria-label="关闭" class="modal-close">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="space-y-4">
+      <div>
+        <label for="ship-company" class="block text-[13px] font-medium text-[#1E293B] mb-1.5">物流公司</label>
+        <select id="ship-company" class="select-field">
+          <option value="顺丰国际 SF-Express">顺丰国际 SF-Express</option>
+          <option value="DHL">DHL</option>
+          <option value="UPS">UPS</option>
+          <option value="FedEx">FedEx</option>
+          <option value="其他">其他</option>
+        </select>
+      </div>
+      <div>
+        <label for="ship-tracking" class="block text-[13px] font-medium text-[#1E293B] mb-1.5">运单号 <span style="color: var(--state-error);">*</span></label>
+        <input id="ship-tracking" type="text" class="input-field" placeholder="请输入物流运单号" required/>
+      </div>
+      <div>
+        <label class="block text-[13px] font-medium text-[#1E293B] mb-1.5">发货物品照片</label>
+        <button type="button" id="ship-photo" class="photo-upload w-full">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          <span>点击上传发货物品照片</span>
+        </button>
+        <div id="ship-photo-status" class="text-[12px] font-medium mt-1.5" style="color: var(--state-success); display: none;">已上传：发货物品照片.jpg</div>
+      </div>
+      <div>
+        <label for="ship-note" class="block text-[13px] font-medium text-[#1E293B] mb-1.5">备注（可选）</label>
+        <textarea id="ship-note" class="textarea-field" placeholder="如：作品已装裱并加强包装"></textarea>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-5">
+      <button type="button" data-dom-id="ship-cancel" class="btn-secondary flex-1 h-11">取消</button>
+      <button type="button" data-dom-id="ship-confirm" class="btn-primary flex-1 h-11">确认发货</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 物流详情 弹窗 ===== -->
+<div id="logistics-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="物流详情">
+  <div class="modal-sheet p-5">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-[16px] font-bold text-[#1E293B]">物流详情</h3>
+      <button type="button" data-close-modal aria-label="关闭" class="modal-close">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="space-y-3">
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">物流公司</span>
+        <span id="logistics-company" class="font-medium text-[#1E293B]"></span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">运单号</span>
+        <span id="logistics-tracking" class="font-medium text-[#1E293B]"></span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">发货时间</span>
+        <span id="logistics-time" class="font-medium text-[#1E293B]"></span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">发货说明</span>
+        <span id="logistics-note" class="font-medium text-[#1E293B]"></span>
+      </div>
+    </div>
+    <div class="mt-4">
+      <div class="text-[13px] font-medium text-[#1E293B] mb-1.5">发货物品照片</div>
+      <div class="photo-upload cursor-default">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span id="logistics-photo-name" class="font-medium" style="color: var(--ag-neutral-700);"></span>
+      </div>
+    </div>
+    <div class="mt-4 rounded-lg p-3" style="background: var(--ag-muted);">
+      <div class="flex items-center gap-2">
+        <span class="w-5 h-5 rounded-full flex items-center justify-center text-[#FFFFFF] text-[11px]" style="background: var(--state-success);">✓</span>
+        <span class="text-[13px] font-medium text-[#1E293B]">已发货</span>
+      </div>
+      <p class="text-[12px] text-[#64748B] mt-2">发货即完成，无需买家确认收货</p>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 订单详情 弹窗 ===== -->
+<div id="order-detail-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="订单详情">
+  <div class="modal-sheet p-5">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-[16px] font-bold text-[#1E293B]">订单详情</h3>
+      <button type="button" data-close-modal aria-label="关闭" class="modal-close">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="space-y-3">
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">订单号</span>
+        <span class="font-medium text-[#1E293B]">AO-20250802008</span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">作品</span>
+        <span class="font-medium text-[#1E293B]">《山水清音》</span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">买家</span>
+        <span class="font-medium text-[#1E293B]">Michael C.</span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">金额</span>
+        <span class="font-bold text-[#1A365D]" style="font-variant-numeric: tabular-nums;">$3,500</span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">状态</span>
+        <span class="tag-approved">已完成</span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">下单时间</span>
+        <span class="font-medium text-[#1E293B]">08-02 14:10</span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">收货地址</span>
+        <span class="font-medium text-[#1E293B] text-right">上海市徐汇区龙腾大道 2555 号（示例地址）</span>
+      </div>
+    </div>
+    <div class="mt-4 rounded-lg p-3" style="background: var(--ag-muted);">
+      <div class="text-[13px] font-bold text-[#1E293B] mb-2">金额明细</div>
+      <div class="space-y-2">
+        <div class="flex items-center justify-between text-[13px]">
+          <span class="text-[#64748B]">成交金额</span>
+          <span class="font-medium text-[#1E293B] tabular-nums">$3,500</span>
+        </div>
+        <div class="flex items-center justify-between text-[13px]">
+          <span class="text-[#64748B]">佣金（15%）</span>
+          <span class="font-medium tabular-nums" style="color: var(--state-error);">-$525</span>
+        </div>
+        <div class="flex items-center justify-between text-[13px]">
+          <span class="text-[#64748B]">手续费</span>
+          <span class="font-medium tabular-nums" style="color: var(--state-error);">-$101.5</span>
+        </div>
+        <div class="flex items-center justify-between text-[13px] pt-2" style="border-top: 1px solid var(--ag-border);">
+          <span class="text-[#64748B]">艺术家实收</span>
+          <span class="font-bold tabular-nums" style="color: var(--state-success);">$2,873.5</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 售后处理 弹窗 ===== -->
+<div id="aftersale-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="售后处理">
+  <div class="modal-sheet p-5">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-[16px] font-bold text-[#1E293B]">售后处理</h3>
+      <button type="button" data-close-modal aria-label="关闭" class="modal-close">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="rounded-lg p-3 space-y-2.5" style="background: var(--ag-muted);">
+      <div class="text-[13px] font-bold text-[#1E293B]">售后单信息</div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">类型</span>
+        <span class="font-medium text-[#1E293B]">退货退款</span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">原因</span>
+        <span class="font-medium text-[#1E293B]">运输中受损</span>
+      </div>
+      <div class="flex items-center justify-between text-[13px]">
+        <span class="text-[#64748B]">买家诉求</span>
+        <span class="font-medium text-[#1E293B] tabular-nums">退款 $1,500</span>
+      </div>
+    </div>
+    <div class="flex gap-3 mt-5">
+      <button type="button" data-dom-id="aftersale-approve" class="btn-primary flex-1 h-11">受理退款</button>
+      <button type="button" data-dom-id="aftersale-reject" class="btn-secondary flex-1 h-11">驳回申请</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 提现 弹窗 ===== -->
+<div id="withdraw-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="提现">
+  <div class="modal-sheet p-5">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-[16px] font-bold text-[#1E293B]">提现</h3>
+      <button type="button" data-close-modal aria-label="关闭" class="modal-close">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="flex items-center justify-between rounded-lg px-3 py-3 mb-4" style="background: var(--ag-muted);">
+      <span class="text-[13px] text-[#64748B]">可提现余额</span>
+      <span class="text-[18px] font-bold text-[#1A365D] tabular-nums">$4,280.00</span>
+    </div>
+    <div class="mb-4">
+      <label class="block text-[13px] font-medium text-[#1E293B] mb-1.5">收款账户</label>
+      <div class="flex items-center justify-between rounded-lg px-3 py-2.5" style="background: var(--ag-muted);">
+        <span class="text-[13px] font-medium text-[#1E293B]">PayPal</span>
+        <span class="text-[12px] text-[#64748B]">chenmobai@art.gallery</span>
+      </div>
+    </div>
+    <div>
+      <label for="withdraw-amount" class="block text-[13px] font-medium text-[#1E293B] mb-1.5">提现金额（美元）</label>
+      <input id="withdraw-amount" type="number" class="input-field" value="4280" min="0" step="0.01" placeholder="请输入提现金额"/>
+    </div>
+    <button type="button" data-dom-id="withdraw-confirm" class="btn-primary w-full h-11 mt-5">确认提现</button>
+  </div>
+</div>
+
+<!-- ===== 账单明细 弹窗 ===== -->
+<div id="bills-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="账单明细">
+  <div class="modal-sheet p-5">
+    <div class="flex items-center justify-between mb-4">
+      <h3 class="text-[16px] font-bold text-[#1E293B]">账单明细</h3>
+      <button type="button" data-close-modal aria-label="关闭" class="modal-close">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="card divide-y divide-[#E2E8F0]">
+      <div class="p-3 flex items-center justify-between">
+        <div>
+          <div class="text-[14px] font-medium text-[#1E293B]">订单结算 - 无界之境</div>
+          <div class="text-[12px] text-[#64748B] mt-0.5">08-06 09:32</div>
+        </div>
+        <div class="text-[14px] font-bold text-[#2E7D32] tabular-nums">+$2,380</div>
+      </div>
+      <div class="p-3 flex items-center justify-between">
+        <div>
+          <div class="text-[14px] font-medium text-[#1E293B]">结算佣金扣除</div>
+          <div class="text-[12px] text-[#64748B] mt-0.5">08-05 10:20</div>
+        </div>
+        <div class="text-[14px] font-bold text-[#1E293B] tabular-nums">-$420</div>
+      </div>
+      <div class="p-3 flex items-center justify-between">
+        <div>
+          <div class="text-[14px] font-medium text-[#1E293B]">订单结算 - 山水清音</div>
+          <div class="text-[12px] text-[#64748B] mt-0.5">08-04 16:20</div>
+        </div>
+        <div class="text-[14px] font-bold text-[#2E7D32] tabular-nums">+$3,220</div>
+      </div>
+      <div class="p-3 flex items-center justify-between">
+        <div>
+          <div class="text-[14px] font-medium text-[#1E293B]">提现至 PayPal</div>
+          <div class="text-[12px] text-[#64748B] mt-0.5">08-03 10:15</div>
+        </div>
+        <div class="text-[14px] font-bold text-[#1E293B] tabular-nums">-$2,000</div>
+      </div>
+      <div class="p-3 flex items-center justify-between">
+        <div>
+          <div class="text-[14px] font-medium text-[#1E293B]">平台服务费</div>
+          <div class="text-[12px] text-[#64748B] mt-0.5">08-02 18:40</div>
+        </div>
+        <div class="text-[14px] font-bold text-[#1E293B] tabular-nums">-$280</div>
+      </div>
+      <div class="p-3 flex items-center justify-between">
+        <div>
+          <div class="text-[14px] font-medium text-[#1E293B]">提现至银行</div>
+          <div class="text-[12px] text-[#64748B] mt-0.5">08-01 14:05</div>
+        </div>
+        <div class="text-[14px] font-bold text-[#1E293B] tabular-nums">-$1,000</div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -642,70 +964,175 @@ body {
     });
   }
 
-  // 发货（模拟 + 状态更新）
+  // ===== 弹窗系统 =====
+  var currentOrder = null;
+  function openModal(id) {
+    var m = document.getElementById(id);
+    if (!m) return;
+    m.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(id) {
+    var m = document.getElementById(id);
+    if (!m) return;
+    m.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  var modalOverlays = document.querySelectorAll('.modal-overlay');
+  modalOverlays.forEach(function(ov) {
+    ov.addEventListener('click', function(e) {
+      if (e.target === ov) { ov.classList.remove('open'); document.body.style.overflow = ''; }
+    });
+  });
+  document.querySelectorAll('.modal-close').forEach(function(b) {
+    b.addEventListener('click', function() {
+      var ov = b.closest('.modal-overlay');
+      if (ov) { ov.classList.remove('open'); document.body.style.overflow = ''; }
+    });
+  });
+
+  // ===== 发货 · 上传物流信息 =====
   var shipBtn = document.getElementById('ship-1');
-  if (shipBtn) {
-    shipBtn.addEventListener('click', function() {
-      if (window.confirm('确认已安排发货？')) {
-        alert('已提交发货申请，等待平台确认');
-        var card = shipBtn.closest('.card');
-        var tag = card.querySelector('span[class*="tag-"]');
-        tag.className = 'tag-approved'; tag.textContent = '已发货';
-        card.setAttribute('data-status', 'shipped');
-        shipBtn.disabled = true; shipBtn.style.opacity = '0.5'; shipBtn.style.cursor = 'not-allowed'; shipBtn.textContent = '已发货';
-      }
+  var shipLogisticsData = { company: '顺丰国际 SF-Express', tracking: '', time: '', note: '—', photo: '发货物品照片.jpg' };
+  function openShipModal() {
+    currentOrder = 'order-card-1';
+    document.getElementById('ship-tracking').value = '';
+    document.getElementById('ship-note').value = '';
+    document.getElementById('ship-company').value = '顺丰国际 SF-Express';
+    document.getElementById('ship-photo-status').style.display = 'none';
+    openModal('ship-modal');
+  }
+  if (shipBtn) { shipBtn.addEventListener('click', openShipModal); }
+
+  var shipCancel = document.getElementById('ship-cancel');
+  if (shipCancel) { shipCancel.addEventListener('click', function() { closeModal('ship-modal'); }); }
+
+  var shipPhoto = document.getElementById('ship-photo');
+  if (shipPhoto) {
+    shipPhoto.addEventListener('click', function() {
+      alert('已上传发货物品照片');
+      document.getElementById('ship-photo-status').style.display = 'block';
     });
   }
 
-  // 查看物流（模拟）
+  var shipConfirm = document.getElementById('ship-confirm');
+  if (shipConfirm) {
+    shipConfirm.addEventListener('click', function() {
+      var trackingInput = document.getElementById('ship-tracking');
+      var tracking = trackingInput.value.trim();
+      if (!tracking) {
+        alert('请填写物流运单号');
+        trackingInput.focus();
+        return;
+      }
+      var card = document.getElementById('order-card-1');
+      var tag = card.querySelector('span[class*="tag-"]');
+      tag.className = 'tag-approved';
+      tag.textContent = '已发货';
+      card.setAttribute('data-status', 'shipped');
+      card.querySelector('.border-t span').textContent = '物流单号：' + tracking;
+      shipLogisticsData.company = document.getElementById('ship-company').value;
+      shipLogisticsData.tracking = tracking;
+      var now = new Date();
+      function pad2(n) { return n < 10 ? '0' + n : '' + n; }
+      shipLogisticsData.time = now.getFullYear() + '-' + pad2(now.getMonth() + 1) + '-' + pad2(now.getDate()) + ' ' + pad2(now.getHours()) + ':' + pad2(now.getMinutes());
+      var note = document.getElementById('ship-note').value.trim();
+      shipLogisticsData.note = note || '—';
+      closeModal('ship-modal');
+      shipBtn.className = 'btn-secondary h-8 px-3 text-[13px]';
+      shipBtn.textContent = '查看物流';
+      shipBtn.removeEventListener('click', openShipModal);
+      shipBtn.addEventListener('click', function() { openLogistics(shipLogisticsData); });
+      alert('发货成功，订单已进入已发货状态');
+    });
+  }
+
+  // ===== 物流详情 =====
+  function openLogistics(data) {
+    document.getElementById('logistics-company').textContent = data.company;
+    document.getElementById('logistics-tracking').textContent = data.tracking;
+    document.getElementById('logistics-time').textContent = data.time;
+    document.getElementById('logistics-note').textContent = data.note;
+    document.getElementById('logistics-photo-name').textContent = data.photo;
+    openModal('logistics-modal');
+  }
   var viewLogistics = document.getElementById('view-logistics-1');
   if (viewLogistics) {
     viewLogistics.addEventListener('click', function() {
-      alert('物流信息\n单号：DHL 1234567890\n当前状态：运输中\n预计送达：2026-08-09');
+      openLogistics({ company: 'DHL', tracking: 'DHL-1234567890', time: '2026-08-06 10:15', note: '作品已装裱并加强包装', photo: '发货物品照片.jpg' });
     });
   }
 
-  // 查看详情（模拟）
+  // ===== 订单详情 =====
   var viewDetail = document.getElementById('view-detail-1');
   if (viewDetail) {
-    viewDetail.addEventListener('click', function() {
-      alert('订单详情\nAO-20250802008 山水清音\n买家：Michael C.\n金额：$3,500\n状态：已完成');
-    });
+    viewDetail.addEventListener('click', function() { openModal('order-detail-modal'); });
   }
 
-  // 处理售后（模拟 + 状态更新）
+  // ===== 售后处理 =====
   var handleAftersale = document.getElementById('handle-aftersale-1');
   if (handleAftersale) {
     handleAftersale.addEventListener('click', function() {
-      if (window.confirm('确认受理该售后申请？')) {
-        alert('已受理，客服将联系买家协商处理');
-        var card = handleAftersale.closest('.card');
-        var typeSpan = card.querySelector('.border-t span');
-        if (typeSpan) { typeSpan.textContent = '状态：已受理 · 客服跟进中'; }
-        handleAftersale.disabled = true; handleAftersale.style.opacity = '0.5'; handleAftersale.style.cursor = 'not-allowed'; handleAftersale.textContent = '已受理';
-      }
+      currentOrder = 'order-card-4';
+      openModal('aftersale-modal');
+    });
+  }
+  var aftersaleApprove = document.getElementById('aftersale-approve');
+  var aftersaleReject = document.getElementById('aftersale-reject');
+  function finishAftersale(alertText, tagClass, tagText, btnText) {
+    alert(alertText);
+    var card = document.getElementById('order-card-4');
+    var tag = card.querySelector('span[class*="tag-"]');
+    tag.className = tagClass;
+    tag.textContent = tagText;
+    var btn = document.getElementById('handle-aftersale-1');
+    btn.disabled = true;
+    btn.className = 'btn-disabled h-8 px-3 text-[13px]';
+    btn.textContent = btnText;
+    aftersaleApprove.disabled = true;
+    aftersaleReject.disabled = true;
+    aftersaleApprove.className = 'btn-disabled flex-1 h-11';
+    aftersaleReject.className = 'btn-disabled flex-1 h-11';
+    closeModal('aftersale-modal');
+  }
+  if (aftersaleApprove) {
+    aftersaleApprove.addEventListener('click', function() {
+      finishAftersale('已受理退款，款项将退回买家', 'tag-offline', '已处理', '已处理');
+    });
+  }
+  if (aftersaleReject) {
+    aftersaleReject.addEventListener('click', function() {
+      finishAftersale('已驳回，买家可重新申请', 'tag-rejected', '已驳回', '已驳回');
     });
   }
 
-  // 提现（模拟）
+  // ===== 提现 =====
   var withdrawBtn = document.getElementById('btn-withdraw');
   if (withdrawBtn) {
     withdrawBtn.addEventListener('click', function() {
-      if (window.confirm('确认发起提现 $4,280.00 到 PayPal？')) {
-        alert('提现申请已提交，预计 1-3 个工作日到账');
-      }
+      document.getElementById('withdraw-amount').value = '4280';
+      openModal('withdraw-modal');
+    });
+  }
+  var withdrawConfirm = document.getElementById('withdraw-confirm');
+  if (withdrawConfirm) {
+    withdrawConfirm.addEventListener('click', function() {
+      var input = document.getElementById('withdraw-amount');
+      var raw = input.value.trim();
+      if (raw === '') { alert('请输入提现金额'); input.focus(); return; }
+      var amount = parseFloat(raw);
+      if (isNaN(amount) || amount <= 0) { alert('请输入有效的提现金额'); input.focus(); return; }
+      if (amount > 4280) { alert('提现金额不能超过可提现余额'); input.focus(); return; }
+      alert('提现申请已提交，预计 1-3 个工作日到账');
+      closeModal('withdraw-modal');
     });
   }
 
-  // 全部账单（模拟）
+  // ===== 全部账单 =====
   var allBills = document.getElementById('view-all-bills');
   if (allBills) {
-    allBills.addEventListener('click', function(e) { e.preventDefault(); alert('完整账单明细即将上线'); });
+    allBills.addEventListener('click', function(e) { e.preventDefault(); openModal('bills-modal'); });
   }
-
-  // 底部导航「我的」（模拟）
-  var navProfile = document.getElementById('nav-profile');
-  if (navProfile) { navProfile.addEventListener('click', function(e) { e.preventDefault(); alert('个人中心即将上线'); }); }
 })();
 </script>
 </main>
@@ -735,6 +1162,86 @@ body {
   @media (prefers-reduced-motion: reduce) {
     .animate-spin { animation: none !important; }
   }
+    </style>
+    <style id="modal-system">
+  /* --- 弹窗系统（底部滑出 Bottom Sheet） --- */
+  .modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: none;
+    align-items: flex-end;
+    justify-content: center;
+    background: rgba(15,23,42,0.45);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-sheet {
+    width: 100%;
+    max-width: 414px;
+    max-height: 86vh;
+    overflow-y: auto;
+    background: var(--ag-card);
+    border-radius: 12px 12px 0 0;
+    box-shadow: var(--ag-shadow-modal);
+    animation: ag-sheet-up 0.24s ease-out;
+  }
+  @keyframes ag-sheet-up {
+    from { transform: translateY(28px); opacity: 0.6; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  .modal-close {
+    width: 32px;
+    height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--ag-radius-full);
+    background: var(--ag-muted);
+    color: var(--ag-neutral-500);
+    border: none;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .modal-close:hover { background: var(--ag-primary-100); }
+
+  /* --- 表单控件 --- */
+  .input-field, .select-field, .textarea-field {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid var(--ag-border);
+    border-radius: var(--ag-radius-medium);
+    font-size: var(--ag-text-base);
+    color: var(--ag-foreground);
+    background: var(--ag-card);
+    outline: none;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .input-field::placeholder, .textarea-field::placeholder { color: var(--ag-neutral-400); }
+  .input-field:focus, .select-field:focus, .textarea-field:focus {
+    border-color: var(--ag-primary);
+    box-shadow: 0 0 0 3px var(--ag-primary-50);
+  }
+  .textarea-field { resize: none; min-height: 72px; line-height: 1.6; }
+
+  /* --- 照片上传占位 --- */
+  .photo-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 14px;
+    border: 1px dashed var(--ag-neutral-300);
+    border-radius: var(--ag-radius-medium);
+    background: var(--ag-muted);
+    color: var(--ag-neutral-500);
+    font-size: var(--ag-text-sm);
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .photo-upload:hover { border-color: var(--ag-primary-300); color: var(--ag-primary-500); }
     </style>
 </body>
 </html>

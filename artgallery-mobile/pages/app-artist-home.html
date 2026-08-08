@@ -493,7 +493,7 @@ body {
         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="text-[11px] leading-none whitespace-nowrap">订单</span>
       </a>
-      <a data-nav-key="nav-profile" id="nav-profile" href="app-artist-home.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+      <a data-nav-key="nav-profile" id="nav-profile" href="app-artist-profile.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span class="text-[11px] leading-none whitespace-nowrap">我的</span>
       </a>
@@ -553,9 +553,6 @@ body {
       // 消息通知
       var msg = document.getElementById('btn-messages');
       if (msg) { msg.addEventListener('click', function() { alert('暂无新消息'); }); }
-      // 底部导航「我的」（模拟）
-      var navProfile = document.getElementById('nav-profile');
-      if (navProfile) { navProfile.addEventListener('click', function(e) { e.preventDefault(); alert('个人中心即将上线'); }); }
     })();
     </script>
 </body>

@@ -355,6 +355,27 @@ body {
         mask-position: center;
         background-color: currentColor;
       }
+      /* 编辑作品弹窗（bottom-sheet） */
+      .modal-overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 50;
+        background: rgba(15, 23, 42, 0.45);
+        align-items: flex-end;
+        justify-content: center;
+      }
+      .modal-overlay.open { display: flex; }
+      .modal-sheet {
+        width: 100%;
+        max-width: 414px;
+        max-height: 88vh;
+        overflow-y: auto;
+        background: var(--ag-background);
+        border-radius: var(--ag-radius-large) var(--ag-radius-large) 0 0;
+        padding: 16px 16px 20px;
+        box-shadow: var(--ag-shadow-modal);
+      }
     </style>
 </head>
 <body class="min-h-screen">
@@ -448,11 +469,11 @@ body {
           <div class="flex-1 min-w-0 flex flex-col justify-between">
             <div>
               <div class="flex items-center justify-between gap-2">
-                <div class="text-[14px] font-semibold text-[#1E293B] truncate">无界之境</div>
+                <div id="artwork-1-name" class="text-[14px] font-semibold text-[#1E293B] truncate">无界之境</div>
                 <span class="tag-approved">已通过</span>
               </div>
-              <div class="text-[12px] text-[#64748B] mt-0.5">抽象 / 80x100cm / 布面油画</div>
-              <div class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$2,800</div>
+              <div id="artwork-1-meta" class="text-[12px] text-[#64748B] mt-0.5">抽象 / 80x100cm / 布面油画</div>
+              <div id="artwork-1-price" class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$2,800</div>
             </div>
             <div class="flex items-center justify-end gap-2 mt-2">
               <button id="edit-1" type="button" class="btn-secondary h-8 px-3 text-[13px]">编辑</button>
@@ -548,12 +569,68 @@ body {
         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
         <span class="text-[11px] leading-none whitespace-nowrap">订单</span>
       </a>
-      <a data-nav-key="nav-profile" id="nav-profile" href="app-artist-home.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+      <a data-nav-key="nav-profile" id="nav-profile" href="app-artist-profile.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
         <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
         <span class="text-[11px] leading-none whitespace-nowrap">我的</span>
       </a>
     </div>
   </nav>
+</div>
+
+<!-- 编辑作品弹窗（bottom-sheet） -->
+<div id="edit-artwork-modal" class="modal-overlay" role="dialog" aria-modal="true" aria-label="编辑作品">
+  <div class="modal-sheet">
+    <div class="flex items-center justify-between mb-1">
+      <h2 class="text-[16px] font-bold text-[#1E293B]">编辑作品</h2>
+      <button id="edit-modal-close" type="button" aria-label="关闭" class="w-9 h-9 flex items-center justify-center rounded-lg text-[#64748B]">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="flex items-center gap-3 mb-4">
+      <img id="edit-artwork-thumb" src="../assets/art-abstract.jpg" alt="无界之境" class="w-16 h-16 rounded-lg object-cover shrink-0"/>
+      <span class="text-[12px] text-[#64748B]">当前作品图</span>
+    </div>
+    <form id="form-edit-artwork" class="space-y-4">
+      <div>
+        <label for="edit-input-name" class="block text-[13px] font-medium text-[#334155] mb-1.5">作品名称</label>
+        <input id="edit-input-name" type="text" value="无界之境" class="input-field"/>
+      </div>
+      <div>
+        <label for="edit-select-category" class="block text-[13px] font-medium text-[#334155] mb-1.5">一级分类</label>
+        <select id="edit-select-category" class="select-field">
+          <option value="">请选择分类</option>
+          <option value="abstract" selected>抽象</option>
+          <option value="classical">古典</option>
+          <option value="portrait">人物</option>
+          <option value="religious">宗教</option>
+          <option value="landscape">风景</option>
+          <option value="sculpture">雕塑</option>
+        </select>
+      </div>
+      <div class="grid grid-cols-2 gap-3">
+        <div>
+          <label for="edit-input-price" class="block text-[13px] font-medium text-[#334155] mb-1.5">价格（USD）</label>
+          <input id="edit-input-price" type="number" value="2800" class="input-field"/>
+        </div>
+        <div>
+          <label for="edit-input-size" class="block text-[13px] font-medium text-[#334155] mb-1.5">尺寸</label>
+          <input id="edit-input-size" type="text" value="80x100cm" class="input-field"/>
+        </div>
+      </div>
+      <div>
+        <label for="edit-input-material" class="block text-[13px] font-medium text-[#334155] mb-1.5">材质</label>
+        <input id="edit-input-material" type="text" value="布面油画" class="input-field"/>
+      </div>
+      <div>
+        <label for="edit-input-desc" class="block text-[13px] font-medium text-[#334155] mb-1.5">作品描述</label>
+        <textarea id="edit-input-desc" class="textarea-field">以抽象表现主义探索色彩边界</textarea>
+      </div>
+      <div class="flex gap-3 pt-1">
+        <button id="edit-cancel" data-dom-id="edit-cancel" type="button" class="btn-secondary flex-1 h-11">取消</button>
+        <button id="edit-save" data-dom-id="edit-save" type="submit" class="btn-primary flex-1 h-11">保存修改</button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <script>
@@ -632,9 +709,50 @@ body {
     if (tag) { tag.className = cls; tag.textContent = text; }
   }
 
-  // 编辑（模拟）
+  // ===== 编辑作品弹窗 =====
+  var editModal = document.getElementById('edit-artwork-modal');
+  function openEditModal() { if (editModal) { editModal.classList.add('open'); } }
+  function closeEditModal() { if (editModal) { editModal.classList.remove('open'); } }
+
   var btnEdit = document.getElementById('edit-1');
-  if (btnEdit) { btnEdit.addEventListener('click', function() { alert('打开作品编辑（模拟）：无界之境'); }); }
+  if (btnEdit) { btnEdit.addEventListener('click', openEditModal); }
+
+  var btnEditClose = document.getElementById('edit-modal-close');
+  if (btnEditClose) { btnEditClose.addEventListener('click', closeEditModal); }
+
+  var btnEditCancel = document.getElementById('edit-cancel');
+  if (btnEditCancel) { btnEditCancel.addEventListener('click', closeEditModal); }
+
+  if (editModal) {
+    editModal.addEventListener('click', function(e) {
+      if (e.target === editModal) { closeEditModal(); }
+    });
+  }
+
+  var formEdit = document.getElementById('form-edit-artwork');
+  if (formEdit) {
+    formEdit.addEventListener('submit', function(e) {
+      e.preventDefault();
+      var name = document.getElementById('edit-input-name').value.trim();
+      var price = document.getElementById('edit-input-price').value.trim();
+      if (!name) { alert('请输入作品名称'); return; }
+      if (!price) { alert('请输入作品价格'); return; }
+      var nameEl = document.getElementById('artwork-1-name');
+      if (nameEl) { nameEl.textContent = name; }
+      var metaEl = document.getElementById('artwork-1-meta');
+      if (metaEl) {
+        var catEl = document.getElementById('edit-select-category');
+        var catText = catEl ? catEl.options[catEl.selectedIndex].text : '';
+        var size = document.getElementById('edit-input-size').value.trim();
+        var material = document.getElementById('edit-input-material').value.trim();
+        metaEl.textContent = [catText, size, material].filter(Boolean).join(' / ');
+      }
+      var priceEl = document.getElementById('artwork-1-price');
+      if (priceEl) { priceEl.textContent = '$' + Number(price).toLocaleString('en-US'); }
+      closeEditModal();
+      alert('作品信息已更新（演示）');
+    });
+  }
 
   // 上架 / 下架 切换（无界之境）
   var btnOffline = document.getElementById('offline-1');
@@ -728,9 +846,6 @@ body {
   var searchBtn = document.getElementById('btn-search-artworks');
   if (searchBtn) { searchBtn.addEventListener('click', function() { alert('搜索功能即将上线'); }); }
 
-  // 底部导航「我的」（模拟）
-  var navProfile = document.getElementById('nav-profile');
-  if (navProfile) { navProfile.addEventListener('click', function(e) { e.preventDefault(); alert('个人中心即将上线'); }); }
 })();
 </script>
 </main>
