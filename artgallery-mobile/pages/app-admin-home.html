@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtGallery - 平台方工作台</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+  <div class="mobile-frame">
+    <header class="admin-header">
+      <div class="logo">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 2L2 22h20L12 2z"/><path d="M9 22l3-8 3 8"/></svg>
+        <span>ArtGallery</span>
+      </div>
+      <button id="btn-messages" type="button" class="icon-btn" aria-label="消息通知">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        <span class="badge" aria-hidden="true"></span>
+      </button>
+    </header>
+
+    <main class="content">
+      <section class="section" aria-labelledby="stats-title">
+        <h2 id="stats-title" class="section-title">今日数据概览</h2>
+        <div class="stats-grid">
+          <div id="stat-pending-artists" class="stat-card" role="button" tabindex="0" aria-label="待审核艺术家 12">
+            <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <div class="stat-value">12</div>
+            <div class="stat-label">待审核艺术家</div>
+          </div>
+          <div id="stat-pending-artworks" class="stat-card" role="button" tabindex="0" aria-label="待审核作品 38">
+            <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+            <div class="stat-value">38</div>
+            <div class="stat-label">待审核作品</div>
+          </div>
+          <div id="stat-today-orders" class="stat-card" role="button" tabindex="0" aria-label="今日订单 156">
+            <div class="stat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+            <div class="stat-value">156</div>
+            <div class="stat-label">今日订单</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="quick-title">
+        <h2 id="quick-title" class="section-title">快捷入口</h2>
+        <div class="quick-grid">
+          <a id="entry-artist-review" data-dom-id="entry-artist-review" href="app-admin-review.html" class="quick-item">
+            <div class="quick-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+            <span class="quick-label">审核艺术家</span>
+          </a>
+          <a id="entry-artwork-review" data-dom-id="entry-artwork-review" href="app-admin-review.html" class="quick-item">
+            <div class="quick-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg></div>
+            <span class="quick-label">审核作品</span>
+          </a>
+          <a id="entry-orders" data-dom-id="entry-orders" href="app-admin-orders.html" class="quick-item">
+            <div class="quick-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg></div>
+            <span class="quick-label">订单管理</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="notice-title">
+        <h2 id="notice-title" class="section-title">平台公告</h2>
+        <div style="background:var(--ag-card); border:1px solid var(--ag-border); border-radius:var(--ag-radius-large); padding:14px 16px;">
+          <div style="font-size:var(--ag-text-sm); color:var(--ag-foreground); font-weight:500;">关于春节期间审核时效调整的说明</div>
+          <div style="font-size:var(--ag-text-xs); color:var(--ag-neutral-500); margin-top:4px;">2026-01-20</div>
+        </div>
+      </section>
+    </main>
+
+    <nav data-mobile-nav="global" class="w-full h-[56px] border-t border-[#E2E8F0] bg-white">
+    <div class="w-full max-w-md mx-auto grid grid-cols-4 h-full">
+      <a data-nav-key="nav-home" data-active="true" id="nav-home" href="app-admin-home.html" data-dom-id="nav-home" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">首页</span>
+      </a>
+      <a data-nav-key="nav-category" id="nav-review" href="app-admin-review.html" data-dom-id="nav-review" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">审核</span>
+      </a>
+      <a data-nav-key="nav-cart" id="nav-orders" href="app-admin-orders.html" data-dom-id="nav-orders" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">订单</span>
+      </a>
+      <a data-nav-key="nav-profile" id="nav-profile" href="app-admin-home.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">我的</span>
+      </a>
+    </div>
+  </nav>
+  </div>
+
+    <style>
+    :root {
+      --ag-primary-50: #F0F5FA;
+      --ag-primary-100: #DCE7F2;
+      --ag-primary-200: #B8CFE5;
+      --ag-primary-300: #8FB0D2;
+      --ag-primary-400: #5E87B5;
+      --ag-primary-500: #3A6A9A;
+      --ag-primary-600: #2A5279;
+      --ag-primary-700: #1A365D;
+      --ag-primary-800: #152B4A;
+      --ag-primary-900: #102136;
+      --ag-neutral-50: #F8FAFC;
+      --ag-neutral-100: #F1F5F9;
+      --ag-neutral-200: #E2E8F0;
+      --ag-neutral-300: #CBD5E1;
+      --ag-neutral-400: #94A3B8;
+      --ag-neutral-500: #64748B;
+      --ag-neutral-600: #475569;
+      --ag-neutral-700: #334155;
+      --ag-neutral-800: #1E293B;
+      --ag-neutral-900: #0F172A;
+      --state-success: #2E7D32;
+      --state-success-light: #E8F5E9;
+      --state-success-dark: #1B5E20;
+      --state-warning: #F57C00;
+      --state-warning-light: #FFF3E0;
+      --state-warning-dark: #E65100;
+      --state-error: #E53935;
+      --state-error-light: #FFEBEE;
+      --state-error-dark: #C62828;
+      --state-info: #1976D2;
+      --state-info-light: #E3F2FD;
+      --ag-background: #FFFFFF;
+      --ag-foreground: #1E293B;
+      --ag-card: #FFFFFF;
+      --ag-card-foreground: #1E293B;
+      --ag-primary: #1A365D;
+      --ag-primary-foreground: #FFFFFF;
+      --ag-muted: #F1F5F9;
+      --ag-muted-foreground: #64748B;
+      --ag-border: #E2E8F0;
+      --ag-input: #E2E8F0;
+      --ag-ring: #1A365D;
+      --ag-radius-small: 4px;
+      --ag-radius-medium: 8px;
+      --ag-radius-large: 12px;
+      --ag-radius-full: 9999px;
+      --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --ag-text-xs: 12px;
+      --ag-text-sm: 13px;
+      --ag-text-base: 14px;
+      --ag-text-md: 15px;
+      --ag-text-lg: 16px;
+      --ag-text-xl: 18px;
+      --ag-text-2xl: 20px;
+      --ag-text-3xl: 24px;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: var(--ag-font-sans);
+      font-size: var(--ag-text-base);
+      color: var(--ag-foreground);
+      background: var(--ag-neutral-100);
+      line-height: 1.6;
+      margin: 0;
+      -webkit-font-smoothing: antialiased;
+    }
+    .tag-pending, .tag-approved, .tag-rejected, .tag-paid, .tag-shipped, .tag-completed, .tag-closed {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 2px 10px; border-radius: var(--ag-radius-small);
+      font-size: var(--ag-text-xs); font-weight: 500; white-space: nowrap; min-height: 22px;
+    }
+    .tag-pending { background: var(--state-warning-light); color: var(--state-warning-dark); }
+    .tag-approved { background: var(--state-success-light); color: var(--state-success-dark); }
+    .tag-rejected { background: var(--state-error-light); color: var(--state-error-dark); }
+    .tag-paid { background: var(--state-info-light); color: var(--state-info); }
+    .tag-shipped { background: #FFF8E1; color: #F9A825; }
+    .tag-completed { background: var(--state-success-light); color: var(--state-success-dark); }
+    .tag-closed { background: var(--ag-neutral-100); color: var(--ag-neutral-600); }
+    .btn-primary, .btn-secondary, .btn-danger, .btn-ghost {
+      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+      border-radius: var(--ag-radius-small); font-size: var(--ag-text-base); font-weight: 500;
+      cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s;
+      border: 1px solid transparent; min-height: 44px; padding: 0 18px;
+    }
+    .btn-primary { background: var(--ag-primary); color: var(--ag-primary-foreground); border-color: var(--ag-primary); }
+    .btn-primary:hover { background: var(--ag-primary-600); }
+    .btn-secondary { background: #FFFFFF; color: var(--ag-primary); border-color: var(--ag-primary); }
+    .btn-secondary:hover { background: var(--ag-primary-50); }
+    .btn-danger { background: var(--state-error); color: #FFFFFF; border-color: var(--state-error); }
+    .btn-danger:hover { background: var(--state-error-dark); }
+    .btn-ghost { background: transparent; color: var(--ag-neutral-600); border-color: var(--ag-border); }
+    .btn-ghost:hover { background: var(--ag-neutral-50); }
+    .btn-sm { min-height: 36px; padding: 0 12px; font-size: var(--ag-text-sm); }
+    .mobile-frame {
+      max-width: 414px; margin: 0 auto; min-height: 100vh; background: var(--ag-background);
+      display: flex; flex-direction: column; position: relative; box-shadow: 0 0 24px rgba(0,0,0,0.06);
+    }
+    .admin-header {
+      height: 56px; background: var(--ag-primary); color: #FFFFFF;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 16px; position: sticky; top: 0; z-index: 30;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; font-size: var(--ag-text-xl); font-weight: 700; letter-spacing: -0.2px; }
+    .icon-btn {
+      width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+      border-radius: var(--ag-radius-medium); background: rgba(255,255,255,0.12);
+      border: none; color: inherit; cursor: pointer; position: relative;
+    }
+    .badge { position: absolute; top: 6px; right: 6px; width: 8px; height: 8px; background: var(--state-error); border-radius: 50%; border: 1px solid var(--ag-primary); }
+    .content { flex: 1; overflow-y: auto; padding: 16px; padding-bottom: 80px; }
+    .section-title { font-size: var(--ag-text-lg); font-weight: 700; margin: 0 0 12px; color: var(--ag-foreground); }
+    .section + .section { margin-top: 24px; }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-card {
+      background: var(--ag-card); border: 1px solid var(--ag-border); border-radius: var(--ag-radius-large);
+      padding: 16px; display: flex; flex-direction: column; gap: 10px; cursor: pointer;
+      transition: transform 0.12s, box-shadow 0.12s;
+    }
+    .stat-card:active { transform: scale(0.98); }
+    .stat-icon { width: 36px; height: 36px; border-radius: var(--ag-radius-medium); display: flex; align-items: center; justify-content: center; background: var(--ag-primary-50); color: var(--ag-primary); }
+    .stat-value { font-size: var(--ag-text-3xl); font-weight: 700; color: var(--ag-primary); line-height: 1; }
+    .stat-label { font-size: var(--ag-text-xs); color: var(--ag-neutral-500); }
+    .quick-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .quick-item {
+      display: flex; flex-direction: column; align-items: center; gap: 8px;
+      padding: 12px 4px; border-radius: var(--ag-radius-large); background: var(--ag-card);
+      border: 1px solid var(--ag-border); text-decoration: none; color: var(--ag-foreground); cursor: pointer; transition: background 0.12s;
+    }
+    .quick-item:active { background: var(--ag-neutral-50); }
+    .quick-icon { width: 48px; height: 48px; border-radius: 50%; background: var(--ag-primary-50); color: var(--ag-primary); display: flex; align-items: center; justify-content: center; }
+    .quick-label { font-size: var(--ag-text-xs); font-weight: 500; }
+    .bottom-nav {
+      height: 56px; background: #FFFFFF; border-top: 1px solid var(--ag-border);
+      display: grid; grid-template-columns: repeat(4, 1fr); position: sticky; bottom: 0; z-index: 30;
+    }
+    .nav-item {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 4px; color: var(--ag-neutral-500); text-decoration: none; font-size: 11px;
+      cursor: pointer; min-height: 44px;
+    }
+    .nav-item.active { color: var(--ag-primary); font-weight: 600; }
+    .nav-item svg { width: 22px; height: 22px; }
+  </style>
+    <script>
+    (function() {
+      // 数据卡点击跳转
+      var statMap = {
+        'stat-pending-artists': 'app-admin-review.html',
+        'stat-pending-artworks': 'app-admin-review.html',
+        'stat-today-orders': 'app-admin-orders.html'
+      };
+      Object.keys(statMap).forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.addEventListener('click', function() { window.location.href = statMap[id]; });
+        el.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); window.location.href = statMap[id]; }
+        });
+      });
+      // 平台公告卡片
+      var notice = document.querySelector('.section[aria-labelledby="notice-title"] > div');
+      if (notice) {
+        notice.style.cursor = 'pointer';
+        notice.addEventListener('click', function() { alert('公告详情页即将上线'); });
+      }
+      // 消息通知
+      var msg = document.getElementById('btn-messages');
+      if (msg) { msg.addEventListener('click', function() { alert('暂无新消息'); }); }
+      // 底部导航「我的」（模拟）
+      var navProfile = document.getElementById('nav-profile');
+      if (navProfile) { navProfile.addEventListener('click', function(e) { e.preventDefault(); alert('个人中心即将上线'); }); }
+    })();
+    </script>
+</body>
+</html>

@@ -1,0 +1,1941 @@
+{
+  "data": [
+    {
+      "id": "page-admin-dashboard",
+      "title": "管理后台 - 数据仪表盘",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 620,
+        "y": 0,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-c45cac85",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/admin-dashboard.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-artist-review",
+            "targetPageId": "page-artist-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-review",
+            "targetPageId": "page-artwork-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-mgmt",
+            "targetPageId": "page-admin-artist-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-admin-artwork-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-admin-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-admin-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-settings",
+            "targetPageId": "page-admin-settings",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-admin-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artist-review",
+      "title": "管理后台 - 艺术家入驻审核",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 0,
+        "y": 143,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-78a04d4b",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artist-review.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-dashboard",
+            "targetPageId": "page-admin-dashboard",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-review",
+            "targetPageId": "page-artwork-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-mgmt",
+            "targetPageId": "page-admin-artist-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-admin-artwork-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-admin-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-admin-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-settings",
+            "targetPageId": "page-admin-settings",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-admin-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artwork-review",
+      "title": "管理后台 - 作品审核列表",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 0,
+        "y": 520,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-d3b96fbd",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artwork-review.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-dashboard",
+            "targetPageId": "page-admin-dashboard",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-review",
+            "targetPageId": "page-artist-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-mgmt",
+            "targetPageId": "page-admin-artist-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-admin-artwork-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-admin-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-admin-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-settings",
+            "targetPageId": "page-admin-settings",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-admin-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artist-onboarding",
+      "title": "艺术家工作台 - 入驻申请",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 620,
+        "y": 2782,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-8f3182b5",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artist-onboarding.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-artist-artwork-mgmt",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artist-artwork-mgmt",
+      "title": "艺术家工作台 - 作品发布管理",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 620,
+        "y": 3159,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-be901861",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artist-artwork-mgmt.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-onboarding",
+            "targetPageId": "page-artist-onboarding",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-home",
+      "title": "买家官网 - 首页",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 1240,
+        "y": 4667,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 2156,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-173f5960",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-home.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-card-1",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-card-2",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-card-3",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-card-4",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "buy-now-1",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artwork-detail",
+      "title": "买家官网 - 作品详情页",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 1240,
+        "y": 6552,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 2510,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-24324a11",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artwork-detail.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-home",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "add-to-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "buy-now",
+            "targetPageId": "page-buyer-payment",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-cart",
+      "title": "买家官网 - 购物车与下单",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 1240,
+        "y": 5044,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1217,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-b267e952",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-cart.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-home",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "submit-order",
+            "targetPageId": "page-buyer-payment",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-payment",
+      "title": "买家官网 - 收银台支付",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 620,
+        "y": 5044,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 902,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-24dd3ae0",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-payment.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "back-to-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "back-home",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "image-001",
+      "title": "首页主视觉横幅",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 0,
+        "y": 8054,
+        "naturalSize": {
+          "width": 2560,
+          "height": 1440
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/hero-banner.jpg"
+      }
+    },
+    {
+      "id": "image-002",
+      "title": "抽象画作",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 620,
+        "y": 8054,
+        "naturalSize": {
+          "width": 1920,
+          "height": 1920
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/art-abstract.jpg"
+      }
+    },
+    {
+      "id": "image-003",
+      "title": "古典风格画作",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 1240,
+        "y": 8054,
+        "naturalSize": {
+          "width": 1920,
+          "height": 1920
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/art-classical.jpg"
+      }
+    },
+    {
+      "id": "image-004",
+      "title": "人物肖像画作",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 1860,
+        "y": 8054,
+        "naturalSize": {
+          "width": 1680,
+          "height": 2240
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/art-portrait.jpg"
+      }
+    },
+    {
+      "id": "image-005",
+      "title": "宗教题材画作",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 2480,
+        "y": 8054,
+        "naturalSize": {
+          "width": 1920,
+          "height": 1920
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/art-religious.jpg"
+      }
+    },
+    {
+      "id": "image-006",
+      "title": "画作细节特写",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 3100,
+        "y": 8054,
+        "naturalSize": {
+          "width": 1920,
+          "height": 1920
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/art-detail.jpg"
+      }
+    },
+    {
+      "id": "page-admin-login",
+      "title": "管理后台 - 登录",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-be326da0",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/admin-login.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "btn-login",
+            "targetPageId": "page-admin-dashboard",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-admin-artist-management",
+      "title": "管理后台 - 艺术家全量管理",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 0,
+        "y": 897,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-04bb9f6a",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/admin-artist-management.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-dashboard",
+            "targetPageId": "page-admin-dashboard",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-review",
+            "targetPageId": "page-artist-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-review",
+            "targetPageId": "page-artwork-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-admin-artwork-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-admin-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-admin-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-settings",
+            "targetPageId": "page-admin-settings",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-admin-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-admin-artwork-management",
+      "title": "管理后台 - 作品总管理",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 0,
+        "y": 1274,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-e1dbf718",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/admin-artwork-management.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-dashboard",
+            "targetPageId": "page-admin-dashboard",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-review",
+            "targetPageId": "page-artist-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-review",
+            "targetPageId": "page-artwork-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-mgmt",
+            "targetPageId": "page-admin-artist-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-admin-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-admin-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-settings",
+            "targetPageId": "page-admin-settings",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-admin-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-admin-orders",
+      "title": "管理后台 - 订单管理",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 0,
+        "y": 1651,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-e6c337e6",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/admin-orders.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-dashboard",
+            "targetPageId": "page-admin-dashboard",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-review",
+            "targetPageId": "page-artist-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-review",
+            "targetPageId": "page-artwork-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-mgmt",
+            "targetPageId": "page-admin-artist-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-admin-artwork-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-admin-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-settings",
+            "targetPageId": "page-admin-settings",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-admin-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-admin-finance",
+      "title": "管理后台 - 财务中心",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 0,
+        "y": 2028,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-22e26e84",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/admin-finance.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-dashboard",
+            "targetPageId": "page-admin-dashboard",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-review",
+            "targetPageId": "page-artist-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-review",
+            "targetPageId": "page-artwork-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-mgmt",
+            "targetPageId": "page-admin-artist-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-admin-artwork-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-admin-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-settings",
+            "targetPageId": "page-admin-settings",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-admin-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-admin-settings",
+      "title": "管理后台 - 系统配置",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 0,
+        "y": 2405,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-282a4f10",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/admin-settings.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-dashboard",
+            "targetPageId": "page-admin-dashboard",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-review",
+            "targetPageId": "page-artist-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-review",
+            "targetPageId": "page-artwork-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-mgmt",
+            "targetPageId": "page-admin-artist-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-admin-artwork-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-admin-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-admin-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-admin-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artist-profile-edit",
+      "title": "艺术家工作台 - 主页装修",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 620,
+        "y": 3536,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1258,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-ba65a16d",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artist-profile-edit.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-onboarding",
+            "targetPageId": "page-artist-onboarding",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-artist-artwork-mgmt",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-artist-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-artist-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-artist-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artist-orders",
+      "title": "艺术家工作台 - 订单管理",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 620,
+        "y": 3913,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1848,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-ace5cbd2",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artist-orders.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-onboarding",
+            "targetPageId": "page-artist-onboarding",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile-edit",
+            "targetPageId": "page-artist-profile-edit",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-artist-artwork-mgmt",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-artist-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-artist-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artist-finance",
+      "title": "艺术家工作台 - 财务管理",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 620,
+        "y": 4290,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1033,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-9cf73698",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artist-finance.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-onboarding",
+            "targetPageId": "page-artist-onboarding",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile-edit",
+            "targetPageId": "page-artist-profile-edit",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-artist-artwork-mgmt",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-artist-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-artist-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-login",
+      "title": "买家官网 - 登录注册",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 1240,
+        "y": 5421,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1364,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-9045b04c",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-login.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-logo",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "btn-login",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "btn-register",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-category",
+      "title": "买家官网 - 分类列表",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 1240,
+        "y": 6175,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1635,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-b7b77c5c",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-category.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-logo",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-card-1",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-card-2",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-card-3",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-card-4",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "buy-now-1",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-profile",
+      "title": "买家官网 - 个人中心",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 1240,
+        "y": 5798,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 2058,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-5b1438fb",
+          "measuredAt": 1786094730496
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-profile.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-logo",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "my-orders",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-orders",
+      "title": "买家官网 - 我的订单",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786096257590,
+      "canvasData": {
+        "x": 0,
+        "y": 5044,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1600,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-new",
+          "measuredAt": 1786096257590
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-orders.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-logo",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "back-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "pay-order",
+            "targetPageId": "page-buyer-payment",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-wallet",
+      "title": "买家官网 - 我的钱包",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786096257590,
+      "canvasData": {
+        "x": 620,
+        "y": 7677,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1600,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-new",
+          "measuredAt": 1786096257590
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-wallet.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-logo",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "back-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-history",
+      "title": "买家官网 - 浏览记录",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786096257590,
+      "canvasData": {
+        "x": 620,
+        "y": 7300,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1600,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-new",
+          "measuredAt": 1786096257590
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-history.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-logo",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "back-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "history-work-1",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "history-work-2",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "history-work-3",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "history-work-4",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "history-work-5",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "history-work-6",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "history-work-7",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "history-work-8",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-favorites",
+      "title": "买家官网 - 我的收藏",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786096257590,
+      "canvasData": {
+        "x": 0,
+        "y": 4667,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1600,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-new",
+          "measuredAt": 1786096257590
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-favorites.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-logo",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "back-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "fav-artwork-1",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "fav-artwork-2",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "fav-artwork-3",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "fav-artwork-4",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "fav-artwork-5",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "fav-artwork-6",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "fav-artist-1",
+            "targetPageId": "page-buyer-artist",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "fav-artist-2",
+            "targetPageId": "page-buyer-artist",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-artist",
+      "title": "买家官网 - 艺术家主页",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786096257590,
+      "canvasData": {
+        "x": 620,
+        "y": 5798,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1600,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-new",
+          "measuredAt": 1786096257590
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-artist.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-logo",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "back-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artist-work-1",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artist-work-2",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artist-work-3",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artist-work-4",
+            "targetPageId": "page-artwork-detail",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-addresses",
+      "title": "买家官网 - 收货地址",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786096257590,
+      "canvasData": {
+        "x": 620,
+        "y": 5421,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1600,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-new",
+          "measuredAt": 1786096257590
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-addresses.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-logo",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "back-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-buyer-profile-edit",
+      "title": "买家官网 - 编辑资料",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786096257590,
+      "canvasData": {
+        "x": 620,
+        "y": 4667,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1600,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-new",
+          "measuredAt": 1786096257590
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/buyer-profile-edit.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-logo",
+            "targetPageId": "page-buyer-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-buyer-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-buyer-login",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-buyer-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "back-profile",
+            "targetPageId": "page-buyer-profile",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artist-settings",
+      "title": "艺术家工作台 - 账号设置",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786096257590,
+      "canvasData": {
+        "x": 0,
+        "y": 2782,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1600,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-new",
+          "measuredAt": 1786096257590
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artist-settings.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-onboarding",
+            "targetPageId": "page-artist-onboarding",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile-edit",
+            "targetPageId": "page-artist-profile-edit",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-artist-artwork-mgmt",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-artist-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-artist-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-artist-tickets",
+            "action": "navigate"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "desktop",
+    "projectName": "ArtGallery 跨境美术交易平台 - PC端"
+  }
+}

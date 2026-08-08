@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtGallery - 订单详情</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+<style id="critical-layout">
+  .mobile-frame {
+    max-width: 414px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--ag-neutral-50);
+    position: relative;
+  }
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  .action-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 30;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+  }
+  .status-banner {
+    background: var(--state-success);
+    color: #FFFFFF;
+  }
+  .timeline-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    position: relative;
+  }
+  .timeline-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .timeline-line {
+    position: absolute;
+    left: 5px;
+    top: 16px;
+    bottom: -20px;
+    width: 2px;
+    background: var(--ag-neutral-200);
+  }
+  .order-card {
+    background: #FFFFFF;
+    border-radius: var(--ag-radius-medium);
+    border: 1px solid var(--ag-border);
+  }
+  .info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+  .info-row + .info-row {
+    border-top: 1px solid var(--ag-neutral-100);
+  }
+  .dialog-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 40;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dialog-box {
+    background: #FFFFFF;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 320px;
+    padding: 24px 20px;
+    text-align: center;
+    box-shadow: var(--ag-shadow-modal);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; animation: none !important; }
+  }
+</style>
+</head>
+<body class="min-h-screen">
+<main>
+<div class="mobile-frame">
+  <!-- Top Bar with back button -->
+  <header class="top-bar">
+    <div class="px-4 py-3 flex items-center gap-3">
+      <a data-dom-id="btn-back" href="app-profile.html" aria-label="返回" class="w-9 h-9 flex items-center justify-center -ml-2 text-[#1E293B] rounded-lg">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <h1 class="text-[18px] font-semibold text-[#1E293B] leading-tight">订单详情</h1>
+    </div>
+  </header>
+
+  <!-- Content: status banner + logistics + artwork + price + order info -->
+  <div class="pb-24">
+
+    <!-- Order Status Banner -->
+    <section class="status-banner px-4 py-4" aria-label="订单状态">
+      <div class="flex items-center gap-3">
+        <svg class="w-8 h-8 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M1 3h15v13H1z" fill="none" stroke="currentColor" stroke-linejoin="round"/>
+          <path d="M16 8h4l3 3v5h-7V8z" fill="none" stroke="currentColor" stroke-linejoin="round"/>
+          <circle cx="5.5" cy="18.5" r="2.5" fill="none" stroke="currentColor"/>
+          <circle cx="18.5" cy="18.5" r="2.5" fill="none" stroke="currentColor"/>
+        </svg>
+        <div class="flex-1 min-w-0">
+          <div class="text-[18px] font-semibold leading-tight">运输中</div>
+          <div class="text-[13px] opacity-90 mt-0.5">预计 08-06 送达</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Logistics Timeline -->
+    <section class="px-4 mt-3" aria-label="物流跟踪">
+      <div class="order-card p-4">
+        <h2 class="text-[15px] font-semibold text-[#1E293B] mb-4">物流跟踪</h2>
+
+        <!-- Node 1: 已发货 (completed) -->
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--state-success);" aria-hidden="true"></div>
+          <div class="timeline-line" aria-hidden="true"></div>
+          <div class="flex-1 min-w-0 pb-5">
+            <div class="text-[14px] font-medium text-[#1E293B]">已发货</div>
+            <div class="text-[12px] text-[#64748B] mt-0.5" style="font-variant-numeric: tabular-nums;">2024-08-03 14:30</div>
+            <div class="text-[12px] text-[#64748B] mt-1">作品已交由承运方，正在运送</div>
+          </div>
+        </div>
+
+        <!-- Node 2: 运输中 (current) -->
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--state-warning); box-shadow: 0 0 0 4px rgba(245,124,0,0.15);" aria-hidden="true"></div>
+          <div class="timeline-line" aria-hidden="true"></div>
+          <div class="flex-1 min-w-0 pb-5">
+            <div class="text-[14px] font-medium text-[#1E293B] flex items-center gap-2">
+              运输中
+              <span class="tag-pending">当前</span>
+            </div>
+            <div class="text-[12px] text-[#64748B] mt-0.5" style="font-variant-numeric: tabular-nums;">2024-08-04 09:15</div>
+            <div class="text-[12px] text-[#64748B] mt-1">包裹正在运往您的收货地址</div>
+          </div>
+        </div>
+
+        <!-- Node 3: 待收货 (pending) -->
+        <div class="timeline-item">
+          <div class="timeline-dot" style="background: var(--ag-neutral-300); border: 2px solid var(--ag-neutral-200);" aria-hidden="true"></div>
+          <div class="flex-1 min-w-0">
+            <div class="text-[14px] font-medium text-[#94A3B8]">待收货</div>
+            <div class="text-[12px] text-[#94A3B8] mt-0.5">预计 08-06 送达</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Artwork Card -->
+    <section class="px-4 mt-3" aria-label="作品信息">
+      <div class="order-card p-3">
+        <div class="flex gap-3">
+          <img src="../assets/art-abstract.jpg" alt="无界之境 - 李明华" class="w-20 h-20 rounded-lg object-cover flex-shrink-0"/>
+          <div class="flex-1 min-w-0 flex flex-col justify-between py-0.5">
+            <div>
+              <div class="text-[15px] font-semibold text-[#1E293B] truncate">无界之境</div>
+              <div class="text-[13px] text-[#64748B] mt-0.5 truncate">李明华</div>
+            </div>
+            <div class="flex items-end justify-between">
+              <div class="text-[16px] font-bold text-[#1A365D]" style="font-variant-numeric: tabular-nums;">$2,800</div>
+              <div class="text-[13px] text-[#64748B]">x1</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Price Breakdown -->
+    <section class="px-4 mt-3" aria-label="金额明细">
+      <div class="order-card p-4">
+        <h2 class="text-[15px] font-semibold text-[#1E293B] mb-2">金额明细</h2>
+        <div class="info-row">
+          <span class="text-[14px] text-[#64748B]">商品金额</span>
+          <span class="text-[14px] text-[#1E293B]" style="font-variant-numeric: tabular-nums;">$2,800</span>
+        </div>
+        <div class="info-row">
+          <span class="text-[14px] text-[#64748B]">运费</span>
+          <span class="text-[14px] text-[#1E293B]">
+            <span class="line-through text-[#94A3B8] mr-1" style="font-variant-numeric: tabular-nums;">$30</span>
+            <span class="text-[#2E7D32] font-medium">$0（包邮）</span>
+          </span>
+        </div>
+        <div class="info-row" style="border-top: 1px solid var(--ag-border);">
+          <span class="text-[14px] font-medium text-[#1E293B]">实付金额</span>
+          <span class="text-[18px] font-bold text-[#1A365D]" style="font-variant-numeric: tabular-nums;">$2,800</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Info -->
+    <section class="px-4 mt-3" aria-label="订单信息">
+      <div class="order-card p-4">
+        <h2 class="text-[15px] font-semibold text-[#1E293B] mb-2">订单信息</h2>
+        <div class="info-row">
+          <span class="text-[14px] text-[#64748B]">订单编号</span>
+          <span class="text-[14px] text-[#1E293B] flex items-center gap-1.5" style="font-variant-numeric: tabular-nums;">
+            AG20240803001
+            <svg class="w-3.5 h-3.5 text-[#94A3B8] flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="9" y="9" width="13" height="13" rx="2"/>
+              <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+            </svg>
+          </span>
+        </div>
+        <div class="info-row">
+          <span class="text-[14px] text-[#64748B]">下单时间</span>
+          <span class="text-[14px] text-[#1E293B]" style="font-variant-numeric: tabular-nums;">2024-08-03 10:00</span>
+        </div>
+        <div class="info-row">
+          <span class="text-[14px] text-[#64748B]">支付方式</span>
+          <span class="text-[14px] text-[#1E293B]">PayPal</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Fixed Bottom Action Bar (NO bottom tab) -->
+  <div class="action-bar">
+    <div class="px-4 py-3 flex items-center gap-3">
+      <button data-dom-id="btn-confirm-receipt" type="button" class="btn-primary flex-1 h-11 text-[14px]">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        确认收货
+      </button>
+    </div>
+  </div>
+
+  <!-- Confirmation Dialog (hidden by default) -->
+  <div id="confirm-dialog" class="dialog-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="confirm-dialog-title">
+    <div class="dialog-box">
+      <div class="w-12 h-12 mx-auto mb-3 rounded-full flex items-center justify-center" style="background: var(--state-success-light);">
+        <svg class="w-6 h-6" style="color: var(--state-success);" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <h3 id="confirm-dialog-title" class="text-[16px] font-semibold text-[#1E293B] mb-1">确认收货</h3>
+      <p class="text-[13px] text-[#64748B] leading-relaxed mb-5">请确认您已收到商品并查验无误。确认后订单状态将更新为「已完成」。</p>
+      <div class="flex gap-3">
+        <button data-dom-id="btn-dialog-cancel" type="button" class="btn-secondary flex-1 h-10 text-[14px]">取消</button>
+        <button data-dom-id="btn-dialog-confirm" type="button" class="btn-primary flex-1 h-10 text-[14px]">确认收货</button>
+      </div>
+    </div>
+  </div>
+
+</div>
+</main>
+<script>
+(function(){
+  var dialog = document.getElementById('confirm-dialog');
+
+  function openDialog(){ if (dialog) { dialog.classList.remove('hidden'); } }
+  function closeDialog(){ if (dialog) { dialog.classList.add('hidden'); } }
+
+  var confirmReceipt = document.querySelector('[data-dom-id="btn-confirm-receipt"]');
+  if (confirmReceipt) {
+    confirmReceipt.addEventListener('click', openDialog);
+  }
+
+  var cancelBtn = document.querySelector('[data-dom-id="btn-dialog-cancel"]');
+  if (cancelBtn) { cancelBtn.addEventListener('click', closeDialog); }
+
+  var confirmBtn = document.querySelector('[data-dom-id="btn-dialog-confirm"]');
+  if (confirmBtn) {
+    confirmBtn.addEventListener('click', function(){
+      closeDialog();
+      alert('已确认收货，订单状态已更新为「已完成」');
+    });
+  }
+
+  if (dialog) {
+    dialog.addEventListener('click', function(e){
+      if (e.target === dialog) { closeDialog(); }
+    });
+  }
+
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && dialog && !dialog.classList.contains('hidden')) { closeDialog(); }
+    });
+  }
+
+})();
+</script>
+</body>
+</html>

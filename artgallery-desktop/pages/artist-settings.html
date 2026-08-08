@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>账号设置 - 艺术家工作台</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="ag-app-body">
+  <style id="critical-layout">
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    .ag-app-body {
+      height: 100vh;
+      overflow: hidden;
+      background: var(--ag-neutral-50);
+      color: var(--ag-foreground);
+      font-family: var(--ag-font-sans);
+      font-size: var(--ag-text-base);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== App Shell ===== */
+    .app-shell { display: flex; height: 100vh; overflow: hidden; min-height: 0; }
+    .sidebar { width: 240px; flex-shrink: 0; background: var(--ag-primary); color: #fff; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
+    .sidebar-logo { height: 64px; flex-shrink: 0; display: flex; align-items: center; gap: 10px; padding: 0 24px; font-size: var(--ag-text-xl); font-weight: 600; color: #fff; letter-spacing: 0.01em; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-logo .logo-mark { width: 28px; height: 28px; border-radius: 6px; background: rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+    .sidebar-nav { padding: 12px 0; flex: 1; min-height: 0; }
+    .nav-section-label { padding: 14px 24px 6px; font-size: var(--ag-text-xs); color: rgba(255,255,255,0.4); letter-spacing: 0.04em; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 24px; color: rgba(255,255,255,0.72); font-size: var(--ag-text-md); cursor: pointer; transition: background 0.15s, color 0.15s; border-left: 3px solid transparent; text-decoration: none; white-space: nowrap; }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav-item:focus-visible { outline: 2px solid rgba(255,255,255,0.6); outline-offset: -2px; }
+    .nav-item.active { background: rgba(255,255,255,0.10); color: #fff; border-left-color: #fff; font-weight: 500; }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .sidebar-foot { flex-shrink: 0; padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.08); font-size: var(--ag-text-xs); color: rgba(255,255,255,0.45); }
+
+    /* ===== Main Area ===== */
+    .main-area { flex: 1; min-width: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    .topbar { height: 64px; flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--ag-border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; gap: 16px; }
+    .topbar-left { display: flex; flex-direction: column; min-width: 0; }
+    .topbar-title { font-size: var(--ag-text-xl); font-weight: 600; color: var(--ag-foreground); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .topbar-sub { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .topbar-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+    .artist-chip { display: flex; align-items: center; gap: 10px; }
+    .artist-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--ag-primary-100); color: var(--ag-primary); display: flex; align-items: center; justify-content: center; font-size: var(--ag-text-sm); font-weight: 600; flex-shrink: 0; }
+    .artist-info { display: flex; flex-direction: column; line-height: 1.3; }
+    .artist-name { font-size: var(--ag-text-md); color: var(--ag-foreground); font-weight: 500; }
+    .status-badge { align-self: flex-start; font-size: 11px; padding: 1px 8px; border-radius: var(--ag-radius-small); background: var(--state-success-light); color: var(--state-success-dark); font-weight: 500; white-space: nowrap; line-height: 1.5; }
+
+    /* ===== Content Scroll ===== */
+    .content-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 24px; display: flex; flex-direction: column; gap: 24px; }
+
+    /* ===== Page Title ===== */
+    .page-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+    .page-title { font-size: var(--ag-text-3xl); font-weight: 600; color: var(--ag-foreground); margin: 0; line-height: 1.3; }
+    .page-desc { font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); margin: 4px 0 0; }
+
+    /* ===== Cards ===== */
+    .card { background: #fff; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-large); padding: 24px 28px; min-width: 0; }
+    .card-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--ag-border); }
+    .card-title { font-size: var(--ag-text-xl); font-weight: 600; color: var(--ag-foreground); margin: 0; line-height: 1.3; }
+    .card-sub { font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); margin: 4px 0 0; line-height: 1.5; }
+
+    /* ===== Form ===== */
+    .form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 20px; }
+    .form-row-full { grid-column: 1 / -1; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .form-label { font-size: var(--ag-text-sm); color: var(--ag-foreground); font-weight: 500; display: flex; align-items: center; gap: 4px; }
+    .req-mark { color: var(--state-error); font-weight: 600; }
+    .opt-mark { color: var(--ag-muted-foreground); font-weight: 400; font-size: var(--ag-text-xs); }
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      font-size: var(--ag-text-md);
+      font-family: inherit;
+      color: var(--ag-foreground);
+      background: #fff;
+      border: 1px solid var(--ag-input);
+      border-radius: var(--ag-radius-medium);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-textarea { height: auto; min-height: 96px; padding: 10px 12px; line-height: 1.6; resize: vertical; }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--ag-neutral-400); }
+    .form-input:hover,
+    .form-select:hover,
+    .form-textarea:hover { border-color: var(--ag-neutral-400); }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus { outline: none; border-color: var(--ag-primary); box-shadow: 0 0 0 3px rgba(26,54,93,0.12); }
+    .form-input-sm { width: 100%; height: 36px; padding: 0 10px; font-size: var(--ag-text-sm); font-family: inherit; color: var(--ag-foreground); background: #fff; border: 1px solid var(--ag-input); border-radius: var(--ag-radius-medium); transition: border-color 0.15s, box-shadow 0.15s; }
+    .form-input-sm:hover { border-color: var(--ag-neutral-400); }
+    .form-input-sm:focus { outline: none; border-color: var(--ag-primary); box-shadow: 0 0 0 3px rgba(26,54,93,0.12); }
+    .form-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+    .form-hint { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); line-height: 1.5; }
+    .field-hint { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); line-height: 1.5; }
+    .field-error { font-size: var(--ag-text-xs); color: var(--state-error-dark); line-height: 1.5; display: flex; align-items: center; gap: 4px; }
+
+    /* ===== Upload Zone (主页装修) ===== */
+    .upload-zone { width: 100%; min-height: 180px; border: 2px dashed var(--ag-neutral-300); border-radius: var(--ag-radius-medium); background: var(--ag-neutral-50); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 24px; text-align: center; cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+    .upload-zone:hover { border-color: var(--ag-primary-400); background: var(--ag-primary-50); }
+    .upload-icon { width: 40px; height: 40px; border-radius: 50%; background: var(--ag-primary-100); color: var(--ag-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .upload-title { font-size: var(--ag-text-md); color: var(--ag-foreground); font-weight: 500; }
+    .upload-hint { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); }
+
+    /* ===== Avatar ===== */
+    .avatar-edit-wrap { display: flex; align-items: flex-start; gap: 20px; }
+    .avatar-preview { width: 96px; height: 96px; border-radius: 50%; background: var(--ag-primary-100); color: var(--ag-primary); display: flex; align-items: center; justify-content: center; font-size: 32px; font-weight: 600; position: relative; cursor: pointer; overflow: hidden; flex-shrink: 0; }
+    .avatar-overlay { position: absolute; inset: 0; background: rgba(15,23,42,0.55); color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: var(--ag-text-xs); opacity: 0; transition: opacity 0.15s; }
+    .avatar-preview:hover .avatar-overlay { opacity: 1; }
+
+    /* ===== Exhibitions ===== */
+    .icon-btn { width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; background: #fff; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-small); color: var(--ag-neutral-600); cursor: pointer; transition: background 0.15s, color 0.15s, border-color 0.15s; }
+    .icon-btn:hover { background: var(--ag-primary-50); color: var(--ag-primary); border-color: var(--ag-primary-300); }
+    .icon-btn.danger:hover { background: var(--state-error-light); color: var(--state-error); border-color: #F5C6CB; }
+
+    /* ===== Bottom Actions ===== */
+    .bottom-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .bottom-actions-right { display: flex; align-items: center; gap: 10px; }
+
+    /* ===== Stat Cards (财务管理) ===== */
+    .stat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+    .stat-card { background: #fff; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-large); padding: 20px 22px; transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s; min-width: 0; }
+    .stat-card:hover { transform: translateY(-2px); box-shadow: var(--ag-shadow-md); border-color: var(--ag-primary-200); }
+    .stat-label { font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); }
+    .stat-value { font-size: var(--ag-text-3xl); font-weight: 600; color: var(--ag-foreground); margin: 8px 0 6px; font-variant-numeric: tabular-nums; line-height: 1.2; }
+    .stat-value.primary { color: var(--ag-primary); }
+    .stat-value.warning { color: var(--state-warning); }
+    .stat-value.success { color: var(--state-success); }
+    .stat-value.danger { color: var(--state-error); }
+    .stat-hint { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); }
+
+    /* ===== Toolbar ===== */
+    .toolbar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+    .toolbar-left, .toolbar-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    /* ===== Data Table ===== */
+    .data-table-wrap { width: 100%; overflow-x: auto; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); background: #fff; }
+    .data-table { width: 100%; border-collapse: separate; border-spacing: 0; min-width: 960px; }
+    .data-table thead th { background: var(--ag-neutral-50); font-size: var(--ag-text-sm); font-weight: 600; color: var(--ag-neutral-600); text-align: left; padding: 12px 14px; white-space: nowrap; border-bottom: 1px solid var(--ag-border); }
+    .data-table tbody td { font-size: var(--ag-text-sm); color: var(--ag-foreground); padding: 14px; border-bottom: 1px solid var(--ag-border); vertical-align: middle; }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .data-table tbody tr:hover { background: var(--ag-neutral-50); }
+    .data-table .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .data-table td.primary { color: var(--ag-primary); font-weight: 600; white-space: nowrap; }
+    .data-table .negative { color: var(--state-error); }
+    .data-table .positive { color: var(--state-success); }
+
+    /* ===== Tabs ===== */
+    .tabs { display: flex; align-items: center; gap: 4px; flex-wrap: wrap; }
+    .tab-item { display: inline-flex; align-items: center; gap: 4px; padding: 8px 16px; font-size: var(--ag-text-sm); color: var(--ag-neutral-600); background: transparent; border: 1px solid transparent; border-radius: var(--ag-radius-small); cursor: pointer; white-space: nowrap; transition: background 0.15s, color 0.15s; font-family: inherit; }
+    .tab-item:hover { background: var(--ag-neutral-100); color: var(--ag-foreground); }
+    .tab-item.active { background: var(--ag-primary); color: #fff; font-weight: 500; }
+    .tab-item:focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 1px; }
+
+    /* ===== Link Button ===== */
+    .link-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 12px; font-size: var(--ag-text-xs); color: var(--ag-primary); background: transparent; border: 1px solid transparent; border-radius: var(--ag-radius-small); cursor: pointer; transition: background 0.15s; font-family: inherit; white-space: nowrap; }
+    .link-btn:hover { background: var(--ag-primary-50); }
+    .link-btn:focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 1px; }
+    .link-btn.muted { color: var(--ag-neutral-500); }
+    .link-btn.muted:hover { background: var(--ag-neutral-100); }
+
+    /* ===== Order Card (我的订单) ===== */
+    .order-card { background: #fff; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-large); overflow: hidden; }
+    .order-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; background: var(--ag-neutral-50); border-bottom: 1px solid var(--ag-border); }
+    .order-meta { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .order-id { font-weight: 600; color: var(--ag-foreground); font-size: var(--ag-text-sm); }
+    .order-date { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); }
+    .order-body { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; padding: 20px; }
+    .order-section-title { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); margin-bottom: 10px; }
+    .artwork-info { display: flex; gap: 12px; }
+    .artwork-thumb { width: 56px; height: 56px; border-radius: var(--ag-radius-small); background: var(--ag-primary-100); color: var(--ag-primary); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .artwork-detail { min-width: 0; }
+    .artwork-title { font-weight: 600; color: var(--ag-foreground); font-size: var(--ag-text-md); }
+    .artwork-attrs { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); margin: 4px 0; }
+    .artwork-price { font-size: var(--ag-text-sm); color: var(--ag-primary); font-weight: 500; }
+    .address-block { font-size: var(--ag-text-sm); color: var(--ag-foreground); line-height: 1.7; }
+    .buyer-name { font-weight: 600; }
+    .buyer-phone { color: var(--ag-muted-foreground); font-size: var(--ag-text-xs); margin-left: 6px; }
+    .address-line { color: var(--ag-muted-foreground); font-size: var(--ag-text-sm); margin-top: 2px; }
+    .finance-block { display: flex; flex-direction: column; gap: 6px; }
+    .finance-row { display: flex; align-items: center; justify-content: space-between; font-size: var(--ag-text-sm); }
+    .finance-row .label { color: var(--ag-muted-foreground); }
+    .finance-row .value { font-variant-numeric: tabular-nums; color: var(--ag-foreground); }
+    .finance-row.net { border-top: 1px dashed var(--ag-border); padding-top: 8px; }
+    .finance-row.net .value { color: var(--state-success); font-weight: 600; }
+    .order-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; border-top: 1px solid var(--ag-border); flex-wrap: wrap; }
+    .order-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+    /* ===== Toggle Switch (账号设置) ===== */
+    .toggle { position: relative; width: 44px; height: 24px; border-radius: var(--ag-radius-full); background: var(--ag-neutral-300); border: none; padding: 0; cursor: pointer; flex-shrink: 0; transition: background 0.15s; }
+    .toggle::after { content: ""; position: absolute; top: 2px; left: 2px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.2); transition: transform 0.15s; }
+    .toggle.on { background: var(--ag-primary); }
+    .toggle.on::after { transform: translateX(20px); }
+    .toggle:focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 2px; }
+
+    /* ===== Settings Rows (账号设置) ===== */
+    .setting-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--ag-border); flex-wrap: wrap; }
+    .setting-row:last-child { border-bottom: none; }
+    .setting-row-main { min-width: 0; }
+    .setting-row-title { font-size: var(--ag-text-md); font-weight: 500; color: var(--ag-foreground); display: flex; align-items: center; gap: 8px; }
+    .setting-row-desc { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); margin-top: 2px; line-height: 1.5; }
+    .setting-row-action { display: flex; align-items: center; gap: 12px; flex-shrink: 0; flex-wrap: wrap; }
+    .bind-status { font-size: var(--ag-text-xs); display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: var(--ag-radius-small); white-space: nowrap; }
+    .bind-status.bound { background: var(--state-success-light); color: var(--state-success-dark); }
+    .bind-status.unbound { background: var(--ag-neutral-100); color: var(--ag-muted-foreground); }
+    .bind-value { font-size: var(--ag-text-sm); color: var(--ag-neutral-600); font-variant-numeric: tabular-nums; }
+    .device-list { display: flex; flex-direction: column; }
+    .device-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--ag-border); flex-wrap: wrap; }
+    .device-item:last-child { border-bottom: none; }
+    .device-info { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .device-icon { width: 36px; height: 36px; border-radius: var(--ag-radius-medium); background: var(--ag-neutral-100); color: var(--ag-neutral-500); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .device-name { font-size: var(--ag-text-sm); font-weight: 500; color: var(--ag-foreground); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .device-meta { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); margin-top: 2px; }
+    .device-tag { font-size: 11px; padding: 1px 8px; border-radius: var(--ag-radius-small); background: var(--ag-primary-100); color: var(--ag-primary); font-weight: 500; white-space: nowrap; }
+    .danger-zone { border: 1px solid #F5C6CB; background: var(--state-error-light); border-radius: var(--ag-radius-medium); padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+    .danger-title { font-size: var(--ag-text-md); font-weight: 600; color: var(--state-error-dark); }
+    .danger-desc { font-size: var(--ag-text-sm); color: var(--state-error-dark); margin-top: 2px; opacity: 0.85; }
+
+    /* ===== Modal ===== */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(15,23,42,0.45); backdrop-filter: blur(2px); -webkit-backdrop-filter: blur(2px); display: none; align-items: center; justify-content: center; z-index: 1000; padding: 16px; }
+    .modal-overlay.open { display: flex; animation: ag-fade-in 0.18s ease-out; }
+    .modal-dialog { width: 480px; max-width: 100%; background: #fff; border-radius: 12px; box-shadow: var(--ag-shadow-modal); padding: 28px 32px; position: relative; animation: ag-pop-in 0.18s ease-out; }
+    @keyframes ag-fade-in { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes ag-pop-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .modal-close { position: absolute; top: 14px; right: 14px; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; background: transparent; border: none; color: var(--ag-neutral-500); cursor: pointer; border-radius: var(--ag-radius-small); transition: background 0.15s, color 0.15s; }
+    .modal-close:hover { background: var(--ag-neutral-100); color: var(--ag-neutral-700); }
+    .modal-close:focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 1px; }
+    .modal-title { font-size: var(--ag-text-lg); font-weight: 600; color: var(--ag-foreground); margin: 0 0 4px; line-height: 1.4; padding-right: 32px; display: flex; align-items: center; gap: 8px; text-wrap: balance; word-break: keep-all; overflow-wrap: break-word; }
+    .modal-sub { font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); margin: 0 0 20px; }
+    .modal-footer { display: flex; justify-content: flex-end; gap: 10px; }
+
+    /* ===== Button micro-interactions ===== */
+    .btn-primary:active, .btn-secondary:active, .btn-danger:active { transform: translateY(1px); }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .stat-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .order-body { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .sidebar { width: 64px; }
+      .sidebar-logo span.logo-text, .nav-item .nav-text, .nav-section-label, .sidebar-foot { display: none; }
+      .nav-item { justify-content: center; padding: 12px 0; }
+      .sidebar-logo { justify-content: center; padding: 0; }
+      .content-scroll { padding: 16px; }
+      .card { padding: 18px 16px; }
+      .topbar { padding: 0 16px; }
+      .artist-info { display: none; }
+    }
+    @media (max-width: 480px) {
+      .stat-grid { grid-template-columns: 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+
+  <div class="app-shell">
+    <!-- Sidebar -->
+    <aside class="sidebar" aria-label="艺术家工作台导航">
+      <div class="sidebar-logo">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2 2 7l10 5 10-5-10-5Z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/>
+          </svg>
+        </span>
+        <span class="logo-text">ArtGallery</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">艺术家工作台</div>
+        <a class="nav-item" id="nav-onboarding" data-dom-id="nav-onboarding" href="artist-onboarding.html">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="9" y1="15" x2="15" y2="15"/><line x1="9" y1="11" x2="13" y2="11"/>
+          </svg>
+          <span class="nav-text">入驻申请</span>
+        </a>
+        <a class="nav-item" id="nav-profile-edit" data-dom-id="nav-profile-edit" href="artist-profile-edit.html">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/><path d="M5 13h14"/><circle cx="12" cy="17" r="1"/>
+          </svg>
+          <span class="nav-text">主页装修</span>
+        </a>
+        <a class="nav-item" id="nav-artwork-mgmt" data-dom-id="nav-artwork-mgmt" href="artist-artwork-mgmt.html">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+          </svg>
+          <span class="nav-text">作品发布管理</span>
+        </a>
+        <a class="nav-item" id="nav-orders" data-dom-id="nav-orders" href="artist-orders.html">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="nav-text">我的订单</span>
+        </a>
+        <a class="nav-item" id="nav-finance" data-dom-id="nav-finance" href="artist-finance.html">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M3 5v14"/><path d="M21 12h-4a2 2 0 0 0 0 4h4v-4Z"/>
+          </svg>
+          <span class="nav-text">财务管理</span>
+        </a>
+        <a class="nav-item active" id="nav-settings" href="artist-settings.html" aria-current="page">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+          </svg>
+          <span class="nav-text">账号设置</span>
+        </a>
+      </nav>
+      <div class="sidebar-foot">艺术家工作台 v1.0</div>
+    </aside>
+
+    <!-- Main Area -->
+    <div class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-title">账号设置</span>
+          <span class="topbar-sub">管理账号安全、绑定与通知偏好</span>
+        </div>
+        <div class="topbar-right">
+          <div class="artist-chip">
+            <div class="artist-avatar" aria-hidden="true">墨</div>
+            <div class="artist-info">
+              <span class="artist-name">陈墨白</span>
+              <span class="status-badge">已入驻</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-scroll">
+        <div class="page-title-row">
+          <div>
+            <h1 class="page-title">账号设置</h1>
+            <p class="page-desc">管理登录密码、账号绑定、通知偏好与登录设备，保障账号与收款安全。</p>
+          </div>
+        </div>
+
+        <!-- 账号安全 -->
+        <section class="card" aria-labelledby="security-heading">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title" id="security-heading">账号安全</h2>
+              <p class="card-sub">定期更换登录密码，保护您的账号与收款安全</p>
+            </div>
+          </div>
+          <form id="form-password" novalidate>
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label" for="input-old-pwd">原密码</label>
+                <input class="form-input" id="input-old-pwd" type="password" autocomplete="current-password" placeholder="请输入原密码">
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="input-new-pwd">新密码</label>
+                <input class="form-input" id="input-new-pwd" type="password" autocomplete="new-password" placeholder="请输入新密码">
+              </div>
+              <div class="form-group form-row-full">
+                <label class="form-label" for="input-confirm-pwd">确认新密码</label>
+                <input class="form-input" id="input-confirm-pwd" type="password" autocomplete="new-password" placeholder="请再次输入新密码">
+                <div class="form-hint">密码长度 8–20 位，建议包含字母与数字组合。</div>
+              </div>
+            </div>
+            <div class="bottom-actions" style="margin-top:20px;">
+              <span></span>
+              <div class="bottom-actions-right">
+                <button class="btn-primary" id="btn-save-pwd" type="submit">保存修改</button>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <!-- 绑定设置 -->
+        <section class="card" aria-labelledby="binding-heading">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title" id="binding-heading">绑定设置</h2>
+              <p class="card-sub">用于登录验证、收款到账与账号找回</p>
+            </div>
+          </div>
+          <div>
+            <div class="setting-row">
+              <div class="setting-row-main">
+                <div class="setting-row-title">绑定邮箱</div>
+                <div class="setting-row-desc">用于接收订单、结算与安全通知</div>
+              </div>
+              <div class="setting-row-action">
+                <span class="bind-status bound">已绑定</span>
+                <span class="bind-value">chenmobai@artgallery.com</span>
+                <button class="btn-secondary" id="btn-change-email" type="button">更换</button>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-row-main">
+                <div class="setting-row-title">绑定手机</div>
+                <div class="setting-row-desc">用于登录二次验证与安全提醒</div>
+              </div>
+              <div class="setting-row-action">
+                <span class="bind-status bound">已绑定</span>
+                <span class="bind-value">+86 138-0000-8899</span>
+                <button class="btn-secondary" id="btn-change-phone" type="button">更换</button>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-row-main">
+                <div class="setting-row-title">绑定 PayPal 账号</div>
+                <div class="setting-row-desc">跨境订单收款将结算至此账户</div>
+              </div>
+              <div class="setting-row-action">
+                <span class="bind-status unbound">未绑定</span>
+                <button class="btn-primary" id="btn-bind-paypal" type="button">绑定</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 通知偏好 -->
+        <section class="card" aria-labelledby="notify-heading">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title" id="notify-heading">通知偏好</h2>
+              <p class="card-sub">选择您希望接收的平台消息方式</p>
+            </div>
+          </div>
+          <div>
+            <div class="setting-row">
+              <div class="setting-row-main">
+                <div class="setting-row-title">站内信</div>
+                <div class="setting-row-desc">审核结果与平台公告</div>
+              </div>
+              <div class="setting-row-action">
+                <button class="toggle on" id="toggle-notify-site" type="button" role="switch" aria-checked="true" aria-label="站内信通知"></button>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-row-main">
+                <div class="setting-row-title">邮件通知</div>
+                <div class="setting-row-desc">订单、结算变动发送至绑定邮箱</div>
+              </div>
+              <div class="setting-row-action">
+                <button class="toggle on" id="toggle-notify-email" type="button" role="switch" aria-checked="true" aria-label="邮件通知"></button>
+              </div>
+            </div>
+            <div class="setting-row">
+              <div class="setting-row-main">
+                <div class="setting-row-title">短信通知</div>
+                <div class="setting-row-desc">仅发送账号安全等重要提醒</div>
+              </div>
+              <div class="setting-row-action">
+                <button class="toggle" id="toggle-notify-sms" type="button" role="switch" aria-checked="false" aria-label="短信通知"></button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- 登录设备 -->
+        <section class="card" aria-labelledby="devices-heading">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title" id="devices-heading">登录设备</h2>
+              <p class="card-sub">管理已登录此账号的设备，发现可疑设备请及时退出</p>
+            </div>
+          </div>
+          <div class="device-list">
+            <div class="device-item" id="device-item-1">
+              <div class="device-info">
+                <div class="device-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="device-name">Chrome · Windows 11 <span class="device-tag">当前设备</span></div>
+                  <div class="device-meta">杭州 · 2026-08-07 10:24 登录</div>
+                </div>
+              </div>
+              <button class="btn-disabled" type="button" disabled>当前设备</button>
+            </div>
+            <div class="device-item" id="device-item-2">
+              <div class="device-info">
+                <div class="device-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="device-name">iPhone 15 Pro · iOS 17</div>
+                  <div class="device-meta">上海 · 2 天前活跃</div>
+                </div>
+              </div>
+              <button class="btn-secondary" id="btn-logout-device-1" type="button">退出该设备</button>
+            </div>
+            <div class="device-item" id="device-item-3">
+              <div class="device-info">
+                <div class="device-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="2" y="3" width="20" height="14" rx="2"/><line x1="2" y1="20" x2="22" y2="20"/>
+                  </svg>
+                </div>
+                <div>
+                  <div class="device-name">MacBook Pro · Safari</div>
+                  <div class="device-meta">杭州 · 5 天前活跃</div>
+                </div>
+              </div>
+              <button class="btn-secondary" id="btn-logout-device-2" type="button">退出该设备</button>
+            </div>
+          </div>
+        </section>
+
+        <!-- 危险操作 -->
+        <section class="card" aria-labelledby="danger-heading">
+          <div class="card-header">
+            <div>
+              <h2 class="card-title" id="danger-heading">危险操作</h2>
+              <p class="card-sub">以下操作不可恢复，请谨慎执行</p>
+            </div>
+          </div>
+          <div class="danger-zone">
+            <div>
+              <div class="danger-title">注销账号</div>
+              <div class="danger-desc">注销后作品将全部下架，订单与余额进入冻结审核期，30 天内可联系平台撤回。</div>
+            </div>
+            <button class="btn-danger" id="btn-delete-account" type="button">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+              </svg>
+              注销账号
+            </button>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- 注销确认弹窗 -->
+  <div class="modal-overlay" id="confirm-delete-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-delete-title">
+    <div class="modal-dialog">
+      <button class="modal-close" type="button" aria-label="关闭" id="close-delete-modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <h3 class="modal-title" id="confirm-delete-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--state-error)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/>
+        </svg>
+        确认注销账号
+      </h3>
+      <p class="modal-sub">注销后您将无法继续使用艺术家工作台，全部作品将下架，订单与余额将进入冻结审核期。此操作 30 天内可联系平台撤回。</p>
+      <div class="modal-footer">
+        <button class="btn-secondary" type="button" id="cancel-delete-modal">取消</button>
+        <button class="btn-danger" type="button" id="confirm-delete-account">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+          </svg>
+          确认注销
+        </button>
+      </div>
+    </div>
+  </div>
+
+<script>
+(function () {
+  function byId(id) { return document.getElementById(id); }
+  function bind(id, fn) { var el = byId(id); if (el) { el.addEventListener('click', fn); } }
+
+  /* ---------- 登录密码修改 ---------- */
+  var pwdForm = byId('form-password');
+  if (pwdForm) {
+    pwdForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var oldPwd = byId('input-old-pwd');
+      var newPwd = byId('input-new-pwd');
+      var confirmPwd = byId('input-confirm-pwd');
+      if (oldPwd && !oldPwd.value.trim()) { alert('请输入原密码。'); return; }
+      if (newPwd && (!newPwd.value || newPwd.value.length < 8)) { alert('新密码长度不能少于 8 位。'); return; }
+      if (newPwd && confirmPwd && newPwd.value !== confirmPwd.value) { alert('两次输入的新密码不一致。'); return; }
+      alert('密码修改成功');
+      pwdForm.reset();
+    });
+  }
+  bind('btn-save-pwd', function () { /* 由 form submit 统一处理 */ });
+
+  /* ---------- 绑定设置 ---------- */
+  bind('btn-change-email', function () { alert('更换绑定邮箱（演示）：验证邮件将发送至新邮箱。'); });
+  bind('btn-change-phone', function () { alert('更换绑定手机（演示）：验证短信将发送至新手机号。'); });
+  bind('btn-bind-paypal', function () { alert('绑定 PayPal（演示）：将跳转至 PayPal 授权页面完成绑定。'); });
+
+  /* ---------- 通知偏好开关 ---------- */
+  document.querySelectorAll('.toggle').forEach(function (toggle) {
+    toggle.addEventListener('click', function () {
+      var on = this.classList.toggle('on');
+      this.setAttribute('aria-checked', on ? 'true' : 'false');
+    });
+  });
+
+  /* ---------- 登录设备 ---------- */
+  function logoutDevice(id, name) {
+    bind(id, function () {
+      alert('已退出该设备（演示）：' + name);
+      this.disabled = true;
+      this.classList.remove('btn-secondary');
+      this.classList.add('btn-disabled');
+      this.textContent = '已退出';
+    });
+  }
+  logoutDevice('btn-logout-device-1', 'iPhone 15 Pro · iOS 17');
+  logoutDevice('btn-logout-device-2', 'MacBook Pro · Safari');
+
+  /* ---------- 注销账号：确认弹窗 ---------- */
+  var modal = byId('confirm-delete-modal');
+  function openModal() { if (modal) { modal.classList.add('open'); } }
+  function closeModal() { if (modal) { modal.classList.remove('open'); } }
+  bind('btn-delete-account', openModal);
+  bind('close-delete-modal', closeModal);
+  bind('cancel-delete-modal', closeModal);
+  if (modal) {
+    modal.addEventListener('click', function (e) { if (e.target === modal) { closeModal(); } });
+  }
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { closeModal(); } });
+  bind('confirm-delete-account', function () {
+    closeModal();
+    alert('账号注销已提交审核');
+  });
+})();
+</script>
+</body>
+</html>

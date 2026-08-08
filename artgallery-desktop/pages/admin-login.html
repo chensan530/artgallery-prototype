@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtGallery 管理后台登录</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+  <div class="login-page">
+    <section class="login-left" aria-label="平台品牌介绍">
+      <div class="brand-block">
+        <div class="logo-mark" id="login-logo">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+        </div>
+        <h1 class="brand-name" id="login-brand-name">ArtGallery Admin</h1>
+        <p class="brand-desc" id="login-brand-desc">跨境美术交易平台管理后台。连接全球艺术家与藏家，提供艺术家入驻审核、作品管理、订单履约、财务结算的一站式运营中枢。</p>
+        <div class="brand-stats">
+          <div class="brand-stat" id="login-stat-artists"><span class="brand-stat-num">1,248</span><span class="brand-stat-label">入驻艺术家</span></div>
+          <div class="brand-stat" id="login-stat-artworks"><span class="brand-stat-num">8,632</span><span class="brand-stat-label">上架作品</span></div>
+          <div class="brand-stat" id="login-stat-orders"><span class="brand-stat-num">32.5K</span><span class="brand-stat-label">累计订单</span></div>
+        </div>
+      </div>
+      <div class="brand-foot" id="login-brand-foot">ArtGallery · 让艺术无国界 · v2.4</div>
+    </section>
+
+    <section class="login-right" aria-label="登录表单">
+      <div class="login-card" id="login-card">
+        <h2 class="login-title" id="login-title">欢迎回来</h2>
+        <p class="login-sub" id="login-sub">请输入管理员账号登录后台</p>
+        <form id="login-form" autocomplete="off">
+          <div class="form-group"><label class="form-label" for="input-account">账号</label><input class="form-input" id="input-account" name="account" type="text" placeholder="请输入管理员账号/邮箱" required></div>
+          <div class="form-group"><label class="form-label" for="input-password">登录密码</label><input class="form-input" id="input-password" name="password" type="password" placeholder="请输入登录密码" required></div>
+          <div class="form-group">
+            <label class="form-label" for="input-captcha">验证码</label>
+            <div class="captcha-row"><input class="form-input" id="input-captcha" name="captcha" type="text" placeholder="请输入验证码" maxlength="4" required><span class="captcha-img" id="captcha-image" title="点击刷新验证码" role="button" tabindex="0">X7K9</span></div>
+          </div>
+          <div class="form-options">
+            <label class="checkbox-row" id="label-remember"><input type="checkbox" id="checkbox-remember" name="remember"><span>记住登录</span></label>
+            <a class="forgot-link" id="link-forgot" href="#">忘记密码？</a>
+          </div>
+          <button class="btn-primary login-btn" id="btn-login" data-dom-id="btn-login" type="submit">登录</button>
+        </form>
+        <div class="login-divider">安全提示</div>
+        <div class="login-hint" id="login-hint">本平台建议开启双因素认证，首次登录请从可信网络访问。连续 5 次输错密码将锁定账号 30 分钟。</div>
+        <div class="demo-accounts" id="demo-accounts">
+          <div class="demo-title">演示账号（点击一键登录）</div>
+          <button type="button" class="demo-account" data-role="admin">
+            <span class="demo-acc-left"><span class="demo-acc-role">平台管理员</span><span class="demo-acc-cred">admin@artgallery.com / Admin@123456</span></span>
+            <span class="demo-acc-go">进入后台 →</span>
+          </button>
+          <button type="button" class="demo-account" data-role="artist">
+            <span class="demo-acc-left"><span class="demo-acc-role">艺术家</span><span class="demo-acc-cred">artist@artgallery.com / Artist@123456</span></span>
+            <span class="demo-acc-go">进入工作台 →</span>
+          </button>
+          <button type="button" class="demo-account" data-role="buyer">
+            <span class="demo-acc-left"><span class="demo-acc-role">买家</span><span class="demo-acc-cred">buyer@artgallery.com / Buyer@123456</span></span>
+            <span class="demo-acc-go">进入商城 →</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+    <style id="login-layout">
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; height: 100%; }
+    .login-page { display: flex; min-height: 100vh; width: 100%; }
+    .login-left { width: 45%; min-width: 420px; background: linear-gradient(135deg, var(--ag-primary-900) 0%, var(--ag-primary-700) 100%); color: #fff; display: flex; flex-direction: column; justify-content: space-between; padding: 64px; position: relative; overflow: hidden; }
+    .login-left::before { content: ""; position: absolute; top: -80px; right: -80px; width: 320px; height: 320px; border-radius: 50%; background: rgba(255,255,255,0.04); }
+    .login-left::after { content: ""; position: absolute; bottom: -120px; left: -60px; width: 420px; height: 420px; border-radius: 50%; background: rgba(255,255,255,0.03); }
+    .brand-block { position: relative; z-index: 1; }
+    .logo-mark { width: 52px; height: 52px; border-radius: 12px; background: rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; margin-bottom: 32px; }
+    .brand-name { font-size: var(--ag-text-4xl); font-weight: 700; letter-spacing: 0.02em; margin-bottom: 18px; }
+    .brand-desc { font-size: var(--ag-text-lg); line-height: 1.7; color: rgba(255,255,255,0.82); max-width: 420px; }
+    .brand-stats { position: relative; z-index: 1; display: flex; gap: 40px; margin-top: 48px; }
+    .brand-stat { display: flex; flex-direction: column; gap: 6px; }
+    .brand-stat-num { font-size: var(--ag-text-3xl); font-weight: 700; font-variant-numeric: tabular-nums; }
+    .brand-stat-label { font-size: var(--ag-text-sm); color: rgba(255,255,255,0.55); }
+    .brand-foot { position: relative; z-index: 1; font-size: var(--ag-text-xs); color: rgba(255,255,255,0.45); }
+    .login-right { flex: 1; display: flex; align-items: center; justify-content: center; padding: 48px; background: var(--ag-neutral-50); }
+    .login-card { width: 100%; max-width: 440px; background: #fff; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-large); padding: 40px; box-shadow: var(--ag-shadow-lg); }
+    .login-title { font-size: var(--ag-text-3xl); font-weight: 600; color: var(--ag-foreground); margin-bottom: 8px; }
+    .login-sub { font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); margin-bottom: 32px; }
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: var(--ag-text-sm); font-weight: 500; color: var(--ag-foreground); margin-bottom: 8px; }
+    .form-input { width: 100%; height: 44px; padding: 0 14px; border: 1px solid var(--ag-input); border-radius: var(--ag-radius-small); font-size: var(--ag-text-base); color: var(--ag-foreground); background: #fff; transition: border-color 0.15s, box-shadow 0.15s; }
+    .form-input:focus { outline: none; border-color: var(--ag-primary-400); box-shadow: 0 0 0 3px rgba(26,54,93,0.10); }
+    .captcha-row { display: flex; gap: 12px; }
+    .captcha-row .form-input { flex: 1; }
+    .captcha-img { width: 110px; height: 44px; border-radius: var(--ag-radius-small); background: var(--ag-primary-100); display: flex; align-items: center; justify-content: center; font-size: var(--ag-text-lg); font-weight: 600; color: var(--ag-primary); letter-spacing: 2px; cursor: pointer; user-select: none; border: 1px solid var(--ag-border); }
+    .form-options { display: flex; align-items: center; justify-content: space-between; margin: 20px 0 28px; }
+    .checkbox-row { display: flex; align-items: center; gap: 8px; font-size: var(--ag-text-sm); color: var(--ag-foreground); cursor: pointer; }
+    .checkbox-row input { width: 16px; height: 16px; accent-color: var(--ag-primary); }
+    .forgot-link { font-size: var(--ag-text-sm); color: var(--ag-primary); text-decoration: none; font-weight: 500; }
+    .forgot-link:hover { text-decoration: underline; }
+    .login-btn { width: 100%; height: 46px; font-size: var(--ag-text-md); }
+    .login-divider { display: flex; align-items: center; gap: 12px; margin: 28px 0; color: var(--ag-muted-foreground); font-size: var(--ag-text-xs); }
+    .login-divider::before, .login-divider::after { content: ""; flex: 1; height: 1px; background: var(--ag-border); }
+    .login-hint { margin-top: 24px; padding: 12px 14px; border-radius: var(--ag-radius-small); background: var(--ag-primary-50); font-size: var(--ag-text-xs); color: var(--ag-primary-600); line-height: 1.5; }
+    .demo-accounts { margin-top: 16px; border-top: 1px dashed var(--ag-border); padding-top: 16px; }
+    .demo-title { font-size: var(--ag-text-xs); font-weight: 600; color: var(--ag-muted-foreground); letter-spacing: 0.04em; margin-bottom: 10px; }
+    .demo-account { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-small); background: var(--ag-neutral-50); cursor: pointer; transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; margin-bottom: 8px; text-align: left; }
+    .demo-account:last-child { margin-bottom: 0; }
+    .demo-account:hover { border-color: var(--ag-primary-400); background: var(--ag-primary-50); box-shadow: 0 2px 8px rgba(26,54,93,0.08); }
+    .demo-acc-left { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+    .demo-acc-role { font-size: var(--ag-text-sm); font-weight: 600; color: var(--ag-foreground); }
+    .demo-acc-cred { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .demo-acc-go { font-size: var(--ag-text-xs); font-weight: 600; color: var(--ag-primary); flex-shrink: 0; }
+    @media (max-width: 980px) { .login-left { display: none; } .login-right { width: 100%; padding: 24px; } }
+    @media (max-width: 480px) { .login-card { padding: 28px; } }
+  </style>
+  <script>
+    var DEMO_ACCOUNTS = {
+      admin: { account: 'admin@artgallery.com', password: 'Admin@123456', target: 'admin-dashboard.html', name: '平台管理员' },
+      artist: { account: 'artist@artgallery.com', password: 'Artist@123456', target: 'artist-artwork-mgmt.html', name: '艺术家' },
+      buyer: { account: 'buyer@artgallery.com', password: 'Buyer@123456', target: 'buyer-home.html', name: '买家' }
+    };
+    var captchaCodes = ['X7K9', 'M3P8', 'A6V2', 'K9R4', 'T5W7'];
+    var captchaIdx = 0;
+    var captchaEl = document.getElementById('captcha-image');
+    function refreshCaptcha() { captchaIdx = (captchaIdx + 1) % captchaCodes.length; captchaEl.textContent = captchaCodes[captchaIdx]; }
+    captchaEl.addEventListener('click', refreshCaptcha);
+    document.querySelectorAll('.demo-account').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var acc = DEMO_ACCOUNTS[btn.dataset.role];
+        if (!acc) return;
+        document.getElementById('input-account').value = acc.account;
+        document.getElementById('input-password').value = acc.password;
+        document.getElementById('input-captcha').value = captchaEl.textContent.trim();
+        location.href = acc.target;
+      });
+    });
+    document.getElementById('login-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var account = document.getElementById('input-account').value.trim().toLowerCase();
+      var password = document.getElementById('input-password').value;
+      var captcha = document.getElementById('input-captcha').value.trim().toUpperCase();
+      if (captcha !== captchaEl.textContent.trim().toUpperCase()) { alert('验证码错误，请重新输入'); refreshCaptcha(); return; }
+      var hit = Object.keys(DEMO_ACCOUNTS).map(function (k) { return DEMO_ACCOUNTS[k]; }).filter(function (a) { return a.account === account && a.password === password; })[0];
+      if (hit) { location.href = hit.target; return; }
+      alert('账号或密码错误。演示账号：admin@artgallery.com / Admin@123456');
+    });
+  </script>
+</body>
+</html>

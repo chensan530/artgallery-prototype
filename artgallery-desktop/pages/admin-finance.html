@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>财务中心 - ArtGallery 管理后台</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="ag-app-body">
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="管理后台导航">
+      <div class="sidebar-logo">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>
+        <span class="logo-text">ArtGallery</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">工作台</div>
+        <a class="nav-item" id="nav-dashboard" data-dom-id="nav-dashboard" href="admin-dashboard.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg><span class="nav-text">数据仪表盘</span></a>
+        <div class="nav-section-label">审核中心</div>
+        <a class="nav-item" id="nav-artist-review" data-dom-id="nav-artist-review" href="artist-review.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg><span class="nav-text">艺术家入驻审核</span><span class="nav-badge">8</span></a>
+        <a class="nav-item" id="nav-artwork-review" data-dom-id="nav-artwork-review" href="artwork-review.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span class="nav-text">作品审核</span><span class="nav-badge">23</span></a>
+        <div class="nav-section-label">内容管理</div>
+        <a class="nav-item" id="nav-artist-mgmt" data-dom-id="nav-artist-mgmt" href="admin-artist-management.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">艺术家管理</span></a>
+        <a class="nav-item" id="nav-artwork-mgmt" data-dom-id="nav-artwork-mgmt" href="admin-artwork-management.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg><span class="nav-text">作品总管理</span></a>
+        <a class="nav-item" id="nav-orders" data-dom-id="nav-orders" href="admin-orders.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="nav-text">订单管理</span></a>
+        <a class="nav-item active" id="nav-finance" href="admin-finance.html" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M3 5v14"/><path d="M21 12h-4a2 2 0 0 0 0 4h4v-4Z"/></svg><span class="nav-text">财务中心</span></a>
+        <div class="nav-section-label">运营支持</div>
+        <a class="nav-item" id="nav-settings" data-dom-id="nav-settings" href="admin-settings.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span class="nav-text">系统配置</span></a>
+        <a class="nav-item" id="nav-sub-accounts" href="admin-settings.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg><span class="nav-text">子账号管理</span></a>
+      </nav>
+      <div class="sidebar-foot">ArtGallery Admin · v2.4</div>
+    </aside>
+
+    <div class="main-area">
+      <header class="topbar">
+        <div class="topbar-left"><span class="topbar-title">财务中心</span><span class="topbar-sub">平台资金总览 · 结算与对账</span></div>
+        <div class="topbar-right">
+          <div class="admin-chip"><div class="admin-avatar">管</div><div class="admin-info"><span class="admin-name">管理员</span><span class="perm-badge">完整权限</span></div></div>
+          <button class="bell-btn" id="btn-notify" type="button" aria-label="通知"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="bell-dot"></span></button>
+        </div>
+      </header>
+      <style>.bell-btn { position: relative; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: var(--ag-radius-medium); background: #fff; border: 1px solid var(--ag-border); cursor: pointer; color: var(--ag-neutral-600); transition: background 0.15s, border-color 0.15s; } .bell-btn:hover { background: var(--ag-neutral-50); border-color: var(--ag-neutral-300); } .bell-dot { position: absolute; top: 8px; right: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--state-error); border: 1.5px solid #fff; }</style>
+
+      <main class="content-scroll">
+        <section class="kpi-grid" id="finance-kpi" aria-label="财务核心指标">
+          <div class="kpi-card" id="kpi-entry-fee">
+            <div class="kpi-head"><span class="kpi-label">入驻费总收入</span><span class="kpi-icon success"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg></span></div>
+            <div class="kpi-value success">$124,800</div>
+            <div class="kpi-trend">累计收取 1,248 位艺术家入驻费</div>
+          </div>
+          <div class="kpi-card" id="kpi-commission">
+            <div class="kpi-head"><span class="kpi-label">佣金总收入</span><span class="kpi-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span></div>
+            <div class="kpi-value">$892,450</div>
+            <div class="kpi-trend">本月 +$48,920 · 佣金率 15%</div>
+          </div>
+          <div class="kpi-card" id="kpi-fee-expense">
+            <div class="kpi-head"><span class="kpi-label">手续费支出</span><span class="kpi-icon danger"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="2" x2="12" y2="22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span></div>
+            <div class="kpi-value danger">$34,560</div>
+            <div class="kpi-trend">支付通道与跨境结算手续费</div>
+          </div>
+          <div class="kpi-card" id="kpi-pending-settlement">
+            <div class="kpi-head"><span class="kpi-label">待结算总金额</span><span class="kpi-icon warn"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span></div>
+            <div class="kpi-value warn">$128,330</div>
+            <div class="kpi-trend">待 T+7 结算给艺术家</div>
+          </div>
+        </section>
+
+        <div class="finance-tabs" id="finance-tabs">
+          <button class="tab-btn active" id="tab-reconciliation" type="button">艺术家结算报表</button>
+          <button class="tab-btn" id="tab-statement" type="button">收支明细</button>
+          <button class="tab-btn" id="tab-settlement-config" type="button">结算配置</button>
+        </div>
+
+        <div class="card" id="panel-reconciliation">
+          <div class="card-head"><div><div class="card-title">艺术家结算报表</div><div class="card-sub">按订单粒度展示「给哪个订单对应的艺术家结算了多少费用」</div></div><button class="btn-secondary" id="btn-export-recon" type="button">导出报表</button></div>
+          <table class="data-table" id="recon-table">
+            <thead><tr><th>结算单号</th><th>订单号</th><th>艺术家</th><th>作品</th><th>成交金额</th><th>入驻方式</th><th>佣金</th><th>手续费</th><th>应付艺术家</th><th>收款账户</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr id="recon-row-1">
+                <td><span class="mono-cell">SET-20260808-001</span></td>
+                <td><span class="mono-cell">AG-20815</span></td>
+                <td>陈墨白</td>
+                <td>《山水清音》</td>
+                <td class="amount-in">$4,200</td>
+                <td>佣金入驻(15%)</td>
+                <td class="amount-out">-$630</td>
+                <td class="amount-out">-$121.80</td>
+                <td class="amount-in">$3,448.20</td>
+                <td>PayPal: chenmobai@art.gallery</td>
+                <td><span class="tag-approved">已结算</span></td>
+                <td><div class="cell-actions"><button class="btn-text" id="recon-detail-1" type="button">查看明细</button></div></td>
+              </tr>
+              <tr id="recon-row-2">
+                <td><span class="mono-cell">SET-20260808-002</span></td>
+                <td><span class="mono-cell">AG-20811</span></td>
+                <td>周慕言</td>
+                <td>《光与尘》</td>
+                <td class="amount-in">$980</td>
+                <td>入驻费入驻</td>
+                <td>$0</td>
+                <td class="amount-out">-$28.42</td>
+                <td class="amount-in">$951.58</td>
+                <td>PayPal: zhou@lens.art</td>
+                <td><span class="tag-approved">已结算</span></td>
+                <td><div class="cell-actions"><button class="btn-text" id="recon-detail-2" type="button">查看明细</button></div></td>
+              </tr>
+              <tr id="recon-row-3">
+                <td><span class="mono-cell">SET-20260807-003</span></td>
+                <td><span class="mono-cell">AG-20809</span></td>
+                <td>林清远</td>
+                <td>《夜航》</td>
+                <td class="amount-in">$2,600</td>
+                <td>佣金入驻(15%)</td>
+                <td class="amount-out">-$390</td>
+                <td class="amount-out">-$75.40</td>
+                <td class="amount-in">$2,134.60</td>
+                <td>银行 ****6621</td>
+                <td><span class="tag-pending">待结算</span></td>
+                <td><div class="cell-actions"><button class="btn-text" id="recon-detail-3" type="button">查看明细</button><button class="btn-primary btn-sm" id="recon-pay-3" type="button">确认结算</button></div></td>
+              </tr>
+              <tr id="recon-row-4">
+                <td><span class="mono-cell">SET-20260807-004</span></td>
+                <td><span class="mono-cell">AG-20807</span></td>
+                <td>苏怀瑾</td>
+                <td>《山水长卷》</td>
+                <td class="amount-in">$6,800</td>
+                <td>入驻费入驻</td>
+                <td>$0</td>
+                <td class="amount-out">-$197.20</td>
+                <td class="amount-in">$6,602.80</td>
+                <td>PayPal: su@bluegallery.com</td>
+                <td><span class="tag-pending">待结算</span></td>
+                <td><div class="cell-actions"><button class="btn-text" id="recon-detail-4" type="button">查看明细</button><button class="btn-primary btn-sm" id="recon-pay-4" type="button">确认结算</button></div></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card" id="panel-statement" style="display:none;">
+          <div class="card-head"><div><div class="card-title">收支明细</div><div class="card-sub">平台资金流水记录</div></div><button class="btn-secondary" id="btn-export-statement" type="button">导出流水</button></div>
+          <table class="data-table" id="statement-table">
+            <thead><tr><th>流水号</th><th>时间</th><th>类型</th><th>关联订单/艺术家</th><th>收入</th><th>支出</th><th>余额</th></tr></thead>
+            <tbody>
+              <tr id="stmt-row-1"><td>TXN-20260805001</td><td>2026-08-05 11:20</td><td>订单成交</td><td>AG-20815 · 陈墨白</td><td class="amount-in">+$630</td><td>-</td><td>$892,450</td></tr>
+              <tr id="stmt-row-2"><td>TXN-20260805002</td><td>2026-08-05 11:21</td><td>支付手续费</td><td>AG-20815</td><td>-</td><td class="amount-out">-$12.60</td><td>$892,437</td></tr>
+              <tr id="stmt-row-3"><td>TXN-20260804091</td><td>2026-08-04 18:35</td><td>退款</td><td>AG-20812 · 王砚舟</td><td>-</td><td class="amount-out">-$5,500</td><td>$891,895</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="card" id="panel-settlement-config" style="display:none;">
+          <div class="card-head"><div><div class="card-title">结算配置</div><div class="card-sub">设置平台佣金比例、结算周期与最低提现金额</div></div><button class="btn-primary" id="btn-save-config" type="button">保存配置</button></div>
+          <div class="config-section">
+            <div class="config-section-title">基础费率</div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label" for="config-commission">平台佣金比例 (%)</label><input class="form-input" id="config-commission" type="number" value="15" step="0.1"></div>
+              <div class="form-group"><label class="form-label" for="config-entry-fee">艺术家入驻费 (USD)</label><input class="form-input" id="config-entry-fee" type="number" value="100" step="1"></div>
+            </div>
+          </div>
+          <div class="config-section">
+            <div class="config-section-title">结算规则</div>
+            <div class="form-row">
+              <div class="form-group"><label class="form-label" for="config-cycle">结算周期</label><select class="form-select" id="config-cycle"><option value="T+7">T+7</option><option value="T+14">T+14</option><option value="T+30">T+30</option></select></div>
+              <div class="form-group"><label class="form-label" for="config-min-payout">最低提现金额 (USD)</label><input class="form-input" id="config-min-payout" type="number" value="100" step="10"></div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 结算明细弹窗 -->
+  <div class="modal-backdrop" id="recon-detail-modal" role="dialog" aria-modal="true" aria-labelledby="recon-detail-modal-title" style="display:none;">
+    <div class="detail-modal">
+      <div class="modal-header">
+        <span class="modal-title" id="recon-detail-modal-title">结算明细</span>
+        <button class="modal-close-btn" type="button" data-dom-id="recon-detail-close" aria-label="关闭">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <div class="detail-label">结算单号</div>
+            <div class="detail-value mono" id="rd-set-id">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">订单号</div>
+            <div class="detail-value mono" id="rd-order-id">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">艺术家</div>
+            <div class="detail-value" id="rd-artist">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">作品</div>
+            <div class="detail-value" id="rd-artwork">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">金额明细</div>
+            <div id="rd-amount"></div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">收款账户</div>
+            <div class="detail-value mono" id="rd-account">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">结算状态</div>
+            <div id="rd-status">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">结算时间</div>
+            <div class="detail-value" id="rd-time">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">支付凭证照片</div>
+            <div class="logistics-photo" id="rd-photo">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+              <span id="rd-photo-label">-</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary btn-sm" type="button" data-dom-id="recon-detail-close">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 人工结算弹窗 -->
+  <div class="modal-backdrop" id="recon-settle-modal" role="dialog" aria-modal="true" aria-labelledby="recon-settle-modal-title" style="display:none;">
+    <div class="detail-modal">
+      <div class="modal-header">
+        <span class="modal-title" id="recon-settle-modal-title">人工结算</span>
+        <button class="modal-close-btn" type="button" data-dom-id="recon-settle-cancel" aria-label="关闭">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <div class="detail-label">结算单号</div>
+            <div class="detail-value mono" id="rs-set-id">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">订单号</div>
+            <div class="detail-value mono" id="rs-order-id">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">艺术家</div>
+            <div class="detail-value" id="rs-artist">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">作品</div>
+            <div class="detail-value" id="rs-artwork">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">应收明细</div>
+            <div id="rs-amount"></div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">收款账户（艺术家入驻预留）</div>
+            <div class="detail-value mono" id="rs-account">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">支付凭证上传</div>
+            <div class="voucher-upload" id="recon-voucher-upload" role="button" tabindex="0">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span>点击上传支付凭证（打款截图 / PDF）</span>
+              <span class="voucher-file" id="recon-voucher-file" style="display:none;">已上传：支付凭证.png</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary btn-sm" type="button" data-dom-id="recon-settle-cancel">取消</button>
+        <button class="btn-primary btn-sm" type="button" data-dom-id="recon-settle-confirm">确认打款</button>
+      </div>
+    </div>
+  </div>
+
+    <style id="admin-layout">
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    .ag-app-body { height: 100vh; overflow: hidden; background: var(--ag-neutral-50); color: var(--ag-foreground); font-family: var(--ag-font-sans); font-size: var(--ag-text-base); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .app-shell { display: flex; height: 100vh; overflow: hidden; min-height: 0; }
+    .sidebar { width: 240px; flex-shrink: 0; background: var(--ag-primary); color: #fff; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
+    .sidebar-logo { height: 64px; flex-shrink: 0; display: flex; align-items: center; gap: 10px; padding: 0 24px; font-size: var(--ag-text-xl); font-weight: 600; color: #fff; letter-spacing: 0.01em; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-logo .logo-mark { width: 28px; height: 28px; border-radius: 6px; background: rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+    .sidebar-nav { padding: 12px 0; flex: 1; min-height: 0; }
+    .nav-section-label { padding: 14px 24px 6px; font-size: var(--ag-text-xs); color: rgba(255,255,255,0.4); letter-spacing: 0.04em; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 24px; color: rgba(255,255,255,0.72); font-size: var(--ag-text-md); cursor: pointer; transition: background 0.15s, color 0.15s; border-left: 3px solid transparent; text-decoration: none; white-space: nowrap; }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav-item.active { background: rgba(255,255,255,0.10); color: #fff; border-left-color: #fff; font-weight: 500; }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-badge { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--ag-radius-full); background: var(--state-warning); color: #fff; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
+    .sidebar-foot { flex-shrink: 0; padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.08); font-size: var(--ag-text-xs); color: rgba(255,255,255,0.45); }
+    .main-area { flex: 1; min-width: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    .topbar { height: 64px; flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--ag-border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; gap: 16px; }
+    .topbar-left { display: flex; flex-direction: column; min-width: 0; }
+    .topbar-title { font-size: var(--ag-text-xl); font-weight: 600; color: var(--ag-foreground); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .topbar-sub { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .topbar-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+    .admin-chip { display: flex; align-items: center; gap: 10px; }
+    .admin-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--ag-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: var(--ag-text-sm); font-weight: 600; flex-shrink: 0; }
+    .admin-info { display: flex; flex-direction: column; line-height: 1.3; }
+    .admin-name { font-size: var(--ag-text-md); color: var(--ag-foreground); font-weight: 500; }
+    .perm-badge { align-self: flex-start; font-size: 11px; padding: 1px 8px; border-radius: var(--ag-radius-small); background: var(--ag-primary-50); color: var(--ag-primary); font-weight: 500; white-space: nowrap; line-height: 1.5; }
+    .content-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 24px; }
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .kpi-card { background: #fff; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); padding: 20px; display: flex; flex-direction: column; }
+    .kpi-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; }
+    .kpi-label { font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); }
+    .kpi-icon { width: 36px; height: 36px; border-radius: var(--ag-radius-medium); background: var(--ag-primary-50); color: var(--ag-primary); display: flex; align-items: center; justify-content: center; }
+    .kpi-icon.success { background: var(--state-success-light); color: var(--state-success-dark); }
+    .kpi-icon.warn { background: var(--state-warning-light); color: var(--state-warning-dark); }
+    .kpi-icon.danger { background: var(--state-error-light); color: var(--state-error-dark); }
+    .kpi-value { font-size: var(--ag-text-3xl); font-weight: 600; color: var(--ag-foreground); line-height: 1.15; font-variant-numeric: tabular-nums; }
+    .kpi-value.success { color: var(--state-success); }
+    .kpi-value.warn { color: var(--state-warning-dark); }
+    .kpi-value.danger { color: var(--state-error); }
+    .kpi-trend { display: flex; align-items: center; gap: 4px; font-size: var(--ag-text-xs); margin-top: 10px; color: var(--ag-muted-foreground); }
+    .finance-tabs { display: flex; gap: 8px; margin-bottom: 16px; border-bottom: 1px solid var(--ag-border); }
+    .tab-btn { padding: 10px 18px; border: none; background: transparent; color: var(--ag-muted-foreground); font-size: var(--ag-text-md); font-weight: 500; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -1px; }
+    .tab-btn:hover { color: var(--ag-foreground); }
+    .tab-btn.active { color: var(--ag-primary); border-bottom-color: var(--ag-primary); }
+    .card { background: #fff; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); padding: 20px; }
+    .card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 18px; }
+    .card-title { font-size: var(--ag-text-lg); font-weight: 600; color: var(--ag-foreground); }
+    .card-sub { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); margin-top: 2px; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: var(--ag-text-sm); }
+    .data-table th, .data-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--ag-border); vertical-align: middle; }
+    .data-table th { background: var(--ag-neutral-50); font-weight: 600; color: var(--ag-neutral-700); white-space: nowrap; }
+    .data-table tbody tr:hover { background: var(--ag-neutral-50); }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .amount-in { color: var(--state-success); font-weight: 600; }
+    .amount-out { color: var(--state-error); font-weight: 600; }
+    .cell-actions { display: flex; gap: 6px; }
+    .form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; }
+    .form-label { font-size: var(--ag-text-sm); font-weight: 500; color: var(--ag-foreground); }
+    .form-input, .form-select { height: 40px; padding: 0 12px; border: 1px solid var(--ag-input); border-radius: var(--ag-radius-small); font-size: var(--ag-text-sm); color: var(--ag-foreground); background: #fff; }
+    .form-input:focus, .form-select:focus { outline: none; border-color: var(--ag-primary-400); box-shadow: 0 0 0 3px rgba(26,54,93,0.08); }
+    .config-section { margin-bottom: 24px; }
+    .config-section-title { font-size: var(--ag-text-lg); font-weight: 600; color: var(--ag-foreground); margin-bottom: 14px; }
+    .mono-cell { font-family: var(--ag-font-mono); font-size: var(--ag-text-xs); color: var(--ag-primary); font-weight: 500; }
+    .btn-text { display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-small); background: #fff; color: var(--ag-primary); font-size: var(--ag-text-sm); font-weight: 500; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+    .btn-text:hover { background: var(--ag-primary-50); border-color: var(--ag-primary-300); }
+    .btn-sm { padding: 6px 14px; font-size: var(--ag-text-sm); }
+    /* ===== Modal Overlay ===== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.45);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 24px;
+    }
+    .modal-backdrop.nested { z-index: 200; background: rgba(15,23,42,0.35); }
+    .detail-modal {
+      width: 760px;
+      max-width: 100%;
+      max-height: 82vh;
+      background: #fff;
+      border-radius: var(--ag-radius-large);
+      box-shadow: var(--ag-shadow-modal);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--ag-border);
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .modal-title { font-size: var(--ag-text-xl); font-weight: 600; color: var(--ag-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-close-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; color: var(--ag-neutral-500);
+      cursor: pointer; border-radius: var(--ag-radius-small);
+      transition: background 0.15s, color 0.15s; flex-shrink: 0;
+    }
+    .modal-close-btn:hover { background: var(--ag-neutral-100); color: var(--ag-neutral-700); }
+    .modal-body { padding: 24px; overflow-y: auto; flex: 1; min-height: 0; }
+    .modal-footer { display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 16px 24px; border-top: 1px solid var(--ag-border); flex-shrink: 0; background: var(--ag-neutral-50); }
+    .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .detail-item { background: var(--ag-neutral-50); border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); padding: 14px 16px; }
+    .detail-item.full { grid-column: 1 / -1; }
+    .detail-label { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); margin-bottom: 6px; }
+    .detail-value { font-size: var(--ag-text-md); color: var(--ag-foreground); font-weight: 500; }
+    .detail-value.mono { font-family: var(--ag-font-mono); font-size: var(--ag-text-sm); }
+    .amount-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: var(--ag-text-sm); }
+    .amount-row .label { color: var(--ag-muted-foreground); }
+    .amount-row .value { color: var(--ag-foreground); font-variant-numeric: tabular-nums; font-weight: 500; }
+    .amount-row.total { border-top: 1px solid var(--ag-border); margin-top: 6px; padding-top: 10px; }
+    .amount-row.total .value { font-size: var(--ag-text-lg); font-weight: 700; color: var(--ag-primary); }
+    .logistics-photo { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 28px 16px; border: 1.5px dashed var(--ag-border); border-radius: var(--ag-radius-medium); background: var(--ag-neutral-50); color: var(--ag-muted-foreground); font-size: var(--ag-text-sm); }
+    .logistics-photo svg { color: var(--ag-neutral-400); }
+    .voucher-upload { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 26px 16px; border: 1.5px dashed var(--ag-primary-300); border-radius: var(--ag-radius-medium); background: var(--ag-primary-50); color: var(--ag-muted-foreground); font-size: var(--ag-text-sm); cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+    .voucher-upload:hover { border-color: var(--ag-primary); background: var(--ag-primary-100); }
+    .voucher-upload svg { color: var(--ag-primary-400); }
+    .voucher-upload.uploaded { border-color: var(--state-success); background: var(--state-success-light); }
+    .voucher-upload .voucher-file { font-weight: 600; color: var(--state-success-dark); }
+    @media (max-width: 760px) { .sidebar { width: 64px; } .sidebar-logo span.logo-text, .nav-item .nav-text, .nav-section-label, .nav-badge, .sidebar-foot { display: none; } .nav-item { justify-content: center; padding: 12px 0; } .sidebar-logo { justify-content: center; padding: 0; } }
+    @media (max-width: 480px) { .content-scroll { padding: 16px; } .kpi-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .form-row { grid-template-columns: 1fr; } }
+  </style>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var notifyBtn = document.getElementById('btn-notify');
+    if (notifyBtn) notifyBtn.addEventListener('click', function () { alert('您有 3 条未读通知'); });
+
+    var tabs = document.querySelectorAll('#finance-tabs .tab-btn');
+    var panels = { reconciliation: 'panel-reconciliation', statement: 'panel-statement', 'settlement-config': 'panel-settlement-config' };
+    tabs.forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        tabs.forEach(function (t) { t.classList.remove('active'); });
+        this.classList.add('active');
+        var key = this.id.replace('tab-', '');
+        Object.keys(panels).forEach(function (k) {
+          document.getElementById(panels[k]).style.display = (k === key) ? 'block' : 'none';
+        });
+      });
+    });
+
+    var exportRecon = document.getElementById('btn-export-recon');
+    if (exportRecon) exportRecon.addEventListener('click', function () { alert('结算报表导出成功'); });
+    var exportStmt = document.getElementById('btn-export-statement');
+    if (exportStmt) exportStmt.addEventListener('click', function () { alert('流水导出成功'); });
+
+    var saveConfig = document.getElementById('btn-save-config');
+    if (saveConfig) saveConfig.addEventListener('click', function () { alert('保存成功'); });
+
+    // ===== 艺术家结算报表（订单粒度） =====
+    var reconData = {
+      1: {
+        setId: 'SET-20260808-001', orderId: 'AG-20815', artist: '陈墨白', artwork: '《山水清音》',
+        price: 4200, joinMode: 'commission', commissionRate: 0.15, commission: 630, fee: 121.80, payable: 3448.20,
+        account: 'PayPal: chenmobai@art.gallery', status: '已结算', statusCls: 'tag-approved', settledAt: '2026-08-08', voucher: '支付凭证.png'
+      },
+      2: {
+        setId: 'SET-20260808-002', orderId: 'AG-20811', artist: '周慕言', artwork: '《光与尘》',
+        price: 980, joinMode: 'fee', commissionRate: 0, commission: 0, fee: 28.42, payable: 951.58,
+        account: 'PayPal: zhou@lens.art', status: '已结算', statusCls: 'tag-approved', settledAt: '2026-08-08', voucher: '支付凭证.png'
+      },
+      3: {
+        setId: 'SET-20260807-003', orderId: 'AG-20809', artist: '林清远', artwork: '《夜航》',
+        price: 2600, joinMode: 'commission', commissionRate: 0.15, commission: 390, fee: 75.40, payable: 2134.60,
+        account: '银行 ****6621', status: '待结算', statusCls: 'tag-pending', settledAt: '-', voucher: null
+      },
+      4: {
+        setId: 'SET-20260807-004', orderId: 'AG-20807', artist: '苏怀瑾', artwork: '《山水长卷》',
+        price: 6800, joinMode: 'fee', commissionRate: 0, commission: 0, fee: 197.20, payable: 6602.80,
+        account: 'PayPal: su@bluegallery.com', status: '待结算', statusCls: 'tag-pending', settledAt: '-', voucher: null
+      }
+    };
+    function fmtMoney(v) {
+      var neg = v < 0;
+      var abs = Math.abs(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return (neg ? '-$' : '$') + abs;
+    }
+    function renderReconAmount(containerId, d) {
+      var html = '';
+      html += '<div class="amount-row"><span class="label">成交金额</span><span class="value">' + fmtMoney(d.price) + '</span></div>';
+      if (d.joinMode === 'commission') {
+        html += '<div class="amount-row"><span class="label">佣金（' + Math.round((d.commissionRate || 0) * 100) + '%）</span><span class="value">' + fmtMoney(-d.commission) + '</span></div>';
+      } else {
+        html += '<div class="amount-row"><span class="label">佣金（已缴纳入驻费，免佣金）</span><span class="value">$0.00</span></div>';
+      }
+      html += '<div class="amount-row"><span class="label">手续费</span><span class="value">' + fmtMoney(-d.fee) + '</span></div>';
+      html += '<div class="amount-row total"><span class="label">应付艺术家</span><span class="value">' + fmtMoney(d.payable) + '</span></div>';
+      document.getElementById(containerId).innerHTML = html;
+    }
+
+    // ===== 结算明细弹窗 =====
+    var reconDetailModal = document.getElementById('recon-detail-modal');
+    function openReconDetail(n) {
+      var d = reconData[n];
+      if (!d || !reconDetailModal) { return; }
+      document.getElementById('rd-set-id').textContent = d.setId;
+      document.getElementById('rd-order-id').textContent = d.orderId;
+      document.getElementById('rd-artist').textContent = d.artist;
+      document.getElementById('rd-artwork').textContent = d.artwork;
+      renderReconAmount('rd-amount', d);
+      document.getElementById('rd-account').textContent = d.account;
+      document.getElementById('rd-status').innerHTML = '<span class="' + d.statusCls + '">' + d.status + '</span>';
+      document.getElementById('rd-time').textContent = d.settledAt;
+      document.getElementById('rd-photo-label').textContent = d.voucher || '暂无支付凭证';
+      reconDetailModal.style.display = 'flex';
+    }
+    function closeReconDetail() {
+      if (reconDetailModal) { reconDetailModal.style.display = 'none'; }
+    }
+    document.querySelectorAll('[data-dom-id="recon-detail-close"]').forEach(function (btn) {
+      btn.addEventListener('click', closeReconDetail);
+    });
+    if (reconDetailModal) {
+      reconDetailModal.addEventListener('click', function (e) { if (e.target === reconDetailModal) { closeReconDetail(); } });
+    }
+
+    // ===== 人工结算弹窗（流程同订单页 settle-modal） =====
+    var reconSettleModal = document.getElementById('recon-settle-modal');
+    var reconSettleTarget = null;
+    var reconVoucherUploaded = false;
+    function openReconSettle(n) {
+      var d = reconData[n];
+      if (!d || !reconSettleModal) { return; }
+      reconSettleTarget = n;
+      reconVoucherUploaded = false;
+      document.getElementById('rs-set-id').textContent = d.setId;
+      document.getElementById('rs-order-id').textContent = d.orderId;
+      document.getElementById('rs-artist').textContent = d.artist;
+      document.getElementById('rs-artwork').textContent = d.artwork;
+      renderReconAmount('rs-amount', d);
+      document.getElementById('rs-account').textContent = d.account;
+      var vu = document.getElementById('recon-voucher-upload');
+      var vf = document.getElementById('recon-voucher-file');
+      if (vu) { vu.classList.remove('uploaded'); }
+      if (vf) { vf.style.display = 'none'; }
+      reconSettleModal.style.display = 'flex';
+    }
+    function closeReconSettle() {
+      if (reconSettleModal) { reconSettleModal.style.display = 'none'; }
+      reconSettleTarget = null;
+    }
+    document.querySelectorAll('[data-dom-id="recon-settle-cancel"]').forEach(function (btn) {
+      btn.addEventListener('click', closeReconSettle);
+    });
+    if (reconSettleModal) {
+      reconSettleModal.addEventListener('click', function (e) { if (e.target === reconSettleModal) { closeReconSettle(); } });
+    }
+    var reconVoucherEl = document.getElementById('recon-voucher-upload');
+    if (reconVoucherEl) {
+      reconVoucherEl.addEventListener('click', function () {
+        reconVoucherUploaded = true;
+        this.classList.add('uploaded');
+        var vf = document.getElementById('recon-voucher-file');
+        if (vf) { vf.style.display = 'block'; vf.textContent = '已上传：支付凭证.png'; }
+        alert('已上传支付凭证');
+      });
+    }
+    var reconSettleConfirm = document.querySelector('[data-dom-id="recon-settle-confirm"]');
+    if (reconSettleConfirm) {
+      reconSettleConfirm.addEventListener('click', function () {
+        if (!reconSettleTarget || !reconData[reconSettleTarget]) { return; }
+        if (!reconVoucherUploaded) { alert('请先上传支付凭证'); return; }
+        var d = reconData[reconSettleTarget];
+        d.status = '已结算';
+        d.statusCls = 'tag-approved';
+        d.settledAt = '2026-08-08';
+        d.voucher = '支付凭证.png';
+        var row = document.getElementById('recon-row-' + reconSettleTarget);
+        if (row) {
+          var tag = row.querySelector('.tag-pending, .tag-approved, .tag-rejected, .tag-offline');
+          if (tag) { tag.className = 'tag-approved'; tag.textContent = '已结算'; }
+          var pay = row.querySelector('[id^="recon-pay-"]');
+          if (pay && pay.parentNode) { pay.parentNode.removeChild(pay); }
+        }
+        alert('结算完成：已向 ' + d.artist + ' 支付 ' + fmtMoney(d.payable) + '，支付凭证已记录');
+        closeReconSettle();
+      });
+    }
+
+    // 表格操作绑定
+    document.querySelectorAll('[id^="recon-detail-"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var m = this.id.match(/^recon-detail-(\d+)$/);
+        if (m) { openReconDetail(parseInt(m[1], 10)); }
+      });
+    });
+    document.querySelectorAll('[id^="recon-pay-"]').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var m = this.id.match(/^recon-pay-(\d+)$/);
+        if (m) { openReconSettle(parseInt(m[1], 10)); }
+      });
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') { closeReconDetail(); closeReconSettle(); }
+    });
+  });
+</script>
+</body>
+</html>

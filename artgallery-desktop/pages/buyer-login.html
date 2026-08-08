@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录 / 注册 - ArtGallery</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a href="buyer-home.html" class="nav-logo" id="nav-logo" data-dom-id="nav-logo" aria-label="ArtGallery 首页">
+        <span class="nav-logo-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+        </span>
+        ArtGallery
+      </a>
+      <nav class="nav-links" aria-label="作品分类">
+        <a href="buyer-category.html" class="nav-link">全部分类</a>
+        <a href="buyer-category.html" class="nav-link">抽象</a>
+        <a href="buyer-category.html" class="nav-link">古典</a>
+        <a href="buyer-category.html" class="nav-link">宗教</a>
+        <a href="buyer-category.html" class="nav-link">人物</a>
+      </nav>
+      <div class="nav-search" role="search">
+        <input type="text" class="search-input" placeholder="搜索 artworks、artists..." aria-label="搜索作品或艺术家">
+        <button type="button" class="search-btn" aria-label="搜索">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+      <div class="nav-actions">
+        <a href="buyer-login.html" class="nav-login">登录/注册</a>
+        <a href="buyer-cart.html" class="icon-btn" id="nav-cart" data-dom-id="nav-cart" aria-label="购物车">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/><path d="M2.5 3h2.5l2.4 12.6a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7.5H6"/></svg>
+          <span class="cart-badge">2</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="auth-page" aria-label="登录 / 注册">
+    <div class="auth-card">
+      <div class="auth-tabs" role="tablist" aria-label="登录注册切换">
+        <button class="auth-tab is-active" id="tab-login" type="button" role="tab" aria-selected="true" aria-controls="form-login">登录</button>
+        <button class="auth-tab" id="tab-register" type="button" role="tab" aria-selected="false" aria-controls="form-register">注册</button>
+      </div>
+      <div class="auth-body">
+        <form class="auth-form is-active" id="form-login" role="tabpanel" aria-labelledby="tab-login" novalidate>
+          <h1 class="auth-title">欢迎回到 ArtGallery</h1>
+          <div class="form-field">
+            <label class="form-label" for="login-email">邮箱</label>
+            <input class="form-input" id="login-email" name="email" type="email" placeholder="name@example.com" required>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="login-password">密码</label>
+            <input class="form-input" id="login-password" name="password" type="password" placeholder="请输入密码" required>
+          </div>
+          <div class="form-options">
+            <label class="checkbox-wrap">
+              <input type="checkbox" id="login-remember" name="remember">
+              记住我
+            </label>
+            <a href="#" class="text-link" id="forgot-password">忘记密码？</a>
+          </div>
+          <button type="submit" class="btn-primary submit-btn" id="btn-login" data-dom-id="btn-login">登录</button>
+          <div class="auth-divider">或通过以下方式登录</div>
+          <div class="social-login">
+            <button type="button" class="social-btn" aria-label="Google 登录">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v12"/><path d="M6 12h12"/></svg>
+            </button>
+            <button type="button" class="social-btn" aria-label="Apple 登录">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2c1.7 0 3 1.3 3 3s-1.3 3-3 3-3-1.3-3-3 1.3-3 3-3z"/><path d="M12 8c3.3 0 6 2.7 6 6v6a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-6c0-3.3 2.7-6 6-6z"/></svg>
+            </button>
+          </div>
+          <div class="demo-accounts">
+            <div class="demo-title">演示账号（点击一键登录）</div>
+            <button type="button" class="demo-account" data-role="buyer">
+              <span class="demo-acc-left"><span class="demo-acc-role">买家</span><span class="demo-acc-cred">buyer@artgallery.com / Buyer@123456</span></span>
+              <span class="demo-acc-go">进入商城 →</span>
+            </button>
+            <button type="button" class="demo-account" data-role="artist">
+              <span class="demo-acc-left"><span class="demo-acc-role">艺术家</span><span class="demo-acc-cred">artist@artgallery.com / Artist@123456</span></span>
+              <span class="demo-acc-go">进入工作台 →</span>
+            </button>
+            <button type="button" class="demo-account" data-role="admin">
+              <span class="demo-acc-left"><span class="demo-acc-role">平台管理员</span><span class="demo-acc-cred">admin@artgallery.com / Admin@123456</span></span>
+              <span class="demo-acc-go">进入后台 →</span>
+            </button>
+          </div>
+        </form>
+        <form class="auth-form" id="form-register" role="tabpanel" aria-labelledby="tab-register" novalidate>
+          <h1 class="auth-title">创建 ArtGallery 账户</h1>
+          <div class="form-field">
+            <label class="form-label" for="register-email">邮箱</label>
+            <input class="form-input" id="register-email" name="email" type="email" placeholder="name@example.com" required>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="register-password">密码</label>
+            <input class="form-input" id="register-password" name="password" type="password" placeholder="请设置 8-20 位密码" required>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="register-code">验证码</label>
+            <div class="form-row">
+              <input class="form-input" id="register-code" name="code" type="text" placeholder="请输入邮箱验证码" required>
+              <button type="button" class="code-btn" id="btn-send-code">获取验证码</button>
+            </div>
+          </div>
+          <div class="form-options">
+            <label class="checkbox-wrap">
+              <input type="checkbox" id="register-agree" name="agree" required>
+              我已阅读并同意
+            </label>
+            <a href="#" class="text-link">用户协议</a>
+          </div>
+          <button type="submit" class="btn-primary submit-btn" id="btn-register" data-dom-id="btn-register">注册</button>
+          <div class="auth-footer">注册即表示您同意接收 ArtGallery 的最新作品与活动资讯。</div>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <div class="footer-name">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+            ArtGallery
+          </div>
+          <p class="footer-desc">ArtGallery 是领先的跨境美术原作交易平台，连接全球藏家与原创艺术家，提供鉴定、安全托管交易与跨境配送的一站式服务。</p>
+        </div>
+        <div class="footer-col">
+          <h4>购买须知</h4>
+          <ul class="footer-links">
+            <li><a href="#">如何购买</a></li>
+            <li><a href="#">支付方式</a></li>
+            <li><a href="#">配送说明</a></li>
+            <li><a href="#">退换政策</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>关于我们</h4>
+          <ul class="footer-links">
+            <li><a href="#">平台介绍</a></li>
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="#">用户协议</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系客服</h4>
+          <ul class="footer-contact">
+            <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></span>support@artgallery.com</li>
+            <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.4 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg></span>+1-800-XXX-XXXX</li>
+            <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg></span>工作时间 Mon-Fri 9:00-18:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">© 2026 ArtGallery. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    const tabLogin = document.getElementById('tab-login');
+    const tabRegister = document.getElementById('tab-register');
+    const formLogin = document.getElementById('form-login');
+    const formRegister = document.getElementById('form-register');
+    function switchTab(tab) {
+      if (tab === 'login') {
+        tabLogin.classList.add('is-active'); tabLogin.setAttribute('aria-selected', 'true');
+        tabRegister.classList.remove('is-active'); tabRegister.setAttribute('aria-selected', 'false');
+        formLogin.classList.add('is-active'); formRegister.classList.remove('is-active');
+      } else {
+        tabRegister.classList.add('is-active'); tabRegister.setAttribute('aria-selected', 'true');
+        tabLogin.classList.remove('is-active'); tabLogin.setAttribute('aria-selected', 'false');
+        formRegister.classList.add('is-active'); formLogin.classList.remove('is-active');
+      }
+    }
+    tabLogin.addEventListener('click', () => switchTab('login'));
+    tabRegister.addEventListener('click', () => switchTab('register'));
+    var DEMO_ACCOUNTS = {
+      buyer: { account: 'buyer@artgallery.com', password: 'Buyer@123456', target: 'buyer-home.html', name: '买家' },
+      artist: { account: 'artist@artgallery.com', password: 'Artist@123456', target: 'artist-artwork-mgmt.html', name: '艺术家' },
+      admin: { account: 'admin@artgallery.com', password: 'Admin@123456', target: 'admin-dashboard.html', name: '平台管理员' }
+    };
+    document.querySelectorAll('.demo-account').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const acc = DEMO_ACCOUNTS[btn.dataset.role];
+        if (!acc) return;
+        document.getElementById('login-email').value = acc.account;
+        document.getElementById('login-password').value = acc.password;
+        location.href = acc.target;
+      });
+    });
+    document.getElementById('form-login').addEventListener('submit', e => {
+      e.preventDefault();
+      const email = document.getElementById('login-email').value.trim().toLowerCase();
+      const password = document.getElementById('login-password').value;
+      const hit = Object.keys(DEMO_ACCOUNTS).map(k => DEMO_ACCOUNTS[k]).filter(a => a.account === email && a.password === password)[0];
+      if (hit) { location.href = hit.target; return; }
+      alert('账号或密码错误。演示账号：buyer@artgallery.com / Buyer@123456');
+    });
+    // ===== 追加交互：示例链接 / 验证码 / 注册提交（保留 DEMO_ACCOUNTS 逻辑） =====
+    (function () {
+      // 忘记密码 / 用户协议 / 第三方登录 / 页脚链接
+      document.querySelectorAll('.text-link, .social-btn, .footer-links a').forEach(function (el) {
+        el.addEventListener('click', function (e) { e.preventDefault(); alert('示例链接'); });
+      });
+      // 搜索
+      var searchBtn = document.querySelector('.search-btn');
+      if (searchBtn) {
+        searchBtn.addEventListener('click', function () {
+          var input = document.querySelector('.search-input');
+          var kw = input ? input.value.trim() : '';
+          alert(kw ? '示例搜索：「' + kw + '」' : '请输入搜索关键词（示例）');
+        });
+      }
+      // 获取验证码
+      var codeBtn = document.getElementById('btn-send-code');
+      if (codeBtn) {
+        codeBtn.addEventListener('click', function () {
+          var email = document.getElementById('register-email').value.trim();
+          alert(email ? '验证码已发送至 ' + email + '（示例）' : '请先输入注册邮箱');
+        });
+      }
+      // 注册表单提交
+      var formRegister = document.getElementById('form-register');
+      if (formRegister) {
+        formRegister.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var email = document.getElementById('register-email').value.trim();
+          var pwd = document.getElementById('register-password').value;
+          var code = document.getElementById('register-code').value.trim();
+          if (!email || !pwd || !code) { alert('请填写完整的注册信息'); return; }
+          alert('注册成功，即将跳转商城（示例）');
+          location.href = 'buyer-home.html';
+        });
+      }
+    })();
+  </script>
+
+    <style id="page-styles">
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; background: var(--ag-background); color: var(--ag-foreground); font-family: var(--ag-font-sans); font-size: var(--ag-text-lg); line-height: 1.6; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+      a { color: inherit; text-decoration: none; }
+      button { font-family: inherit; cursor: pointer; }
+      img { display: block; max-width: 100%; }
+      :focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 2px; border-radius: 2px; }
+      .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+      .nav-bar { position: sticky; top: 0; z-index: 50; width: 100%; height: 64px; background: var(--ag-background); border-bottom: 1px solid var(--ag-border); }
+      .nav-inner { max-width: 1280px; height: 100%; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 24px; }
+      .nav-logo { font-size: var(--ag-text-2xl); font-weight: 700; color: var(--ag-primary); letter-spacing: -0.01em; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; }
+      .nav-logo-mark { width: 28px; height: 28px; border-radius: 6px; background: var(--ag-primary); display: inline-flex; align-items: center; justify-content: center; color: #fff; }
+      .nav-links { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+      .nav-link { font-size: var(--ag-text-md); color: var(--ag-neutral-700); font-weight: 500; white-space: nowrap; padding: 6px 0; position: relative; transition: color 0.15s cubic-bezier(.2,.8,.2,1); }
+      .nav-link:hover { color: var(--ag-primary); }
+      .nav-search { flex: 1 1 auto; max-width: 400px; margin: 0 auto; position: relative; display: flex; align-items: center; }
+      .search-input { width: 100%; height: 40px; padding: 0 44px 0 14px; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); background: var(--ag-neutral-50); color: var(--ag-foreground); font-size: var(--ag-text-md); font-family: inherit; transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; }
+      .search-input::placeholder { color: var(--ag-neutral-400); }
+      .search-input:focus { outline: none; border-color: var(--ag-primary); background: #fff; box-shadow: 0 0 0 3px rgba(26,54,93,0.12); }
+      .search-btn { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: none; background: transparent; color: var(--ag-neutral-500); border-radius: var(--ag-radius-small); transition: color 0.15s, background 0.15s; }
+      .search-btn:hover { color: var(--ag-primary); background: var(--ag-primary-50); }
+      .nav-actions { display: flex; align-items: center; gap: 18px; flex-shrink: 0; margin-left: auto; }
+      .nav-login { font-size: var(--ag-text-md); color: var(--ag-primary); font-weight: 500; white-space: nowrap; transition: color 0.15s; }
+      .nav-login:hover { color: var(--ag-primary-600); }
+      .icon-btn { position: relative; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: none; background: transparent; color: var(--ag-neutral-700); border-radius: var(--ag-radius-medium); transition: color 0.15s, background 0.15s; }
+      .icon-btn:hover { color: var(--ag-primary); background: var(--ag-primary-50); }
+      .cart-badge { position: absolute; top: -2px; right: -2px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--state-error); color: #fff; font-size: 11px; font-weight: 600; line-height: 18px; text-align: center; border: 2px solid var(--ag-background); }
+      .auth-page { min-height: calc(100vh - 64px); display: flex; align-items: center; justify-content: center; padding: 48px 24px; background: linear-gradient(180deg, var(--ag-neutral-50) 0%, var(--ag-background) 100%); }
+      .auth-card { width: 100%; max-width: 440px; background: var(--ag-card); border: 1px solid var(--ag-border); border-radius: var(--ag-radius-large); box-shadow: var(--ag-shadow-lg); overflow: hidden; }
+      .auth-tabs { display: flex; border-bottom: 1px solid var(--ag-border); }
+      .auth-tab { flex: 1 1 50%; padding: 16px 12px; text-align: center; font-size: var(--ag-text-md); font-weight: 600; color: var(--ag-neutral-500); background: transparent; border: none; cursor: pointer; transition: color 0.15s, background 0.15s; }
+      .auth-tab:hover { color: var(--ag-primary); background: var(--ag-primary-50); }
+      .auth-tab.is-active { color: var(--ag-primary); box-shadow: inset 0 -2px 0 0 var(--ag-primary); }
+      .auth-body { padding: 32px; }
+      .auth-title { font-size: var(--ag-text-2xl); font-weight: 600; color: var(--ag-foreground); margin: 0 0 24px; text-align: center; }
+      .auth-form { display: none; flex-direction: column; gap: 18px; }
+      .auth-form.is-active { display: flex; }
+      .form-field { display: flex; flex-direction: column; gap: 6px; }
+      .form-label { font-size: var(--ag-text-sm); font-weight: 500; color: var(--ag-neutral-700); }
+      .form-input { height: 44px; padding: 0 14px; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-small); background: #fff; color: var(--ag-foreground); font-size: var(--ag-text-md); font-family: inherit; transition: border-color 0.15s, box-shadow 0.15s; }
+      .form-input::placeholder { color: var(--ag-neutral-400); }
+      .form-input:hover { border-color: var(--ag-neutral-300); }
+      .form-input:focus { outline: none; border-color: var(--ag-primary); box-shadow: 0 0 0 3px rgba(26,54,93,0.12); }
+      .form-row { display: flex; gap: 10px; }
+      .form-row .form-input { flex: 1 1 auto; }
+      .code-btn { height: 44px; padding: 0 14px; background: var(--ag-primary-50); color: var(--ag-primary); border: 1px solid var(--ag-primary-200); border-radius: var(--ag-radius-small); font-size: var(--ag-text-sm); font-weight: 500; white-space: nowrap; transition: background 0.15s; }
+      .code-btn:hover { background: var(--ag-primary-100); }
+      .form-options { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: var(--ag-text-sm); }
+      .checkbox-wrap { display: inline-flex; align-items: center; gap: 6px; color: var(--ag-neutral-700); cursor: pointer; }
+      .checkbox-wrap input { width: 16px; height: 16px; accent-color: var(--ag-primary); }
+      .text-link { color: var(--ag-primary); font-weight: 500; transition: color 0.15s; }
+      .text-link:hover { color: var(--ag-primary-600); }
+      .submit-btn { width: 100%; height: 46px; font-size: var(--ag-text-md); font-weight: 600; }
+      .auth-divider { display: flex; align-items: center; gap: 12px; margin: 8px 0; color: var(--ag-neutral-400); font-size: var(--ag-text-sm); }
+      .auth-divider::before, .auth-divider::after { content: ""; flex: 1 1 auto; height: 1px; background: var(--ag-border); }
+      .social-login { display: flex; justify-content: center; gap: 12px; }
+      .social-btn { width: 44px; height: 44px; border-radius: var(--ag-radius-medium); border: 1px solid var(--ag-border); background: #fff; color: var(--ag-neutral-600); display: inline-flex; align-items: center; justify-content: center; transition: border-color 0.15s, color 0.15s, background 0.15s; }
+      .social-btn:hover { border-color: var(--ag-primary-200); color: var(--ag-primary); background: var(--ag-primary-50); }
+      .demo-accounts { margin-top: 16px; border-top: 1px dashed var(--ag-border); padding-top: 14px; text-align: left; }
+      .demo-title { font-size: var(--ag-text-xs); font-weight: 600; color: var(--ag-muted-foreground); letter-spacing: 0.04em; margin-bottom: 10px; }
+      .demo-account { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px 12px; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-small); background: var(--ag-neutral-50); cursor: pointer; transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; margin-bottom: 8px; text-align: left; }
+      .demo-account:last-child { margin-bottom: 0; }
+      .demo-account:hover { border-color: var(--ag-primary-400); background: var(--ag-primary-50); box-shadow: 0 2px 8px rgba(26,54,93,0.08); }
+      .demo-acc-left { display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+      .demo-acc-role { font-size: var(--ag-text-sm); font-weight: 600; color: var(--ag-foreground); }
+      .demo-acc-cred { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+      .demo-acc-go { font-size: var(--ag-text-xs); font-weight: 600; color: var(--ag-primary); flex-shrink: 0; }
+      .auth-footer { margin-top: 20px; text-align: center; font-size: var(--ag-text-sm); color: var(--ag-neutral-500); line-height: 1.6; }
+      .footer { background: var(--ag-primary); color: #fff; padding: 56px 0 24px; }
+      .footer-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+      .footer-col h4 { font-size: var(--ag-text-md); font-weight: 600; margin: 0 0 16px; color: #fff; }
+      .footer-brand .footer-name { font-size: var(--ag-text-xl); font-weight: 700; margin-bottom: 12px; color: #fff; display: inline-flex; align-items: center; gap: 8px; }
+      .footer-desc { font-size: var(--ag-text-sm); color: rgba(255,255,255,0.78); line-height: 1.7; margin: 0; }
+      .footer-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+      .footer-links a { font-size: var(--ag-text-sm); color: rgba(255,255,255,0.78); transition: color 0.15s; }
+      .footer-links a:hover { color: #fff; }
+      .footer-contact { display: flex; flex-direction: column; gap: 12px; }
+      .footer-contact li { display: flex; align-items: center; gap: 10px; font-size: var(--ag-text-sm); color: rgba(255,255,255,0.85); list-style: none; }
+      .footer-contact .ci { color: rgba(255,255,255,0.7); flex-shrink: 0; display: inline-flex; }
+      .footer-bottom { margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.15); text-align: center; font-size: var(--ag-text-sm); color: rgba(255,255,255,0.7); }
+      @media (min-width: 640px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (min-width: 1024px) { .container { padding: 0 32px; } .nav-inner { padding: 0 32px; } .footer-grid { grid-template-columns: 2fr 1fr 1fr 1.4fr; gap: 40px; } }
+      @media (max-width: 1024px) { .nav-links { display: none; } }
+      @media (max-width: 480px) { .auth-body { padding: 24px; } .form-row { flex-direction: column; } }
+    </style>
+</body>
+</html>

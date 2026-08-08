@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>艺术家工作台 - 作品发布管理</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="ag-app-body">
+  <style id="critical-layout">
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    .ag-app-body {
+      height: 100vh;
+      overflow: hidden;
+      background: var(--ag-neutral-50);
+      color: var(--ag-foreground);
+      font-family: var(--ag-font-sans);
+      font-size: var(--ag-text-base);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== App Shell ===== */
+    .app-shell {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .sidebar {
+      width: 240px;
+      flex-shrink: 0;
+      background: var(--ag-primary);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .sidebar-logo {
+      height: 64px;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 24px;
+      font-size: var(--ag-text-xl);
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.01em;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .sidebar-logo .logo-mark {
+      width: 28px; height: 28px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.14);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .sidebar-nav { padding: 12px 0; flex: 1; min-height: 0; }
+    .nav-section-label {
+      padding: 14px 24px 6px;
+      font-size: var(--ag-text-xs);
+      color: rgba(255,255,255,0.4);
+      letter-spacing: 0.04em;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 11px 24px;
+      color: rgba(255,255,255,0.72);
+      font-size: var(--ag-text-md);
+      cursor: pointer;
+      transition: background 0.15s, color 0.15s;
+      border-left: 3px solid transparent;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav-item:focus-visible {
+      outline: 2px solid rgba(255,255,255,0.6);
+      outline-offset: -2px;
+    }
+    .nav-item.active {
+      background: rgba(255,255,255,0.10);
+      color: #fff;
+      border-left-color: #fff;
+      font-weight: 500;
+    }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-text {
+      flex: 1; min-width: 0;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .sidebar-foot {
+      flex-shrink: 0;
+      padding: 14px 24px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      font-size: var(--ag-text-xs);
+      color: rgba(255,255,255,0.45);
+    }
+
+    /* ===== Main Area ===== */
+    .main-area {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .topbar {
+      height: 64px;
+      flex-shrink: 0;
+      background: #fff;
+      border-bottom: 1px solid var(--ag-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      gap: 16px;
+    }
+    .topbar-left { display: flex; flex-direction: column; min-width: 0; }
+    .topbar-title {
+      font-size: var(--ag-text-xl);
+      font-weight: 600;
+      color: var(--ag-foreground);
+      line-height: 1.3;
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .topbar-sub {
+      font-size: var(--ag-text-xs);
+      color: var(--ag-muted-foreground);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .topbar-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+    .artist-chip { display: flex; align-items: center; gap: 10px; }
+    .artist-avatar {
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      background: var(--ag-primary-100);
+      color: var(--ag-primary);
+      display: flex; align-items: center; justify-content: center;
+      font-size: var(--ag-text-sm);
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .artist-info { display: flex; flex-direction: column; line-height: 1.3; }
+    .artist-name {
+      font-size: var(--ag-text-md);
+      color: var(--ag-foreground);
+      font-weight: 500;
+    }
+    .status-badge {
+      align-self: flex-start;
+      font-size: 11px;
+      padding: 1px 8px;
+      border-radius: var(--ag-radius-small);
+      background: var(--state-success-light);
+      color: var(--state-success-dark);
+      font-weight: 500;
+      white-space: nowrap;
+      line-height: 1.5;
+    }
+
+    /* ===== Content Scroll ===== */
+    .content-scroll {
+      flex: 1;
+      min-height: 0;
+      overflow-y: auto;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* ===== Section Card ===== */
+    .section-card {
+      background: #fff;
+      border: 1px solid var(--ag-border);
+      border-radius: var(--ag-radius-large);
+      padding: 24px 28px;
+      min-width: 0;
+    }
+    .section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 20px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--ag-border);
+    }
+    .section-head-left { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .section-title {
+      font-size: var(--ag-text-xl);
+      font-weight: 600;
+      color: var(--ag-foreground);
+      line-height: 1.3;
+      margin: 0;
+      text-wrap: balance;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    .section-desc {
+      font-size: var(--ag-text-sm);
+      color: var(--ag-muted-foreground);
+      margin: 0;
+      line-height: 1.5;
+    }
+
+    /* ===== Form ===== */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px 20px;
+    }
+    .form-row-full { grid-column: 1 / -1; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .form-label {
+      font-size: var(--ag-text-sm);
+      color: var(--ag-foreground);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .req-mark { color: var(--state-error); font-weight: 600; }
+    .opt-mark { color: var(--ag-muted-foreground); font-weight: 400; font-size: var(--ag-text-xs); }
+    .form-input,
+    .form-select,
+    .form-textarea {
+      width: 100%;
+      height: 40px;
+      padding: 0 12px;
+      font-size: var(--ag-text-md);
+      font-family: inherit;
+      color: var(--ag-foreground);
+      background: #fff;
+      border: 1px solid var(--ag-input);
+      border-radius: var(--ag-radius-medium);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-textarea {
+      height: auto;
+      min-height: 96px;
+      padding: 10px 12px;
+      line-height: 1.6;
+      resize: vertical;
+    }
+    .form-input::placeholder,
+    .form-textarea::placeholder { color: var(--ag-neutral-400); }
+    .form-input:hover,
+    .form-select:hover,
+    .form-textarea:hover { border-color: var(--ag-neutral-400); }
+    .form-input:focus,
+    .form-select:focus,
+    .form-textarea:focus {
+      outline: none;
+      border-color: var(--ag-primary);
+      box-shadow: 0 0 0 3px rgba(26,54,93,0.12);
+    }
+    .form-select {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      padding-right: 36px;
+      cursor: pointer;
+    }
+    .form-input.error,
+    .form-select.error,
+    .form-textarea.error {
+      border-color: var(--state-error);
+      box-shadow: 0 0 0 3px rgba(229,57,53,0.10);
+    }
+    .field-error {
+      font-size: var(--ag-text-xs);
+      color: var(--state-error-dark);
+      line-height: 1.5;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .field-hint {
+      font-size: var(--ag-text-xs);
+      color: var(--ag-muted-foreground);
+      line-height: 1.5;
+    }
+
+    /* ===== Upload Areas ===== */
+    .upload-block { display: flex; flex-direction: column; gap: 10px; }
+    .upload-main {
+      width: 100%;
+      max-width: 320px;
+      min-height: 200px;
+      border: 2px dashed var(--ag-neutral-300);
+      border-radius: var(--ag-radius-medium);
+      background: var(--ag-neutral-50);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .upload-main:hover { border-color: var(--ag-primary-400); background: var(--ag-primary-50); }
+    .upload-main.error { border-color: var(--state-error); background: var(--state-error-light); }
+    .upload-icon {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: var(--ag-primary-100);
+      color: var(--ag-primary);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .upload-main-text {
+      font-size: var(--ag-text-md);
+      color: var(--ag-foreground);
+      font-weight: 500;
+    }
+    .upload-main-hint {
+      font-size: var(--ag-text-xs);
+      color: var(--ag-muted-foreground);
+    }
+    .upload-details {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .upload-detail {
+      width: 150px;
+      height: 100px;
+      border: 2px dashed var(--ag-neutral-300);
+      border-radius: var(--ag-radius-medium);
+      background: var(--ag-neutral-50);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: border-color 0.15s, background 0.15s;
+      flex-shrink: 0;
+    }
+    .upload-detail:hover { border-color: var(--ag-primary-400); background: var(--ag-primary-50); }
+    .upload-detail-icon { color: var(--ag-neutral-400); }
+    .upload-detail-text {
+      font-size: var(--ag-text-xs);
+      color: var(--ag-muted-foreground);
+    }
+
+    /* ===== Inline Field Rows ===== */
+    .size-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+    .size-input { flex: 1; min-width: 0; }
+    .size-sep {
+      font-size: var(--ag-text-sm);
+      color: var(--ag-muted-foreground);
+      flex-shrink: 0;
+    }
+    .price-input-wrap {
+      position: relative;
+      width: 100%;
+    }
+    .price-prefix {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: var(--ag-text-md);
+      color: var(--ag-muted-foreground);
+      pointer-events: none;
+    }
+    .price-input-wrap .form-input { padding-left: 28px; }
+    .radio-group {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      height: 40px;
+    }
+    .radio-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: var(--ag-text-md);
+      color: var(--ag-foreground);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .radio-item input { cursor: pointer; accent-color: var(--ag-primary); }
+
+    /* ===== Form Footer ===== */
+    .form-footer {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid var(--ag-border);
+    }
+    .form-footer-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+    .submit-btn {
+      padding: 10px 24px;
+      font-size: var(--ag-text-md);
+    }
+    .form-note {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      font-size: var(--ag-text-sm);
+      color: var(--ag-muted-foreground);
+      line-height: 1.6;
+    }
+    .form-note svg { flex-shrink: 0; margin-top: 3px; color: var(--ag-primary-400); }
+
+    /* ===== Filter Tabs ===== */
+    .filter-tabs {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+    .filter-tab {
+      display: inline-flex;
+      align-items: center;
+      padding: 7px 14px;
+      font-size: var(--ag-text-sm);
+      color: var(--ag-neutral-600);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--ag-radius-small);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.15s, color 0.15s;
+      font-family: inherit;
+    }
+    .filter-tab:hover { background: var(--ag-neutral-100); color: var(--ag-foreground); }
+    .filter-tab.active {
+      background: var(--ag-primary);
+      color: #fff;
+      font-weight: 500;
+    }
+    .filter-tab:focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 1px; }
+    .filter-count {
+      font-size: var(--ag-text-xs);
+      opacity: 0.7;
+      margin-left: 4px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ===== Works Table ===== */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--ag-border);
+      border-radius: var(--ag-radius-medium);
+    }
+    .works-table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0;
+      min-width: 880px;
+      background: #fff;
+    }
+    .works-table thead th {
+      background: var(--ag-neutral-50);
+      font-size: var(--ag-text-sm);
+      font-weight: 600;
+      color: var(--ag-neutral-600);
+      text-align: left;
+      padding: 12px 14px;
+      white-space: nowrap;
+      border-bottom: 1px solid var(--ag-border);
+    }
+    .works-table tbody td {
+      font-size: var(--ag-text-sm);
+      color: var(--ag-foreground);
+      padding: 14px;
+      border-bottom: 1px solid var(--ag-border);
+      vertical-align: middle;
+    }
+    .works-table tbody tr:last-child td { border-bottom: none; }
+    .works-table tbody tr:hover { background: var(--ag-neutral-50); }
+    .thumb-cell { width: 72px; }
+    .thumb-img {
+      width: 56px;
+      height: 56px;
+      object-fit: cover;
+      border-radius: var(--ag-radius-small);
+      border: 1px solid var(--ag-border);
+      display: block;
+    }
+    .work-name {
+      font-weight: 500;
+      color: var(--ag-foreground);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      max-width: 180px;
+    }
+    .cat-cell { color: var(--ag-neutral-600); white-space: nowrap; }
+    .price-cell {
+      font-variant-numeric: tabular-nums;
+      font-weight: 500;
+      color: var(--ag-foreground);
+      white-space: nowrap;
+    }
+    .time-cell { color: var(--ag-muted-foreground); white-space: nowrap; font-variant-numeric: tabular-nums; }
+    .status-cell { white-space: nowrap; }
+    .action-cell { white-space: nowrap; }
+    .action-cell .btn-secondary,
+    .action-cell .link-btn {
+      padding: 5px 12px;
+      font-size: var(--ag-text-xs);
+      margin-right: 6px;
+    }
+    .action-cell .btn-secondary:last-child { margin-right: 0; }
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 5px 12px;
+      font-size: var(--ag-text-xs);
+      color: var(--ag-primary);
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: var(--ag-radius-small);
+      cursor: pointer;
+      transition: background 0.15s;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+    .link-btn:hover { background: var(--ag-primary-50); }
+    .link-btn:focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 1px; }
+    .link-btn.muted {
+      color: var(--ag-neutral-500);
+    }
+    .link-btn.muted:hover { background: var(--ag-neutral-100); }
+    .action-note {
+      display: block;
+      margin-top: 6px;
+      font-size: var(--ag-text-xs);
+      color: var(--state-forced-takedown);
+      line-height: 1.5;
+    }
+
+    /* ===== Reject Reason Modal ===== */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.45);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 16px;
+    }
+    .modal-overlay.open { display: flex; }
+    .modal-dialog {
+      width: 480px;
+      max-width: 100%;
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: var(--ag-shadow-modal);
+      padding: 28px 32px;
+      position: relative;
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px; right: 14px;
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      background: transparent;
+      border: none;
+      color: var(--ag-neutral-500);
+      cursor: pointer;
+      border-radius: var(--ag-radius-small);
+      transition: background 0.15s, color 0.15s;
+    }
+    .modal-close:hover { background: var(--ag-neutral-100); color: var(--ag-neutral-700); }
+    .modal-close:focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 1px; }
+    .modal-title {
+      font-size: var(--ag-text-lg);
+      font-weight: 600;
+      color: var(--ag-foreground);
+      margin: 0 0 4px;
+      line-height: 1.4;
+      padding-right: 32px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-wrap: balance;
+      word-break: keep-all;
+      overflow-wrap: break-word;
+    }
+    .modal-sub {
+      font-size: var(--ag-text-sm);
+      color: var(--ag-muted-foreground);
+      margin: 0 0 20px;
+    }
+    .reason-box {
+      display: flex;
+      gap: 12px;
+      padding: 16px;
+      background: var(--state-error-light);
+      border: 1px solid #F5C6CB;
+      border-radius: var(--ag-radius-medium);
+      margin-bottom: 20px;
+    }
+    .reason-icon {
+      width: 20px; height: 20px;
+      color: var(--state-error);
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .reason-text {
+      font-size: var(--ag-text-sm);
+      color: var(--state-error-dark);
+      line-height: 1.7;
+    }
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 1024px) {
+      .form-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 760px) {
+      .sidebar { width: 64px; }
+      .sidebar-logo span.logo-text,
+      .nav-item .nav-text,
+      .nav-section-label,
+      .sidebar-foot { display: none; }
+      .nav-item { justify-content: center; padding: 12px 0; }
+      .sidebar-logo { justify-content: center; padding: 0; }
+      .content-scroll { padding: 16px; }
+      .section-card { padding: 18px 16px; }
+      .upload-main { max-width: 100%; }
+      .topbar { padding: 0 16px; }
+      .artist-info { display: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+      }
+    }
+  </style>
+
+  <div class="app-shell" data-viewport-mode="app-shell">
+    <!-- ===== Sidebar ===== -->
+    <aside class="sidebar" aria-label="艺术家工作台导航">
+      <div class="sidebar-logo">
+        <span class="logo-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2 2 7l10 5 10-5-10-5Z"/>
+            <path d="m2 17 10 5 10-5"/>
+            <path d="m2 12 10 5 10-5"/>
+          </svg>
+        </span>
+        <span class="logo-text">ArtGallery</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">艺术家工作台</div>
+        <a class="nav-item" data-dom-id="nav-onboarding" href="artist-onboarding.html">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="9" y1="15" x2="15" y2="15"/>
+            <line x1="9" y1="11" x2="13" y2="11"/>
+          </svg>
+          <span class="nav-text">入驻申请</span>
+        </a>
+        <a class="nav-item" href="artist-profile-edit.html">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21V5a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v16"/>
+            <path d="M5 13h14"/>
+            <circle cx="12" cy="17" r="1"/>
+          </svg>
+          <span class="nav-text">个人主页装修</span>
+        </a>
+        <a class="nav-item active" href="artist-artwork-mgmt.html" aria-current="page">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="9" cy="9" r="2"/>
+            <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+          </svg>
+          <span class="nav-text">作品发布管理</span>
+        </a>
+        <a class="nav-item" href="artist-orders.html">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/>
+            <path d="M3 6h18"/>
+            <path d="M16 10a4 4 0 0 1-8 0"/>
+          </svg>
+          <span class="nav-text">我的订单</span>
+        </a>
+        <a class="nav-item" href="artist-finance.html">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/>
+            <path d="M3 5v14"/>
+            <path d="M21 12h-4a2 2 0 0 0 0 4h4v-4Z"/>
+          </svg>
+          <span class="nav-text">财务管理</span>
+        </a>
+        <a class="nav-item" href="artist-settings.html">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+          </svg>
+          <span class="nav-text">账号设置</span>
+        </a>
+      </nav>
+      <div class="sidebar-foot">已入驻艺术家 · 陈墨白</div>
+    </aside>
+
+    <!-- ===== Main Area ===== -->
+    <div class="main-area">
+      <header class="topbar">
+        <div class="topbar-left">
+          <span class="topbar-title">作品发布管理</span>
+          <span class="topbar-sub">发布新作品并管理已上架作品</span>
+        </div>
+        <div class="topbar-right">
+          <div class="artist-chip">
+            <div class="artist-avatar" aria-hidden="true">墨</div>
+            <div class="artist-info">
+              <span class="artist-name">陈墨白</span>
+              <span class="status-badge">已入驻</span>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <main class="content-scroll" data-scroll-region="primary">
+        <!-- ===== Section 1: 发布新作品 ===== -->
+        <section class="section-card" aria-label="发布新作品">
+          <div class="section-head">
+            <div class="section-head-left">
+              <h2 class="section-title">发布新作品</h2>
+              <p class="section-desc">填写作品信息并上传高清图，提交后进入平台审核队列。</p>
+            </div>
+          </div>
+
+          <form class="form-grid" onsubmit="return false;" aria-label="发布作品表单">
+            <!-- 一级分类 -->
+            <div class="form-group">
+              <label class="form-label" for="cat1">
+                一级分类<span class="req-mark">*</span>
+              </label>
+              <select class="form-select error" id="cat1" data-dom-id="select-cat1" aria-invalid="true">
+                <option value="">请选择一级分类</option>
+                <option value="abstract">抽象</option>
+                <option value="classical">古典</option>
+                <option value="religious">宗教</option>
+                <option value="portrait">人物</option>
+              </select>
+              <span class="field-error" id="err-cat1">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                请选择一级分类
+              </span>
+            </div>
+
+            <!-- 二级分类 -->
+            <div class="form-group">
+              <label class="form-label" for="cat2">
+                二级分类<span class="opt-mark">（选填）</span>
+              </label>
+              <select class="form-select" id="cat2" data-dom-id="select-cat2">
+                <option value="">请先选择一级分类</option>
+                <option value="abstract-oil">抽象油画</option>
+                <option value="abstract-acrylic">抽象丙烯</option>
+                <option value="abstract-mixed">抽象混合媒介</option>
+              </select>
+              <span class="field-hint">选择一级分类后，二级分类将自动联动</span>
+            </div>
+
+            <!-- 图片上传 -->
+            <div class="form-group form-row-full">
+              <label class="form-label">
+                作品图片<span class="req-mark">*</span>
+              </label>
+              <div class="upload-block">
+                <div class="upload-main error" data-dom-id="upload-main" role="button" tabindex="0" aria-label="上传主作品高清图">
+                  <span class="upload-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="17 8 12 3 7 8"/>
+                      <line x1="12" y1="3" x2="12" y2="15"/>
+                    </svg>
+                  </span>
+                  <span class="upload-main-text">点击上传主作品高清图</span>
+                  <span class="upload-main-hint">支持 jpg/png/webp，最大 10MB</span>
+                </div>
+                <span class="field-error" id="err-upload">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  请上传作品主图
+                </span>
+                <div class="upload-details" aria-label="细节图上传">
+                  <div class="upload-detail" role="button" tabindex="0" aria-label="上传细节图1">
+                    <span class="upload-detail-icon" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="9" cy="9" r="2"/>
+                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                      </svg>
+                    </span>
+                    <span class="upload-detail-text">上传细节图</span>
+                  </div>
+                  <div class="upload-detail" role="button" tabindex="0" aria-label="上传细节图2">
+                    <span class="upload-detail-icon" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="9" cy="9" r="2"/>
+                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                      </svg>
+                    </span>
+                    <span class="upload-detail-text">上传细节图</span>
+                  </div>
+                  <div class="upload-detail" role="button" tabindex="0" aria-label="上传细节图3">
+                    <span class="upload-detail-icon" aria-hidden="true">
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <circle cx="9" cy="9" r="2"/>
+                        <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>
+                      </svg>
+                    </span>
+                    <span class="upload-detail-text">上传细节图</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 作品名称 -->
+            <div class="form-group">
+              <label class="form-label" for="work-name">
+                作品名称<span class="req-mark">*</span>
+              </label>
+              <input class="form-input error" type="text" id="work-name" data-dom-id="input-work-name" placeholder="请输入作品名称" aria-invalid="true">
+              <span class="field-error" id="err-name">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                请填写作品名称
+              </span>
+            </div>
+
+            <!-- 创作年份 -->
+            <div class="form-group">
+              <label class="form-label" for="work-year">创作年份</label>
+              <input class="form-input" type="number" id="work-year" data-dom-id="input-work-year" placeholder="如 2026" min="1900" max="2026" value="2026">
+            </div>
+
+            <!-- 尺寸 -->
+            <div class="form-group">
+              <label class="form-label" for="size-w">尺寸</label>
+              <div class="size-row">
+                <input class="form-input size-input" type="number" id="size-w" data-dom-id="input-size-w" placeholder="宽" min="0" aria-label="宽度（厘米）">
+                <span class="size-sep">cm ×</span>
+                <input class="form-input size-input" type="number" id="size-h" data-dom-id="input-size-h" placeholder="高" min="0" aria-label="高度（厘米）">
+                <span class="size-sep">cm</span>
+              </div>
+            </div>
+
+            <!-- 材质 -->
+            <div class="form-group">
+              <label class="form-label" for="material">材质</label>
+              <input class="form-input" type="text" id="material" data-dom-id="input-material" placeholder="如 布面油画">
+            </div>
+
+            <!-- 定价 -->
+            <div class="form-group">
+              <label class="form-label" for="price">
+                定价<span class="req-mark">*</span>
+              </label>
+              <div class="price-input-wrap">
+                <span class="price-prefix">$</span>
+                <input class="form-input error" type="number" id="price" data-dom-id="input-price" placeholder="请输入定价金额" min="0" aria-invalid="true">
+              </div>
+              <span class="field-error" id="err-price">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                请填写定价
+              </span>
+            </div>
+
+            <!-- 是否包邮 -->
+            <div class="form-group">
+              <label class="form-label">是否包邮</label>
+              <div class="radio-group" role="radiogroup" aria-label="是否包邮">
+                <label class="radio-item">
+                  <input type="radio" name="shipping" value="yes" data-dom-id="radio-shipping-yes" checked>
+                  是
+                </label>
+                <label class="radio-item">
+                  <input type="radio" name="shipping" value="no" data-dom-id="radio-shipping-no">
+                  否
+                </label>
+              </div>
+            </div>
+
+            <!-- 预计发货天数 -->
+            <div class="form-group">
+              <label class="form-label" for="ship-days">预计发货天数</label>
+              <input class="form-input" type="number" id="ship-days" data-dom-id="input-ship-days" value="7" min="1" max="90">
+              <span class="field-hint">默认 7 天，买家下单后约定时间内发货</span>
+            </div>
+
+            <!-- 作品详细描述 -->
+            <div class="form-group form-row-full">
+              <label class="form-label" for="description">作品详细描述</label>
+              <textarea class="form-textarea" id="description" data-dom-id="input-description" rows="4" placeholder="请描述作品创作理念、技法说明、艺术风格等，建议 100-500 字"></textarea>
+              <span class="field-hint">详细的描述有助于通过审核并提升作品在 C 端的展示效果</span>
+            </div>
+
+            <!-- 表单底部 -->
+            <div class="form-footer form-row-full">
+              <div class="form-footer-row">
+                <button class="btn-primary submit-btn" type="button" data-dom-id="submit-artwork">
+                  提交至平台审核
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"/>
+                    <polyline points="12 5 19 12 12 19"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="form-note">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="16" x2="12" y2="12"/>
+                  <line x1="12" y1="8" x2="12.01" y2="8"/>
+                </svg>
+                <span>提交后将进入平台审核队列，审核通过后将在 C 端展示。</span>
+              </div>
+            </div>
+          </form>
+        </section>
+
+        <!-- ===== Section 2: 我的作品 ===== -->
+        <section class="section-card" aria-label="我的作品列表">
+          <div class="section-head">
+            <div class="section-head-left">
+              <h2 class="section-title">我的作品</h2>
+              <p class="section-desc">管理已发布作品，查看审核状态与上下架情况。</p>
+            </div>
+          </div>
+
+          <!-- 状态筛选 -->
+          <div class="filter-tabs" role="tablist" aria-label="作品状态筛选" style="margin-bottom: 18px;">
+            <button class="filter-tab active" role="tab" aria-selected="true" data-dom-id="tab-all">全部<span class="filter-count">6</span></button>
+            <button class="filter-tab" role="tab" aria-selected="false" data-dom-id="tab-pending">待审核<span class="filter-count">1</span></button>
+            <button class="filter-tab" role="tab" aria-selected="false" data-dom-id="tab-approved">审核通过(已上架)<span class="filter-count">2</span></button>
+            <button class="filter-tab" role="tab" aria-selected="false" data-dom-id="tab-rejected">审核驳回<span class="filter-count">1</span></button>
+            <button class="filter-tab" role="tab" aria-selected="false" data-dom-id="tab-offline">自主下架<span class="filter-count">1</span></button>
+            <button class="filter-tab" role="tab" aria-selected="false" data-dom-id="tab-forced">平台强制下架<span class="filter-count">1</span></button>
+            <button class="filter-tab" role="tab" aria-selected="false" data-dom-id="tab-sold">已售出<span class="filter-count">0</span></button>
+          </div>
+
+          <!-- 作品表格 -->
+          <div class="table-wrap">
+            <table class="works-table">
+              <thead>
+                <tr>
+                  <th class="thumb-cell">缩略图</th>
+                  <th>作品名称</th>
+                  <th>分类</th>
+                  <th>定价</th>
+                  <th>提交时间</th>
+                  <th>状态</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Row 1: 待审核 -->
+                <tr>
+                  <td class="thumb-cell"><img class="thumb-img" src="../assets/art-abstract.jpg" alt="无界之境 缩略图" loading="lazy"></td>
+                  <td><span class="work-name" title="无界之境">无界之境</span></td>
+                  <td class="cat-cell">抽象</td>
+                  <td class="price-cell">$2,800</td>
+                  <td class="time-cell">2026-08-03</td>
+                  <td class="status-cell"><span class="tag-pending">待审核</span></td>
+                  <td class="action-cell">
+                    <button class="link-btn muted" type="button" data-dom-id="btn-view-1">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                      查看
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 2: 审核通过 -->
+                <tr>
+                  <td class="thumb-cell"><img class="thumb-img" src="../assets/art-classical.jpg" alt="山水清音 缩略图" loading="lazy"></td>
+                  <td><span class="work-name" title="山水清音">山水清音</span></td>
+                  <td class="cat-cell">古典</td>
+                  <td class="price-cell">$3,500</td>
+                  <td class="time-cell">2026-07-30</td>
+                  <td class="status-cell"><span class="tag-approved">审核通过</span></td>
+                  <td class="action-cell">
+                    <button class="btn-secondary" type="button" data-dom-id="btn-offline-2">
+                      自主下架
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 3: 审核驳回 -->
+                <tr>
+                  <td class="thumb-cell"><img class="thumb-img" src="../assets/art-portrait.jpg" alt="沉思者 缩略图" loading="lazy"></td>
+                  <td><span class="work-name" title="沉思者">沉思者</span></td>
+                  <td class="cat-cell">人物</td>
+                  <td class="price-cell">$1,900</td>
+                  <td class="time-cell">2026-07-28</td>
+                  <td class="status-cell"><span class="tag-rejected">审核驳回</span></td>
+                  <td class="action-cell">
+                    <button class="link-btn" type="button" data-dom-id="btn-view-reason-3" id="open-reason-modal">
+                      查看原因
+                    </button>
+                    <button class="btn-secondary" type="button" data-dom-id="btn-edit-resubmit-3">
+                      编辑重新提交
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 4: 审核通过 -->
+                <tr>
+                  <td class="thumb-cell"><img class="thumb-img" src="../assets/art-religious.jpg" alt="圣光降临 缩略图" loading="lazy"></td>
+                  <td><span class="work-name" title="圣光降临">圣光降临</span></td>
+                  <td class="cat-cell">宗教</td>
+                  <td class="price-cell">$4,200</td>
+                  <td class="time-cell">2026-07-25</td>
+                  <td class="status-cell"><span class="tag-approved">审核通过</span></td>
+                  <td class="action-cell">
+                    <button class="btn-secondary" type="button" data-dom-id="btn-offline-4">
+                      自主下架
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 5: 自主下架 -->
+                <tr>
+                  <td class="thumb-cell"><img class="thumb-img" src="../assets/art-abstract.jpg" alt="色彩交响 缩略图" loading="lazy"></td>
+                  <td><span class="work-name" title="色彩交响">色彩交响</span></td>
+                  <td class="cat-cell">抽象</td>
+                  <td class="price-cell">$2,200</td>
+                  <td class="time-cell">2026-07-20</td>
+                  <td class="status-cell"><span class="tag-offline">自主下架</span></td>
+                  <td class="action-cell">
+                    <button class="btn-secondary" type="button" data-dom-id="btn-relaunch-5">
+                      重新上架
+                    </button>
+                  </td>
+                </tr>
+
+                <!-- Row 6: 平台强制下架 -->
+                <tr>
+                  <td class="thumb-cell"><img class="thumb-img" src="../assets/art-classical.jpg" alt="古韵新风 缩略图" loading="lazy"></td>
+                  <td><span class="work-name" title="古韵新风">古韵新风</span></td>
+                  <td class="cat-cell">古典</td>
+                  <td class="price-cell">$5,800</td>
+                  <td class="time-cell">2026-07-15</td>
+                  <td class="status-cell"><span class="tag-forced-offline">平台强制下架</span></td>
+                  <td class="action-cell">
+                    <button class="link-btn muted" type="button" data-dom-id="btn-view-6">
+                      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+                      查看
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- ===== Reject Reason Modal ===== -->
+  <div class="modal-overlay" id="reason-modal" role="dialog" aria-modal="true" aria-labelledby="reason-modal-title">
+    <div class="modal-dialog">
+      <button class="modal-close" type="button" aria-label="关闭" id="close-reason-modal">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+      <h3 class="modal-title" id="reason-modal-title">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--state-error)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        驳回原因
+      </h3>
+      <p class="modal-sub">作品「沉思者」的审核驳回说明</p>
+      <div class="reason-box">
+        <svg class="reason-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+        </svg>
+        <span class="reason-text">驳回原因：作品描述不够详细，请补充创作理念和技法说明。</span>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary" type="button" id="cancel-reason-modal">关闭</button>
+        <button class="btn-primary" type="button" data-dom-id="btn-edit-resubmit-modal">去编辑重新提交</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Reject-reason modal toggle (style-only, no DOM structure change)
+    (function() {
+      var modal = document.getElementById('reason-modal');
+      var openBtn = document.getElementById('open-reason-modal');
+      var closeBtn = document.getElementById('close-reason-modal');
+      var cancelBtn = document.getElementById('cancel-reason-modal');
+      function openModal() { modal.classList.add('open'); }
+      function closeModal() { modal.classList.remove('open'); }
+      if (openBtn) openBtn.addEventListener('click', openModal);
+      if (closeBtn) closeBtn.addEventListener('click', closeModal);
+      if (cancelBtn) cancelBtn.addEventListener('click', closeModal);
+      if (modal) modal.addEventListener('click', function(e) { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeModal(); });
+    })();
+  </script>
+<script>
+(function () {
+  function byDom(id) { return document.querySelector('[data-dom-id="' + id + '"]'); }
+  function byId(id) { return document.getElementById(id); }
+  function bind(id, fn) { var el = byId(id) || byDom(id); if (el) { el.addEventListener('click', fn); } }
+
+  /* ---------- 筛选 Tab 切换 ---------- */
+  var tabs = document.querySelectorAll('.filter-tab');
+  var tabNames = {
+    'tab-all': '全部作品',
+    'tab-pending': '待审核',
+    'tab-approved': '审核通过(已上架)',
+    'tab-rejected': '审核驳回',
+    'tab-offline': '自主下架',
+    'tab-forced': '平台强制下架',
+    'tab-sold': '已售出'
+  };
+  tabs.forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      tabs.forEach(function (t) { t.classList.remove('active'); t.setAttribute('aria-selected', 'false'); });
+      tab.classList.add('active');
+      tab.setAttribute('aria-selected', 'true');
+      var name = tabNames[tab.getAttribute('data-dom-id')] || tab.childNodes[0].textContent.trim() || '全部';
+      alert('已切换到「' + name + '」筛选');
+    });
+  });
+
+  /* ---------- 状态更新工具 ---------- */
+  function setStatus(row, cls, text) {
+    var cell = row ? row.querySelector('.status-cell') : null;
+    var tag = cell ? cell.querySelector('span') : null;
+    if (tag) { tag.className = cls; tag.textContent = text; }
+  }
+
+  /* ---------- 作品表格操作 ---------- */
+  bind('btn-view-1', function () {
+    alert('《无界之境》作品详情：抽象 · $2,800 · 提交于 2026-08-03 · 状态：待审核');
+  });
+  bind('btn-offline-2', function () {
+    var row = this.closest('tr');
+    if (confirm('确认将《山水清音》自主下架？下架后买家将无法购买。')) {
+      setStatus(row, 'tag-offline', '自主下架');
+      this.disabled = true; this.classList.remove('btn-secondary'); this.classList.add('btn-disabled'); this.textContent = '已下架';
+      alert('《山水清音》已自主下架。');
+    }
+  });
+  bind('btn-edit-resubmit-3', function () {
+    alert('已载入《沉思者》作品信息，请修改后重新提交。');
+    var form = document.querySelector('.section-card');
+    if (form) { form.scrollIntoView({ behavior: 'smooth' }); }
+  });
+  bind('btn-offline-4', function () {
+    var row = this.closest('tr');
+    if (confirm('确认将《圣光降临》自主下架？')) {
+      setStatus(row, 'tag-offline', '自主下架');
+      this.disabled = true; this.classList.remove('btn-secondary'); this.classList.add('btn-disabled'); this.textContent = '已下架';
+      alert('《圣光降临》已自主下架。');
+    }
+  });
+  bind('btn-relaunch-5', function () {
+    var row = this.closest('tr');
+    if (confirm('确认将《色彩交响》重新上架？')) {
+      setStatus(row, 'tag-pending', '待审核');
+      alert('《色彩交响》已重新提交上架审核。');
+    }
+  });
+  bind('btn-view-6', function () {
+    alert('《古韵新风》已被平台强制下架（版权争议），详情请联系平台客服。');
+  });
+
+  /* ---------- 驳回弹窗内"去编辑重新提交" ---------- */
+  bind('btn-edit-resubmit-modal', function () {
+    var modal = byId('reason-modal');
+    if (modal) { modal.classList.remove('open'); }
+    alert('已载入《沉思者》作品信息，请修改后重新提交。');
+    var form = document.querySelector('.section-card');
+    if (form) { form.scrollIntoView({ behavior: 'smooth' }); }
+  });
+
+  /* ---------- 发布表单：分类联动 + 校验 + 提交 ---------- */
+  var cat1 = byId('cat1');
+  var cat2 = byId('cat2');
+  var cat2Options = {
+    abstract: ['抽象油画', '抽象丙烯', '抽象混合媒介'],
+    classical: ['古典油画', '古典素描', '古典水彩'],
+    religious: ['宗教油画', '宗教雕塑', '宗教板绘'],
+    portrait: ['人物油画', '人物素描', '人物雕塑']
+  };
+  if (cat1) {
+    cat1.addEventListener('change', function () {
+      if (this.value) {
+        this.classList.remove('error');
+        var err = byId('err-cat1'); if (err) { err.style.display = 'none'; }
+        var opts = cat2Options[this.value] || [];
+        if (cat2) {
+          cat2.innerHTML = '<option value="">请选择二级分类</option>' + opts.map(function (o) { return '<option value="' + o + '">' + o + '</option>'; }).join('');
+        }
+      }
+    });
+  }
+  function clearOnInput(errId, inputId) {
+    var el = byId(inputId);
+    if (el) {
+      el.addEventListener('input', function () {
+        el.classList.remove('error');
+        var err = byId(errId); if (err) { err.style.display = 'none'; }
+      });
+    }
+  }
+  clearOnInput('err-name', 'work-name');
+  clearOnInput('err-price', 'price');
+
+  bind('submit-artwork', function () {
+    var missing = [];
+    if (!cat1 || !cat1.value) { missing.push('一级分类'); }
+    var nameEl = byId('work-name');
+    if (!nameEl || !nameEl.value.trim()) { missing.push('作品名称'); }
+    var priceEl = byId('price');
+    if (!priceEl || !priceEl.value) { missing.push('定价'); }
+    if (missing.length) { alert('请完善必填信息：' + missing.join('、')); return; }
+    alert('提交成功！作品已进入平台审核队列，审核通过后将展示在 C 端。');
+    this.disabled = true; this.classList.remove('btn-primary'); this.classList.add('btn-disabled'); this.textContent = '已提交';
+  });
+
+  /* ---------- 上传区域模拟 ---------- */
+  document.querySelectorAll('.upload-main, .upload-detail').forEach(function (el) {
+    function fakeUpload() { alert('演示：已模拟选择并上传图片文件。'); }
+    el.addEventListener('click', fakeUpload);
+    el.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fakeUpload(); } });
+  });
+})();
+</script>
+</body>
+</html>

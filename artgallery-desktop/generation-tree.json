@@ -1,0 +1,23 @@
+{
+  "root": {
+    "nodeId": "gen-project-shell",
+    "kind": "project-shell",
+    "pageIds": ["page-admin-dashboard","page-artist-review","page-artwork-review","page-artist-onboarding","page-artist-artwork-mgmt","page-buyer-home","page-artwork-detail","page-buyer-cart","page-buyer-payment"],
+    "output": "partials/project-shell.html",
+    "sharedRegions": ["brand CSS link","font system","color tokens (#1A365D primary, #E53935 danger, #2E7D32 success, #F57C00 warning)","status tag styles","button styles","radius scale (4/8/12px)","shadow model"],
+    "privateRegions": [],
+    "mutableSlots": ["terminal-shell","page-content"],
+    "status": "planned",
+    "children": [
+      { "nodeId": "page-admin-dashboard", "kind": "page-leaf", "pageIds": ["page-admin-dashboard"], "output": "pages/admin-dashboard.html", "sharedRegions": [], "privateRegions": ["admin sidebar","dashboard cards","charts","todo list"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-artist-review", "kind": "page-leaf", "pageIds": ["page-artist-review"], "output": "pages/artist-review.html", "sharedRegions": [], "privateRegions": ["admin sidebar","filter bar","review table","detail modal"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-artwork-review", "kind": "page-leaf", "pageIds": ["page-artwork-review"], "output": "pages/artwork-review.html", "sharedRegions": [], "privateRegions": ["admin sidebar","filter bar","artwork review table","detail modal"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-artist-onboarding", "kind": "page-leaf", "pageIds": ["page-artist-onboarding"], "output": "pages/artist-onboarding.html", "sharedRegions": [], "privateRegions": ["artist sidebar","step bar","onboarding form","payment section"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-artist-artwork-mgmt", "kind": "page-leaf", "pageIds": ["page-artist-artwork-mgmt"], "output": "pages/artist-artwork-mgmt.html", "sharedRegions": [], "privateRegions": ["artist sidebar","publish form","artwork list"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-buyer-home", "kind": "page-leaf", "pageIds": ["page-buyer-home"], "output": "pages/buyer-home.html", "sharedRegions": [], "privateRegions": ["buyer top nav","hero banner","category entries","artwork cards","footer"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-artwork-detail", "kind": "page-leaf", "pageIds": ["page-artwork-detail"], "output": "pages/artwork-detail.html", "sharedRegions": [], "privateRegions": ["buyer top nav","artwork gallery","info panel","artist card","ticket button"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-buyer-cart", "kind": "page-leaf", "pageIds": ["page-buyer-cart"], "output": "pages/buyer-cart.html", "sharedRegions": [], "privateRegions": ["buyer top nav","cart items","address form","order summary"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-buyer-payment", "kind": "page-leaf", "pageIds": ["page-buyer-payment"], "output": "pages/buyer-payment.html", "sharedRegions": [], "privateRegions": ["payment tabs","PayPal form","credit card form","payment success"], "mutableSlots": [], "status": "planned", "children": [] }
+    ]
+  }
+}

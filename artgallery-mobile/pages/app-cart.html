@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtGallery - 购物车</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen">
+<main>
+<style id="critical-layout">
+  /* === Mobile Frame === */
+  .mobile-frame {
+    max-width: 414px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--ag-background);
+    position: relative;
+  }
+
+  /* === Sticky Top Bar === */
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  .top-bar-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+  }
+  .top-bar-title {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1E293B;
+    margin: 0;
+    line-height: 1.3;
+  }
+  .top-bar-edit {
+    font-size: 14px;
+    color: #64748B;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 6px 8px;
+    min-height: 36px;
+    min-width: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .top-bar-edit:hover {
+    color: #1A365D;
+    background: #F0F5FA;
+  }
+  .top-bar-edit:focus-visible {
+    outline: 2px solid #1A365D;
+    outline-offset: 2px;
+  }
+
+  /* === Cart List === */
+  .cart-list {
+    background: #F8FAFC;
+    padding: 8px 0 16px;
+  }
+
+  /* === Cart Item === */
+  .cart-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 16px;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  .cart-item:first-child {
+    border-top: 1px solid #E2E8F0;
+  }
+
+  /* === Checkbox === */
+  .cart-check {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 4px;
+  }
+  .cart-check:focus-visible {
+    outline: 2px solid #1A365D;
+    outline-offset: 1px;
+  }
+  .check-box {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 2px solid #CBD5E1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #FFFFFF;
+    transition: background 0.15s, border-color 0.15s;
+  }
+  .check-box.is-checked {
+    background: #1A365D;
+    border-color: #1A365D;
+  }
+  .check-box svg {
+    opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .check-box.is-checked svg {
+    opacity: 1;
+  }
+
+  /* === Thumbnail === */
+  .cart-thumb {
+    width: 80px;
+    height: 80px;
+    border-radius: 8px;
+    object-fit: cover;
+    flex-shrink: 0;
+    display: block;
+  }
+
+  /* === Cart Info === */
+  .cart-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 80px;
+    gap: 8px;
+  }
+  .cart-info-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .cart-info-text {
+    min-width: 0;
+    flex: 1;
+  }
+  .cart-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: #1E293B;
+    line-height: 1.3;
+    margin: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cart-artist {
+    font-size: 13px;
+    color: #64748B;
+    margin: 2px 0 0 0;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .del-btn {
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #94A3B8;
+    padding: 0;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+  }
+  .del-btn:hover {
+    color: #E53935;
+    background: #FFEBEE;
+  }
+  .del-btn:focus-visible {
+    outline: 2px solid #1A365D;
+    outline-offset: 1px;
+  }
+  .cart-info-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .cart-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A365D;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+  }
+
+  /* === Quantity Stepper === */
+  .qty-stepper {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #E2E8F0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .qty-stepper button {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #F8FAFC;
+    border: none;
+    cursor: pointer;
+    color: #1E293B;
+    padding: 0;
+    transition: background 0.15s;
+  }
+  .qty-stepper button:hover {
+    background: #F1F5F9;
+  }
+  .qty-stepper button:active {
+    background: #E2E8F0;
+  }
+  .qty-stepper button:focus-visible {
+    outline: 2px solid #1A365D;
+    outline-offset: -2px;
+  }
+  .qty-stepper button:disabled {
+    color: #CBD5E1;
+    cursor: not-allowed;
+    background: #F8FAFC;
+  }
+  .qty-stepper .qty-val {
+    min-width: 36px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: 500;
+    color: #1E293B;
+    border-left: 1px solid #E2E8F0;
+    border-right: 1px solid #E2E8F0;
+    font-variant-numeric: tabular-nums;
+    background: #FFFFFF;
+  }
+
+  /* === Checkout Bar (sticky above bottom nav) === */
+  .checkout-bar {
+    position: sticky;
+    bottom: 56px;
+    z-index: 29;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+  }
+  .checkout-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    gap: 8px;
+  }
+  .checkout-left {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  .check-all-btn {
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    border-radius: 4px;
+  }
+  .check-all-btn:focus-visible {
+    outline: 2px solid #1A365D;
+    outline-offset: 1px;
+  }
+  .select-all-label {
+    font-size: 14px;
+    color: #1E293B;
+    white-space: nowrap;
+  }
+  .checkout-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .checkout-total {
+    text-align: right;
+  }
+  .total-label {
+    font-size: 12px;
+    color: #64748B;
+    display: block;
+    line-height: 1.4;
+  }
+  .total-amount {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1A365D;
+    font-variant-numeric: tabular-nums;
+    line-height: 1.2;
+    display: block;
+  }
+  .checkout-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-size: 15px;
+    font-weight: 600;
+    background: #1A365D;
+    color: #FFFFFF;
+    border: 1px solid #1A365D;
+    cursor: pointer;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.15s;
+    min-height: 44px;
+  }
+  .checkout-btn:hover {
+    background: #2A5279;
+  }
+  .checkout-btn:active {
+    background: #152B4A;
+  }
+  .checkout-btn:focus-visible {
+    outline: 2px solid #1A365D;
+    outline-offset: 2px;
+  }
+
+  /* === Bottom Nav === */
+  [data-mobile-nav="global"] {
+    position: sticky;
+    bottom: 0;
+    z-index: 30;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-spin { animation: none !important; }
+    * { transition-duration: 0.01ms !important; }
+  }
+</style>
+
+<div class="mobile-frame">
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="top-bar-inner px-4 py-3 flex items-center justify-between">
+      <h1 class="top-bar-title text-[16px] font-bold text-[#1E293B]">购物车</h1>
+      <button data-dom-id="btn-edit" type="button" class="top-bar-edit text-[14px] text-[#64748B]" aria-label="编辑购物车">编辑</button>
+    </div>
+  </header>
+
+  <!-- Cart Items -->
+  <div class="cart-list">
+    <!-- Item 1: checked -->
+    <div class="cart-item">
+      <button data-dom-id="check-item-1" type="button" class="cart-check" aria-label="选择 无界之境" aria-pressed="true">
+        <span class="check-box is-checked">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </span>
+      </button>
+      <img src="../assets/art-abstract.jpg" alt="无界之境 - 李明华" class="cart-thumb"/>
+      <div class="cart-info">
+        <div class="cart-info-top">
+          <div class="cart-info-text">
+            <h3 class="cart-name">无界之境</h3>
+            <p class="cart-artist">李明华</p>
+          </div>
+          <button data-dom-id="del-item-1" type="button" class="del-btn" aria-label="删除 无界之境">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+            </svg>
+          </button>
+        </div>
+        <div class="cart-info-bottom">
+          <span class="cart-price">$2,800</span>
+          <div class="qty-stepper">
+            <button data-dom-id="qty-dec-1" type="button" aria-label="减少数量">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+            <span class="qty-val">1</span>
+            <button data-dom-id="qty-inc-1" type="button" aria-label="增加数量">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Item 2: unchecked -->
+    <div class="cart-item">
+      <button data-dom-id="check-item-2" type="button" class="cart-check" aria-label="选择 山水清音" aria-pressed="false">
+        <span class="check-box">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </span>
+      </button>
+      <img src="../assets/art-classical.jpg" alt="山水清音 - 王画师" class="cart-thumb"/>
+      <div class="cart-info">
+        <div class="cart-info-top">
+          <div class="cart-info-text">
+            <h3 class="cart-name">山水清音</h3>
+            <p class="cart-artist">王画师</p>
+          </div>
+          <button data-dom-id="del-item-2" type="button" class="del-btn" aria-label="删除 山水清音">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="3 6 5 6 21 6"/>
+              <path d="M19 6v14a2 2 0 01-2 2H7a2 2 0 01-2-2V6m3 0V4a2 2 0 012-2h4a2 2 0 012 2v2"/>
+            </svg>
+          </button>
+        </div>
+        <div class="cart-info-bottom">
+          <span class="cart-price">$3,500</span>
+          <div class="qty-stepper">
+            <button data-dom-id="qty-dec-2" type="button" aria-label="减少数量">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+            <span class="qty-val">1</span>
+            <button data-dom-id="qty-inc-2" type="button" aria-label="增加数量">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                <line x1="12" y1="5" x2="12" y2="19"/>
+                <line x1="5" y1="12" x2="19" y2="12"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fixed Bottom Checkout Bar (sticky above bottom tab) -->
+  <div class="checkout-bar">
+    <div class="checkout-inner px-4">
+      <div class="checkout-left">
+        <button data-dom-id="check-all" type="button" class="check-all-btn" aria-label="全选" aria-pressed="false">
+          <span class="check-box">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12"/>
+            </svg>
+          </span>
+        </button>
+        <span class="select-all-label">全选</span>
+      </div>
+      <div class="checkout-right">
+        <div class="checkout-total">
+          <span class="total-label">合计</span>
+          <span class="total-amount">$2,800</span>
+        </div>
+        <a data-dom-id="btn-checkout" href="app-checkout.html" class="checkout-btn">结算(2)</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Tab Navigation (cart active) -->
+  <nav data-mobile-nav="global" class="w-full h-[56px] border-t border-[#E2E8F0] bg-white">
+    <div class="w-full max-w-md mx-auto grid grid-cols-4 h-full">
+      <a data-nav-key="nav-home" id="nav-home" href="app-home.html" data-dom-id="nav-home" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">首页</span>
+      </a>
+      <a data-nav-key="nav-category" id="nav-category" href="app-category.html" data-dom-id="nav-category" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">分类</span>
+      </a>
+      <a data-nav-key="nav-cart" data-active="true" id="nav-cart" href="app-cart.html" data-dom-id="nav-cart" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">购物车</span>
+      </a>
+      <a data-nav-key="nav-profile" id="nav-profile" href="app-profile.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">我的</span>
+      </a>
+    </div>
+  </nav>
+</div>
+</main>
+<script>
+(function(){
+  function money(n){
+    return '$' + Math.round(n).toLocaleString('en-US');
+  }
+  var items = Array.prototype.slice.call(document.querySelectorAll('.cart-item'));
+  var basePrices = items.map(function(item){
+    return parseFloat(item.querySelector('.cart-price').textContent.replace(/[$,]/g, '')) || 0;
+  });
+  var totalEl = document.querySelector('.total-amount');
+  var checkoutBtn = document.querySelector('[data-dom-id="btn-checkout"]');
+
+  function qtyOf(item){ return parseInt(item.querySelector('.qty-val').textContent, 10) || 1; }
+  function checkedOf(item){ return item.querySelector('.check-box').classList.contains('is-checked'); }
+  function setChecked(item, checked){
+    var box = item.querySelector('.check-box');
+    var btn = item.querySelector('.cart-check');
+    if (checked) { box.classList.add('is-checked'); } else { box.classList.remove('is-checked'); }
+    if (btn) { btn.setAttribute('aria-pressed', checked ? 'true' : 'false'); }
+  }
+  function refreshItem(item, idx){
+    var priceEl = item.querySelector('.cart-price');
+    if (priceEl) { priceEl.textContent = money(basePrices[idx] * qtyOf(item)); }
+  }
+  function refreshTotal(){
+    var total = 0, count = 0;
+    for (var i = 0; i < items.length; i++) {
+      refreshItem(items[i], i);
+      if (checkedOf(items[i])) { total += basePrices[i] * qtyOf(items[i]); count++; }
+    }
+    if (totalEl) { totalEl.textContent = money(total); }
+    if (checkoutBtn) { checkoutBtn.textContent = '结算(' + count + ')'; }
+    var checkAll = document.querySelector('[data-dom-id="check-all"]');
+    if (checkAll) {
+      var allChecked = items.length > 0 && items.every(function(item){ return checkedOf(item); });
+      var allBox = checkAll.querySelector('.check-box');
+      if (allBox) {
+        if (allChecked) { allBox.classList.add('is-checked'); } else { allBox.classList.remove('is-checked'); }
+      }
+      checkAll.setAttribute('aria-pressed', allChecked ? 'true' : 'false');
+    }
+  }
+
+  for (var i = 0; i < items.length; i++) {
+    (function(item){
+      var dec = item.querySelector('[data-dom-id^="qty-dec-"]');
+      var inc = item.querySelector('[data-dom-id^="qty-inc-"]');
+      var val = item.querySelector('.qty-val');
+      function update(){
+        var q = qtyOf(item);
+        if (dec) { dec.disabled = (q <= 1); }
+        refreshTotal();
+      }
+      if (dec) {
+        dec.disabled = true;
+        dec.addEventListener('click', function(){
+          var q = qtyOf(item);
+          if (q > 1) { val.textContent = q - 1; }
+          update();
+        });
+      }
+      if (inc) {
+        inc.addEventListener('click', function(){
+          val.textContent = qtyOf(item) + 1;
+          update();
+        });
+      }
+      var checkBtn = item.querySelector('.cart-check');
+      if (checkBtn) {
+        checkBtn.addEventListener('click', function(){
+          setChecked(item, !checkedOf(item));
+          refreshTotal();
+        });
+      }
+      var delBtn = item.querySelector('.del-btn');
+      if (delBtn) {
+        delBtn.addEventListener('click', function(){
+          var idx = items.indexOf(item);
+          if (idx !== -1) {
+            items.splice(idx, 1);
+            basePrices.splice(idx, 1);
+          }
+          item.parentNode.removeChild(item);
+          refreshTotal();
+          if (items.length === 0) {
+            alert('购物车已空，请去逛逛');
+          }
+        });
+      }
+    })(items[i]);
+  }
+
+  // Select all toggle
+  var checkAll = document.querySelector('[data-dom-id="check-all"]');
+  if (checkAll) {
+    checkAll.addEventListener('click', function(){
+      var allChecked = items.length > 0 && items.every(function(item){ return checkedOf(item); });
+      for (var j = 0; j < items.length; j++) { setChecked(items[j], !allChecked); }
+      refreshTotal();
+    });
+  }
+
+  // Edit mode toggle
+  var editBtn = document.querySelector('[data-dom-id="btn-edit"]');
+  if (editBtn) {
+    editBtn.addEventListener('click', function(){
+      var editing = editBtn.textContent === '编辑';
+      editBtn.textContent = editing ? '完成' : '编辑';
+      if (!editing) { alert('已完成编辑'); }
+    });
+  }
+
+  // Checkout guard: at least one selected item
+  if (checkoutBtn) {
+    checkoutBtn.addEventListener('click', function(e){
+      var count = 0;
+      for (var c = 0; c < items.length; c++) { if (checkedOf(items[c])) { count++; } }
+      if (count === 0) {
+        e.preventDefault();
+        alert('请先选择商品');
+      }
+    });
+  }
+
+  refreshTotal();
+})();
+</script>
+</body>
+</html>

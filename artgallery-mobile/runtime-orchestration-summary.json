@@ -1,0 +1,183 @@
+{
+  "schemaVersion": "1.0",
+  "project": {
+    "resolvedLane": "existing_edit_add_comparison",
+    "selectedIntentWorkflowRead": true,
+    "selectedIntentWorkflow": "intent-project-mutation",
+    "contextRequirementsLoaded": [
+      {
+        "path": "shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+        "readStatus": "loaded",
+        "bodyRead": false
+      },
+      {
+        "path": "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+        "readStatus": "loaded",
+        "bodyRead": false
+      },
+      {
+        "path": "delivery-quality/page-rendering-quality-gate.md",
+        "readStatus": "loaded",
+        "bodyRead": false
+      },
+      {
+        "path": "delivery-quality/design-artifact-validation.md",
+        "readStatus": "loaded",
+        "bodyRead": false
+      }
+    ],
+    "contextReadScope": "mutation-workflow-read",
+    "validationRunDiscipline": "validate-design-workspace.mjs after sub-agent completion; blocking",
+    "lowValueCallWatchdog": {
+      "applies": true,
+      "maxReasoningLoopsWithoutTool": 3,
+      "noProgressNextAction": "move to readiness summary or minimal blocked summary"
+    },
+    "mutationMode": "existing-edit-in-place",
+    "inPlaceEditAuthorization": "user explicitly requested adding real interaction logic to existing pages",
+    "scope": "mobile buyer/admin/artist pages: fix dead links, bind buttons, modals, tabs, forms, bottom navigation",
+    "styleContinuityAnchors": {
+      "colorSystem": "deep blue-gray primary #1A365D; state colors success #2E7D32 warning #F57C00 error #E53935 forced takedown #8B0000; brand CSS variables --ag-*",
+      "shapeSystem": "radius small 4px / medium 8px / large 12px",
+      "typographySystem": "system font stack, --ag-text-* scale",
+      "spacingSystem": "8px base spacing rhythm",
+      "componentLanguage": "bottom tab navigation (home/category/cart/profile); admin bottom nav (home/review/orders); artist bottom nav (home/artworks/orders)",
+      "surfaceAndDepth": "white cards on neutral-50 background",
+      "imageryAndIconography": "lucide SVG icons, local artwork assets",
+      "interactionTone": "direct navigation, modal confirmations, tab switching, form submit with simulated feedback"
+    },
+    "dispatchPreflightManifest": [],
+    "expectedDispatches": [],
+    "deviceType": "mobile",
+    "sharedProjectShellContract": {
+      "mobileNavigation": {
+        "applies": true,
+        "structure": {
+          "items": 4,
+          "heightPx": 56,
+          "position": "bottom",
+          "canonicalHtmlByKey": {
+            "buyer-nav-home": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" data-active=\"true\" id=\"nav-home\" href=\"app-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-category\" id=\"nav-category\" href=\"app-category.html\" data-dom-id=\"nav-category\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">分类</span>\n      </a>\n      <a data-nav-key=\"nav-cart\" id=\"nav-cart\" href=\"app-cart.html\" data-dom-id=\"nav-cart\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">购物车</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" id=\"nav-profile\" href=\"app-profile.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "buyer-nav-category": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" id=\"nav-home\" href=\"app-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-category\" data-active=\"true\" id=\"nav-category\" href=\"app-category.html\" data-dom-id=\"nav-category\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">分类</span>\n      </a>\n      <a data-nav-key=\"nav-cart\" id=\"nav-cart\" href=\"app-cart.html\" data-dom-id=\"nav-cart\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">购物车</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" id=\"nav-profile\" href=\"app-profile.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "buyer-nav-cart": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" id=\"nav-home\" href=\"app-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-category\" id=\"nav-category\" href=\"app-category.html\" data-dom-id=\"nav-category\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">分类</span>\n      </a>\n      <a data-nav-key=\"nav-cart\" data-active=\"true\" id=\"nav-cart\" href=\"app-cart.html\" data-dom-id=\"nav-cart\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">购物车</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" id=\"nav-profile\" href=\"app-profile.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "buyer-nav-profile": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" id=\"nav-home\" href=\"app-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-category\" id=\"nav-category\" href=\"app-category.html\" data-dom-id=\"nav-category\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">分类</span>\n      </a>\n      <a data-nav-key=\"nav-cart\" id=\"nav-cart\" href=\"app-cart.html\" data-dom-id=\"nav-cart\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><circle cx=\"9\" cy=\"21\" r=\"1\"/><circle cx=\"20\" cy=\"21\" r=\"1\"/><path d=\"M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">购物车</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" data-active=\"true\" id=\"nav-profile\" href=\"app-profile.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "admin-nav-home": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" data-active=\"true\" id=\"nav-home\" href=\"app-admin-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-review\" id=\"nav-review\" href=\"app-admin-review.html\" data-dom-id=\"nav-review\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M9 12l2 2 4-4\"/><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">审核</span>\n      </a>\n      <a data-nav-key=\"nav-orders\" id=\"nav-orders\" href=\"app-admin-orders.html\" data-dom-id=\"nav-orders\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">订单</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" id=\"nav-profile\" href=\"app-admin-home.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "admin-nav-review": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" id=\"nav-home\" href=\"app-admin-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-review\" data-active=\"true\" id=\"nav-review\" href=\"app-admin-review.html\" data-dom-id=\"nav-review\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M9 12l2 2 4-4\"/><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">审核</span>\n      </a>\n      <a data-nav-key=\"nav-orders\" id=\"nav-orders\" href=\"app-admin-orders.html\" data-dom-id=\"nav-orders\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">订单</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" id=\"nav-profile\" href=\"app-admin-home.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "admin-nav-orders": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" id=\"nav-home\" href=\"app-admin-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-review\" id=\"nav-review\" href=\"app-admin-review.html\" data-dom-id=\"nav-review\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M9 12l2 2 4-4\"/><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">审核</span>\n      </a>\n      <a data-nav-key=\"nav-orders\" data-active=\"true\" id=\"nav-orders\" href=\"app-admin-orders.html\" data-dom-id=\"nav-orders\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">订单</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" id=\"nav-profile\" href=\"app-admin-home.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "admin-nav-profile": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" id=\"nav-home\" href=\"app-admin-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-review\" id=\"nav-review\" href=\"app-admin-review.html\" data-dom-id=\"nav-review\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M9 12l2 2 4-4\"/><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">审核</span>\n      </a>\n      <a data-nav-key=\"nav-orders\" id=\"nav-orders\" href=\"app-admin-orders.html\" data-dom-id=\"nav-orders\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">订单</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" data-active=\"true\" id=\"nav-profile\" href=\"app-admin-home.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "artist-nav-home": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" data-active=\"true\" id=\"nav-home\" href=\"app-artist-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-artworks\" id=\"nav-artworks\" href=\"app-artist-artwork.html\" data-dom-id=\"nav-artworks\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><circle cx=\"8.5\" cy=\"8.5\" r=\"1.5\"/><path d=\"M21 15l-5-5L5 21\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">作品</span>\n      </a>\n      <a data-nav-key=\"nav-orders\" id=\"nav-orders\" href=\"app-artist-orders.html\" data-dom-id=\"nav-orders\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 01-8 0\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">订单</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" id=\"nav-profile\" href=\"app-artist-home.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "artist-nav-artworks": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" id=\"nav-home\" href=\"app-artist-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-artworks\" data-active=\"true\" id=\"nav-artworks\" href=\"app-artist-artwork.html\" data-dom-id=\"nav-artworks\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><circle cx=\"8.5\" cy=\"8.5\" r=\"1.5\"/><path d=\"M21 15l-5-5L5 21\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">作品</span>\n      </a>\n      <a data-nav-key=\"nav-orders\" id=\"nav-orders\" href=\"app-artist-orders.html\" data-dom-id=\"nav-orders\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 01-8 0\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">订单</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" id=\"nav-profile\" href=\"app-artist-home.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "artist-nav-orders": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" id=\"nav-home\" href=\"app-artist-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-artworks\" id=\"nav-artworks\" href=\"app-artist-artwork.html\" data-dom-id=\"nav-artworks\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><circle cx=\"8.5\" cy=\"8.5\" r=\"1.5\"/><path d=\"M21 15l-5-5L5 21\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">作品</span>\n      </a>\n      <a data-nav-key=\"nav-orders\" data-active=\"true\" id=\"nav-orders\" href=\"app-artist-orders.html\" data-dom-id=\"nav-orders\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 01-8 0\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">订单</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" id=\"nav-profile\" href=\"app-artist-home.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>",
+            "artist-nav-profile": "<nav data-mobile-nav=\"global\" class=\"w-full h-[56px] border-t border-[#E2E8F0] bg-white\">\n    <div class=\"w-full max-w-md mx-auto grid grid-cols-4 h-full\">\n      <a data-nav-key=\"nav-home\" id=\"nav-home\" href=\"app-artist-home.html\" data-dom-id=\"nav-home\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M3 12l9-9 9 9M5 10v10h14V10\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">首页</span>\n      </a>\n      <a data-nav-key=\"nav-artworks\" id=\"nav-artworks\" href=\"app-artist-artwork.html\" data-dom-id=\"nav-artworks\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><rect x=\"3\" y=\"3\" width=\"18\" height=\"18\" rx=\"2\"/><circle cx=\"8.5\" cy=\"8.5\" r=\"1.5\"/><path d=\"M21 15l-5-5L5 21\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">作品</span>\n      </a>\n      <a data-nav-key=\"nav-orders\" id=\"nav-orders\" href=\"app-artist-orders.html\" data-dom-id=\"nav-orders\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z\"/><line x1=\"3\" y1=\"6\" x2=\"21\" y2=\"6\"/><path d=\"M16 10a4 4 0 01-8 0\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">订单</span>\n      </a>\n      <a data-nav-key=\"nav-profile\" data-active=\"true\" id=\"nav-profile\" href=\"app-artist-home.html\" data-dom-id=\"nav-profile\" class=\"min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium\">\n        <svg class=\"w-5 h-5 shrink-0\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2\"/><circle cx=\"12\" cy=\"7\" r=\"4\"/></svg>\n        <span class=\"text-[11px] leading-none whitespace-nowrap\">我的</span>\n      </a>\n    </div>\n  </nav>"
+          }
+        }
+      }
+    }
+  },
+  "pages": [
+    {
+      "nodeId": "page-app-home",
+      "slug": "app-home",
+      "title": "APP - 首页",
+      "htmlSrc": "pages/app-home.html",
+      "mobileNavigationActiveKey": "buyer-nav-home",
+      "mobileNavigationApplies": true
+    },
+    {
+      "nodeId": "page-app-category",
+      "slug": "app-category",
+      "title": "APP - 分类页",
+      "htmlSrc": "pages/app-category.html",
+      "mobileNavigationActiveKey": "buyer-nav-category",
+      "mobileNavigationApplies": true
+    },
+    {
+      "nodeId": "page-app-cart",
+      "slug": "app-cart",
+      "title": "APP - 购物车",
+      "htmlSrc": "pages/app-cart.html",
+      "mobileNavigationActiveKey": "buyer-nav-cart",
+      "mobileNavigationApplies": true
+    },
+    {
+      "nodeId": "page-app-profile",
+      "slug": "app-profile",
+      "title": "APP - 我的",
+      "htmlSrc": "pages/app-profile.html",
+      "mobileNavigationActiveKey": "buyer-nav-profile",
+      "mobileNavigationApplies": true
+    },
+    {
+      "nodeId": "page-app-admin-home",
+      "slug": "app-admin-home",
+      "title": "APP - 平台方工作台",
+      "htmlSrc": "pages/app-admin-home.html",
+      "mobileNavigationActiveKey": "admin-nav-home",
+      "mobileNavigationApplies": true
+    },
+    {
+      "nodeId": "page-app-admin-review",
+      "slug": "app-admin-review",
+      "title": "APP - 平台方审核",
+      "htmlSrc": "pages/app-admin-review.html",
+      "mobileNavigationActiveKey": "admin-nav-review",
+      "mobileNavigationApplies": true
+    },
+    {
+      "nodeId": "page-app-admin-orders",
+      "slug": "app-admin-orders",
+      "title": "APP - 平台方订单",
+      "htmlSrc": "pages/app-admin-orders.html",
+      "mobileNavigationActiveKey": "admin-nav-orders",
+      "mobileNavigationApplies": true
+    },
+    {
+      "nodeId": "page-app-artist-home",
+      "slug": "app-artist-home",
+      "title": "APP - 艺术家工作台",
+      "htmlSrc": "pages/app-artist-home.html",
+      "mobileNavigationActiveKey": "artist-nav-home",
+      "mobileNavigationApplies": true
+    },
+    {
+      "nodeId": "page-app-artist-artwork",
+      "slug": "app-artist-artwork",
+      "title": "APP - 艺术家作品",
+      "htmlSrc": "pages/app-artist-artwork.html",
+      "mobileNavigationActiveKey": "artist-nav-artworks",
+      "mobileNavigationApplies": true
+    },
+    {
+      "nodeId": "page-app-artist-orders",
+      "slug": "app-artist-orders",
+      "title": "APP - 艺术家订单",
+      "htmlSrc": "pages/app-artist-orders.html",
+      "mobileNavigationActiveKey": "artist-nav-orders",
+      "mobileNavigationApplies": true
+    },
+    {
+      "nodeId": "page-app-artwork-detail",
+      "slug": "app-artwork-detail",
+      "title": "APP - 作品详情",
+      "htmlSrc": "pages/app-artwork-detail.html",
+      "mobileNavigationApplies": false,
+      "mobileNavigationOmitReason": "detail/reward page without global nav"
+    },
+    {
+      "nodeId": "page-app-checkout",
+      "slug": "app-checkout",
+      "title": "APP - 下单结算",
+      "htmlSrc": "pages/app-checkout.html",
+      "mobileNavigationApplies": false,
+      "mobileNavigationOmitReason": "detail/reward page without global nav"
+    },
+    {
+      "nodeId": "page-app-order-detail",
+      "slug": "app-order-detail",
+      "title": "APP - 订单详情",
+      "htmlSrc": "pages/app-order-detail.html",
+      "mobileNavigationApplies": false,
+      "mobileNavigationOmitReason": "detail/reward page without global nav"
+    }
+  ]
+}

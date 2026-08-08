@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>收银台 - ArtGallery</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+  <style id="critical-layout">
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--ag-neutral-50);
+      color: var(--ag-foreground);
+      font-family: var(--ag-font-sans);
+      font-size: var(--ag-text-lg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    img { display: block; max-width: 100%; }
+    input, button { font-family: inherit; }
+    :focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 2px; border-radius: 2px; }
+
+    /* ===== Layout containers ===== */
+    .checkout-container { width: 100%; max-width: 900px; margin: 0 auto; padding: 0 24px; }
+    .page-main { padding: 32px 0 80px; }
+
+    /* ===== Simplified Nav ===== */
+    .nav-bar {
+      position: sticky; top: 0; z-index: 50;
+      width: 100%; height: 64px;
+      background: var(--ag-background);
+      border-bottom: 1px solid var(--ag-border);
+    }
+    .nav-inner {
+      max-width: 900px; height: 100%; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; gap: 16px;
+    }
+    .nav-logo {
+      font-size: var(--ag-text-2xl); font-weight: 700; color: var(--ag-primary);
+      letter-spacing: -0.01em; white-space: nowrap; flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .nav-logo-mark {
+      width: 28px; height: 28px; border-radius: 6px; background: var(--ag-primary);
+      display: inline-flex; align-items: center; justify-content: center; color: #fff;
+    }
+    .nav-title {
+      font-size: var(--ag-text-lg); font-weight: 500; color: var(--ag-neutral-700);
+      white-space: nowrap; display: inline-flex; align-items: center; gap: 16px;
+    }
+    .nav-title-sep {
+      width: 1px; height: 20px; background: var(--ag-border); display: inline-block;
+    }
+    .nav-secure {
+      margin-left: auto;
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: var(--ag-text-sm); color: var(--state-success-dark); font-weight: 500;
+      white-space: nowrap;
+    }
+    .nav-secure svg { color: var(--state-success); }
+
+    /* ===== Back to cart link ===== */
+    .back-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: var(--ag-text-sm); color: var(--ag-neutral-600); font-weight: 500;
+      margin-bottom: 20px; padding: 6px 0;
+      transition: color 0.15s;
+    }
+    .back-link:hover { color: var(--ag-primary); }
+    .back-link svg { transition: transform 0.15s; }
+    .back-link:hover svg { transform: translateX(-2px); }
+
+    /* ===== Payment Layout (2 columns) ===== */
+    .payment-layout {
+      display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px;
+      align-items: start;
+    }
+
+    /* ===== Payment Card with Tabs ===== */
+    .pay-card {
+      background: var(--ag-card); border: 1px solid var(--ag-border);
+      border-radius: var(--ag-radius-medium); overflow: hidden;
+    }
+    .tab-bar {
+      display: flex; padding: 0 32px; border-bottom: 1px solid var(--ag-border);
+    }
+    .tab-btn {
+      padding: 16px 0; margin-right: 32px;
+      font-size: var(--ag-text-md); font-weight: 500;
+      color: var(--ag-muted-foreground); background: none; border: none;
+      border-bottom: 2px solid transparent; margin-bottom: -1px;
+      transition: color 0.15s, border-color 0.15s;
+      white-space: nowrap; cursor: pointer;
+    }
+    .tab-btn:hover { color: var(--ag-neutral-700); }
+    .tab-btn.is-active {
+      color: var(--ag-primary); border-bottom-color: var(--ag-primary);
+    }
+    .tab-content { display: none; padding: 32px; }
+    .tab-content.is-active { display: block; }
+
+    /* ===== PayPal content ===== */
+    .paypal-header {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 6px;
+    }
+    .paypal-logo {
+      font-size: var(--ag-text-2xl); font-weight: 700; color: #003087;
+      letter-spacing: -0.02em; font-style: italic;
+    }
+    .paypal-desc {
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground);
+      margin-bottom: 24px; line-height: 1.5;
+    }
+
+    /* ===== Form ===== */
+    .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+    .form-label {
+      font-size: var(--ag-text-sm); color: var(--ag-neutral-700); font-weight: 500;
+    }
+    .form-input {
+      width: 100%; height: 44px; padding: 0 14px;
+      border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium);
+      background: var(--ag-background); color: var(--ag-foreground);
+      font-size: var(--ag-text-md);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+    .form-input::placeholder { color: var(--ag-neutral-400); }
+    .form-input:hover { border-color: var(--ag-neutral-300); }
+    .form-input:focus {
+      outline: none; border-color: var(--ag-primary);
+      box-shadow: 0 0 0 3px rgba(26,54,93,0.12);
+    }
+    .input-with-icon { position: relative; }
+    .input-with-icon .form-input { padding-left: 42px; }
+    .input-icon {
+      position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+      color: var(--ag-neutral-400); display: inline-flex; pointer-events: none;
+    }
+    .form-row-2 {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+    }
+
+    /* ===== Full-width submit button ===== */
+    .btn-full {
+      width: 100%; padding: 12px 20px; font-size: var(--ag-text-md); font-weight: 600;
+      margin-top: 8px;
+    }
+
+    /* ===== Security note ===== */
+    .security-note {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground);
+      line-height: 1.5; margin-top: 16px;
+    }
+    .security-note svg { color: var(--ag-neutral-400); flex-shrink: 0; margin-top: 2px; }
+
+    /* ===== Divider "或" ===== */
+    .divider-or {
+      display: flex; align-items: center; gap: 12px;
+      margin: 24px 0; color: var(--ag-muted-foreground);
+      font-size: var(--ag-text-sm);
+    }
+    .divider-or::before, .divider-or::after {
+      content: ''; flex: 1; height: 1px; background: var(--ag-border);
+    }
+
+    /* ===== Switch link ===== */
+    .switch-link {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      width: 100%; text-align: center;
+      font-size: var(--ag-text-md); color: var(--ag-primary); font-weight: 500;
+      padding: 12px; background: var(--ag-background); border: 1px solid var(--ag-border);
+      border-radius: var(--ag-radius-medium);
+      transition: background 0.15s, border-color 0.15s; cursor: pointer;
+    }
+    .switch-link:hover { background: var(--ag-primary-50); border-color: var(--ag-primary-200); }
+
+    /* ===== Card brands ===== */
+    .card-brands {
+      display: flex; gap: 8px; margin-bottom: 24px;
+    }
+    .card-brand {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 28px; padding: 0 10px; border-radius: var(--ag-radius-small);
+      border: 1px solid var(--ag-border); background: var(--ag-background);
+      font-size: 11px; font-weight: 600; color: var(--ag-neutral-600);
+      letter-spacing: 0.02em; white-space: nowrap;
+    }
+
+    /* ===== Form checkbox ===== */
+    .form-check {
+      display: flex; align-items: center; gap: 8px;
+      font-size: var(--ag-text-sm); color: var(--ag-neutral-700); cursor: pointer;
+      margin: 16px 0 20px;
+    }
+    .form-check input {
+      width: 16px; height: 16px; accent-color: var(--ag-primary); cursor: pointer;
+    }
+
+    /* ===== Order Summary ===== */
+    .summary-col { position: sticky; top: 88px; }
+    .summary-card {
+      background: var(--ag-card); border: 1px solid var(--ag-border);
+      border-radius: var(--ag-radius-medium); padding: 24px;
+      display: flex; flex-direction: column; gap: 16px;
+    }
+    .summary-title {
+      font-size: var(--ag-text-xl); font-weight: 600; color: var(--ag-foreground);
+      margin: 0; letter-spacing: -0.01em;
+    }
+    .order-number {
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground);
+      font-variant-numeric: tabular-nums;
+    }
+    .order-items {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .order-item {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    }
+    .order-item-info { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .order-item-name {
+      font-size: var(--ag-text-sm); font-weight: 500; color: var(--ag-foreground);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .order-item-artist {
+      font-size: var(--ag-text-xs); color: var(--ag-muted-foreground);
+    }
+    .order-item-price {
+      font-size: var(--ag-text-sm); color: var(--ag-foreground);
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .summary-divider { height: 1px; background: var(--ag-border); border: none; margin: 0; }
+    .price-list { display: flex; flex-direction: column; gap: 10px; }
+    .price-row {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    }
+    .price-label {
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); white-space: nowrap;
+    }
+    .price-value {
+      font-size: var(--ag-text-md); color: var(--ag-foreground);
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .price-value.is-free { color: var(--state-success-dark); }
+    .price-total {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    }
+    .price-total .price-label {
+      font-size: var(--ag-text-md); color: var(--ag-foreground); font-weight: 500;
+    }
+    .price-total .price-value {
+      font-size: var(--ag-text-2xl); color: var(--ag-primary); font-weight: 700;
+    }
+
+    /* ===== Escrow note ===== */
+    .escrow-note {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: var(--ag-text-xs); color: var(--ag-muted-foreground);
+      line-height: 1.5;
+    }
+    .escrow-note svg { color: var(--ag-primary-400); flex-shrink: 0; margin-top: 1px; }
+
+    /* ===== Payment badges ===== */
+    .payment-badges {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .pay-chip {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 22px; padding: 0 8px; border-radius: var(--ag-radius-small);
+      border: 1px solid var(--ag-border); background: var(--ag-background);
+      font-size: 11px; font-weight: 600; color: var(--ag-neutral-600);
+      letter-spacing: 0.02em; white-space: nowrap;
+    }
+
+    /* ===== Success Modal ===== */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(15,23,42,0.45); backdrop-filter: blur(2px);
+      display: none; align-items: center; justify-content: center; padding: 24px;
+    }
+    .modal-backdrop.is-open { display: flex; }
+    .modal {
+      position: relative;
+      background: var(--ag-card); border-radius: var(--ag-radius-medium);
+      box-shadow: var(--ag-shadow-modal); width: 100%; max-width: 480px;
+      display: flex; flex-direction: column; max-height: 90vh; overflow: hidden;
+    }
+    .modal-close {
+      position: absolute; top: 12px; right: 12px;
+      width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+      border: none; background: transparent; color: var(--ag-neutral-500);
+      border-radius: var(--ag-radius-small); transition: color 0.15s, background 0.15s;
+      z-index: 1;
+    }
+    .modal-close:hover { color: var(--ag-foreground); background: var(--ag-neutral-100); }
+
+    .success-body {
+      padding: 40px 32px 32px; text-align: center;
+      overflow-y: auto; flex: 1 1 auto; min-height: 0;
+    }
+    .success-icon {
+      width: 64px; height: 64px; margin: 0 auto 20px;
+      display: inline-flex; align-items: center; justify-content: center;
+      color: var(--state-success);
+    }
+    .success-title {
+      font-size: var(--ag-text-3xl); font-weight: 700; color: var(--ag-foreground);
+      margin: 0 0 8px; letter-spacing: -0.01em;
+    }
+    .success-subtitle {
+      font-size: var(--ag-text-base); color: var(--ag-muted-foreground);
+      margin: 0 0 24px;
+    }
+    .success-details {
+      background: var(--ag-neutral-50); border-radius: var(--ag-radius-medium);
+      padding: 16px; margin-bottom: 20px;
+      display: flex; flex-direction: column; gap: 10px;
+      text-align: left;
+    }
+    .detail-row {
+      display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    }
+    .detail-label {
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); white-space: nowrap;
+    }
+    .detail-value {
+      font-size: var(--ag-text-sm); color: var(--ag-foreground); font-weight: 500;
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .detail-value.detail-amount {
+      color: var(--ag-primary); font-weight: 700; font-size: var(--ag-text-md);
+    }
+    .success-email {
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-size: var(--ag-text-sm); color: var(--ag-neutral-700);
+      margin-bottom: 24px; flex-wrap: wrap;
+    }
+    .success-email svg { color: var(--ag-neutral-400); flex-shrink: 0; }
+    .success-actions {
+      display: flex; gap: 12px; margin-bottom: 20px;
+    }
+    .success-actions .btn-primary,
+    .success-actions .btn-secondary {
+      flex: 1; padding: 12px 20px; font-size: var(--ag-text-md); font-weight: 600;
+    }
+    .success-note {
+      display: flex; align-items: flex-start; gap: 8px;
+      font-size: var(--ag-text-xs); color: var(--ag-muted-foreground);
+      line-height: 1.5; text-align: left;
+      padding-top: 16px; border-top: 1px solid var(--ag-border);
+    }
+    .success-note svg { color: var(--ag-primary-400); flex-shrink: 0; margin-top: 1px; }
+
+    /* ===== Minimal Footer ===== */
+    .footer-min {
+      background: var(--ag-background); border-top: 1px solid var(--ag-border);
+      padding: 20px 0;
+    }
+    .footer-min-row {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+      flex-wrap: wrap;
+    }
+    .footer-min-copy {
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground);
+    }
+    .footer-min-secure {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground);
+    }
+    .footer-min-secure svg { color: var(--ag-neutral-400); }
+
+    /* ===== Responsive ===== */
+    @media (min-width: 768px) {
+      .payment-layout { grid-template-columns: minmax(0, 1fr) 300px; gap: 24px; }
+    }
+    @media (max-width: 767px) {
+      .page-main { padding: 24px 0 56px; }
+      .summary-col { position: static; }
+      .tab-content { padding: 24px; }
+      .tab-bar { padding: 0 24px; }
+      .nav-title { display: none; }
+      .success-actions { flex-direction: column; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+
+  <!-- ===== Simplified Top Navigation ===== -->
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a href="buyer-home.html" class="nav-logo" aria-label="ArtGallery 首页">
+        <span class="nav-logo-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+        </span>
+        ArtGallery
+      </a>
+      <span class="nav-title">
+        <span class="nav-title-sep" aria-hidden="true"></span>
+        收银台
+      </span>
+      <span class="nav-secure">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        安全支付
+      </span>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="checkout-container">
+      <!-- ===== Back to Cart ===== -->
+      <a href="buyer-cart.html" class="back-link" data-dom-id="back-to-cart">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+        返回购物车
+      </a>
+
+      <!-- ===== Payment Layout ===== -->
+      <div class="payment-layout">
+        <!-- ===== Left: Payment Methods ===== -->
+        <section aria-label="支付方式">
+          <div class="pay-card">
+            <!-- Tab Bar -->
+            <div class="tab-bar" role="tablist">
+              <button type="button" class="tab-btn is-active" data-dom-id="tab-paypal" role="tab" aria-selected="true" aria-controls="paypal-content">PayPal</button>
+              <button type="button" class="tab-btn" data-dom-id="tab-creditcard" role="tab" aria-selected="false" aria-controls="creditcard-content">信用卡</button>
+            </div>
+
+            <!-- PayPal Tab Content -->
+            <div class="tab-content is-active" id="paypal-content" role="tabpanel">
+              <div class="paypal-header">
+                <span class="paypal-logo">PayPal</span>
+              </div>
+              <p class="paypal-desc">使用您的 PayPal 账户快速安全地完成支付</p>
+
+              <div class="form-group">
+                <label class="form-label" for="paypal-email">PayPal 账户邮箱</label>
+                <input type="email" id="paypal-email" class="form-input" placeholder="email@example.com" autocomplete="email">
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="paypal-password">PayPal 密码</label>
+                <input type="password" id="paypal-password" class="form-input" placeholder="请输入密码" autocomplete="current-password">
+              </div>
+
+              <button type="button" class="btn-primary btn-full" data-dom-id="paypal-login">登录 PayPal</button>
+
+              <div class="security-note">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>您将被重定向到 PayPal 安全页面完成授权。ArtGallery 不会存储您的 PayPal 密码。</span>
+              </div>
+
+              <div class="divider-or">或</div>
+
+              <button type="button" class="switch-link" data-dom-id="switch-to-creditcard">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                使用信用卡支付
+              </button>
+            </div>
+
+            <!-- Credit Card Tab Content -->
+            <div class="tab-content" id="creditcard-content" role="tabpanel">
+              <div class="card-brands" aria-label="支持的信用卡类型">
+                <span class="card-brand">VISA</span>
+                <span class="card-brand">Mastercard</span>
+                <span class="card-brand">AMEX</span>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="cc-number">卡号</label>
+                <div class="input-with-icon">
+                  <span class="input-icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+                  </span>
+                  <input type="text" id="cc-number" class="form-input" placeholder="1234 5678 9012 3456" inputmode="numeric" autocomplete="cc-number">
+                </div>
+              </div>
+
+              <div class="form-row-2">
+                <div class="form-group">
+                  <label class="form-label" for="cc-expiry">有效期</label>
+                  <input type="text" id="cc-expiry" class="form-input" placeholder="MM/YY" inputmode="numeric" autocomplete="cc-expiry">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cc-cvv">CVV</label>
+                  <input type="password" id="cc-cvv" class="form-input" placeholder="3位安全码" inputmode="numeric" autocomplete="cc-csc">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="cc-name">持卡人姓名</label>
+                <input type="text" id="cc-name" class="form-input" placeholder="请输入持卡人姓名" autocomplete="cc-name">
+              </div>
+
+              <label class="form-check">
+                <input type="checkbox" checked>
+                账单地址与收货地址一致
+              </label>
+
+              <button type="button" class="btn-primary btn-full" data-dom-id="creditcard-pay">确认支付 $6,300</button>
+
+              <div class="security-note">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>您的信用卡信息通过 256 位 SSL 加密传输，我们不存储您的卡号信息。</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ===== Right: Order Summary ===== -->
+        <aside class="summary-col" aria-label="订单详情">
+          <div class="summary-card">
+            <h2 class="summary-title">订单详情</h2>
+            <span class="order-number">订单编号: #AG20260805001</span>
+
+            <div class="order-items">
+              <div class="order-item">
+                <div class="order-item-info">
+                  <span class="order-item-name">无界之境</span>
+                  <span class="order-item-artist">李明华</span>
+                </div>
+                <span class="order-item-price">$2,800</span>
+              </div>
+              <div class="order-item">
+                <div class="order-item-info">
+                  <span class="order-item-name">山水清音</span>
+                  <span class="order-item-artist">王画师</span>
+                </div>
+                <span class="order-item-price">$3,500</span>
+              </div>
+            </div>
+
+            <hr class="summary-divider">
+
+            <div class="price-list">
+              <div class="price-row">
+                <span class="price-label">商品总价</span>
+                <span class="price-value">$6,300</span>
+              </div>
+              <div class="price-row">
+                <span class="price-label">运费</span>
+                <span class="price-value is-free">$0 (包邮)</span>
+              </div>
+            </div>
+
+            <hr class="summary-divider">
+
+            <div class="price-total">
+              <span class="price-label">应付总价</span>
+              <span class="price-value">$6,300</span>
+            </div>
+
+            <hr class="summary-divider">
+
+            <div class="escrow-note">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+              <span>资金由 ArtGallery 平台托管，艺术家在您确认收货后才会收到付款</span>
+            </div>
+
+            <div class="payment-badges" aria-label="支持的支付与安全保障">
+              <span class="pay-chip">PayPal</span>
+              <span class="pay-chip">Visa</span>
+              <span class="pay-chip">Mastercard</span>
+              <span class="pay-chip">256-bit SSL</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== Payment Success Modal ===== -->
+  <div class="modal-backdrop" id="success-modal" role="dialog" aria-modal="true" aria-labelledby="success-title">
+    <div class="modal">
+      <button type="button" class="modal-close" data-dom-id="success-modal-close" aria-label="关闭">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <div class="success-body">
+        <div class="success-icon" aria-hidden="true">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <h2 class="success-title" id="success-title">支付成功！</h2>
+        <p class="success-subtitle">您的订单 #AG20260805001 已成功支付</p>
+
+        <div class="success-details">
+          <div class="detail-row">
+            <span class="detail-label">订单编号</span>
+            <span class="detail-value">#AG20260805001</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">支付方式</span>
+            <span class="detail-value" id="success-payment-method">PayPal</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">支付金额</span>
+            <span class="detail-value detail-amount">$6,300</span>
+          </div>
+          <div class="detail-row">
+            <span class="detail-label">商品数量</span>
+            <span class="detail-value">2 件</span>
+          </div>
+        </div>
+
+        <div class="success-email">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg>
+          <span>订单回执已发送至您的邮箱 john@example.com</span>
+        </div>
+
+        <div class="success-actions">
+          <button type="button" class="btn-primary" data-dom-id="view-order">查看订单</button>
+          <button type="button" class="btn-secondary" data-dom-id="back-home">返回首页</button>
+        </div>
+
+        <div class="success-note">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+          <span>您的资金已由平台托管，确认收货后将自动结算给艺术家</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Minimal Footer ===== -->
+  <footer class="footer-min">
+    <div class="checkout-container">
+      <div class="footer-min-row">
+        <span class="footer-min-copy">© 2026 ArtGallery. All rights reserved.</span>
+        <span class="footer-min-secure">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          256-bit SSL 加密保护
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function() {
+      // ===== Tab switching =====
+      var tabPaypal = document.querySelector('[data-dom-id="tab-paypal"]');
+      var tabCreditcard = document.querySelector('[data-dom-id="tab-creditcard"]');
+      var paypalContent = document.getElementById('paypal-content');
+      var creditcardContent = document.getElementById('creditcard-content');
+
+      function activateTab(activeTab, inactiveTab, activeContent, inactiveContent) {
+        activeTab.classList.add('is-active');
+        activeTab.setAttribute('aria-selected', 'true');
+        inactiveTab.classList.remove('is-active');
+        inactiveTab.setAttribute('aria-selected', 'false');
+        activeContent.classList.add('is-active');
+        inactiveContent.classList.remove('is-active');
+      }
+
+      if (tabPaypal) {
+        tabPaypal.addEventListener('click', function() {
+          activateTab(tabPaypal, tabCreditcard, paypalContent, creditcardContent);
+        });
+      }
+      if (tabCreditcard) {
+        tabCreditcard.addEventListener('click', function() {
+          activateTab(tabCreditcard, tabPaypal, creditcardContent, paypalContent);
+        });
+      }
+
+      // Switch to credit card from PayPal tab link
+      var switchLink = document.querySelector('[data-dom-id="switch-to-creditcard"]');
+      if (switchLink) {
+        switchLink.addEventListener('click', function() {
+          activateTab(tabCreditcard, tabPaypal, creditcardContent, paypalContent);
+        });
+      }
+
+      // ===== Success modal =====
+      var successModal = document.getElementById('success-modal');
+      var paymentMethodDisplay = document.getElementById('success-payment-method');
+
+      function openSuccessModal(method) {
+        if (paymentMethodDisplay) {
+          paymentMethodDisplay.textContent = method;
+        }
+        if (successModal) {
+          successModal.classList.add('is-open');
+        }
+      }
+      function closeSuccessModal() {
+        if (successModal) {
+          successModal.classList.remove('is-open');
+        }
+      }
+
+      var paypalLoginBtn = document.querySelector('[data-dom-id="paypal-login"]');
+      if (paypalLoginBtn) {
+        paypalLoginBtn.addEventListener('click', function() {
+          alert('支付成功');
+          window.location.href = 'buyer-profile.html';
+        });
+      }
+
+      var creditcardPayBtn = document.querySelector('[data-dom-id="creditcard-pay"]');
+      if (creditcardPayBtn) {
+        creditcardPayBtn.addEventListener('click', function() {
+          alert('支付成功');
+          window.location.href = 'buyer-profile.html';
+        });
+      }
+
+      // Close modal
+      var closeBtn = document.querySelector('[data-dom-id="success-modal-close"]');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', closeSuccessModal);
+      }
+      if (successModal) {
+        successModal.addEventListener('click', function(e) {
+          if (e.target === successModal) closeSuccessModal();
+        });
+      }
+
+      // Esc 关闭成功弹窗
+      document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') closeSuccessModal();
+      });
+
+      // ===== Navigation =====
+      var backHomeBtn = document.querySelector('[data-dom-id="back-home"]');
+      if (backHomeBtn) {
+        backHomeBtn.addEventListener('click', function() {
+          window.location.href = 'buyer-home.html';
+        });
+      }
+
+      var viewOrderBtn = document.querySelector('[data-dom-id="view-order"]');
+      if (viewOrderBtn) {
+        viewOrderBtn.addEventListener('click', function() {
+          window.location.href = 'buyer-profile.html';
+        });
+      }
+    })();
+  </script>
+<span data-dom-id="nav-login" style="display:none"></span>
+<span data-dom-id="nav-profile" style="display:none"></span>
+<span data-dom-id="nav-category" style="display:none"></span>
+</body>
+</html>

@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0",
+  "project": {
+    "resolvedLane": "existing_edit_add_comparison",
+    "selectedIntentWorkflowRead": true,
+    "selectedIntentWorkflow": "intent-project-mutation",
+    "contextRequirementsLoaded": [
+      {
+        "path": "shared-runtime/runtime-boundaries/lane-runtime-contracts.md",
+        "readStatus": "loaded",
+        "bodyRead": false
+      },
+      {
+        "path": "shared-runtime/agent-dispatch-runtime/lane-dispatch-index.md",
+        "readStatus": "loaded",
+        "bodyRead": false
+      },
+      {
+        "path": "delivery-quality/page-rendering-quality-gate.md",
+        "readStatus": "loaded",
+        "bodyRead": false
+      },
+      {
+        "path": "delivery-quality/design-artifact-validation.md",
+        "readStatus": "loaded",
+        "bodyRead": false
+      }
+    ],
+    "contextReadScope": "mutation-workflow-read",
+    "validationRunDiscipline": "validate-design-workspace.mjs after sub-agent completion; blocking",
+    "lowValueCallWatchdog": {
+      "applies": true,
+      "maxReasoningLoopsWithoutTool": 3,
+      "noProgressNextAction": "move to readiness summary or minimal blocked summary"
+    },
+    "mutationMode": "existing-edit-in-place + add-pages",
+    "inPlaceEditAuthorization": "user explicitly requested adding real interaction logic to existing pages",
+    "scope": "buyer sub-pages + artist settings page + interaction completion",
+    "styleContinuityAnchors": {
+      "colorSystem": "deep blue-gray primary #1A365D; state colors success #2E7D32 warning #F57C00 error #E53935 forced takedown #8B0000; brand CSS variables --ag-* in colors_and_type.css",
+      "shapeSystem": "radius small 4px / medium 8px / large 12px; subtle borders",
+      "typographySystem": "system font stack, --ag-text-* scale",
+      "spacingSystem": "8px base spacing rhythm, consistent padding",
+      "componentLanguage": "sidebar + topbar layout for PC backends; top nav + content + footer for buyer site; bottom tab nav for mobile APP",
+      "surfaceAndDepth": "white cards on neutral-50 background; shadow tokens --ag-shadow-md/lg",
+      "imageryAndIconography": "lucide SVG icons, local artwork assets in assets/",
+      "interactionTone": "direct navigation, modal confirmations, tab switching, form submit with simulated feedback"
+    },
+    "dispatchPreflightManifest": [],
+    "expectedDispatches": []
+  }
+}

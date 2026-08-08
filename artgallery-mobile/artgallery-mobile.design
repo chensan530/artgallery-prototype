@@ -1,0 +1,759 @@
+{
+  "data": [
+    {
+      "id": "page-app-home",
+      "title": "APP - 首页",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 0,
+        "y": 0,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1090,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-fcd3513f",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-home.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-app-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-app-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile",
+            "targetPageId": "page-app-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-1",
+            "targetPageId": "page-app-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-2",
+            "targetPageId": "page-app-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-3",
+            "targetPageId": "page-app-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-4",
+            "targetPageId": "page-app-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "cat-abstract",
+            "targetPageId": "page-app-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "cat-classical",
+            "targetPageId": "page-app-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "cat-religious",
+            "targetPageId": "page-app-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "cat-portrait",
+            "targetPageId": "page-app-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-app-profile",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-category",
+      "title": "APP - 分类页",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 0,
+        "y": 376,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-4c5f317d",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-category.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-home",
+            "targetPageId": "page-app-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-app-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile",
+            "targetPageId": "page-app-profile",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-1",
+            "targetPageId": "page-app-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-2",
+            "targetPageId": "page-app-artwork-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "artwork-3",
+            "targetPageId": "page-app-artwork-detail",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-artwork-detail",
+      "title": "APP - 作品详情",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 0,
+        "y": 1880,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1252,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-03f1b0d5",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-artwork-detail.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "btn-back",
+            "targetPageId": "page-app-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "btn-add-cart",
+            "targetPageId": "page-app-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "btn-buy-now",
+            "targetPageId": "page-app-checkout",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-cart",
+      "title": "APP - 购物车",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 0,
+        "y": 752,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-9df7a7cf",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-cart.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "btn-checkout",
+            "targetPageId": "page-app-checkout",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-home",
+            "targetPageId": "page-app-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-app-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile",
+            "targetPageId": "page-app-profile",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-checkout",
+      "title": "APP - 下单结算",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 0,
+        "y": 1128,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-bedd721a",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-checkout.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "btn-back",
+            "targetPageId": "page-app-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "btn-confirm-pay",
+            "targetPageId": "page-app-order-detail",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-profile",
+      "title": "APP - 我的",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 309,
+        "y": 0,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-771e48b2",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-profile.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-home",
+            "targetPageId": "page-app-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-category",
+            "targetPageId": "page-app-category",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-cart",
+            "targetPageId": "page-app-cart",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "order-pending-pay",
+            "targetPageId": "page-app-order-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "order-pending-ship",
+            "targetPageId": "page-app-order-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "order-shipping",
+            "targetPageId": "page-app-order-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "order-completed",
+            "targetPageId": "page-app-order-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "view-all-orders",
+            "targetPageId": "page-app-order-detail",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-login",
+            "targetPageId": "page-app-profile",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-order-detail",
+      "title": "APP - 订单详情",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 0,
+        "y": 1504,
+        "group": 0,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1258,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-04febf16",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-order-detail.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "btn-back",
+            "targetPageId": "page-app-profile",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "image-001",
+      "title": "首页主视觉横幅",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 0,
+        "y": 3760,
+        "naturalSize": {
+          "width": 2560,
+          "height": 1440
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/hero-banner.jpg"
+      }
+    },
+    {
+      "id": "image-002",
+      "title": "抽象画作",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 309,
+        "y": 3760,
+        "naturalSize": {
+          "width": 1920,
+          "height": 1920
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/art-abstract.jpg"
+      }
+    },
+    {
+      "id": "image-003",
+      "title": "古典风格画作",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 618,
+        "y": 3760,
+        "naturalSize": {
+          "width": 1920,
+          "height": 1920
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/art-classical.jpg"
+      }
+    },
+    {
+      "id": "image-004",
+      "title": "人物肖像画作",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 927,
+        "y": 3760,
+        "naturalSize": {
+          "width": 1680,
+          "height": 2240
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/art-portrait.jpg"
+      }
+    },
+    {
+      "id": "image-005",
+      "title": "宗教题材画作",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 1236,
+        "y": 3760,
+        "naturalSize": {
+          "width": 1920,
+          "height": 1920
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/art-religious.jpg"
+      }
+    },
+    {
+      "id": "image-006",
+      "title": "画作细节特写",
+      "type": "image",
+      "version": 1,
+      "createdAt": 1785921000000,
+      "canvasData": {
+        "x": 1545,
+        "y": 3760,
+        "naturalSize": {
+          "width": 1920,
+          "height": 1920
+        }
+      },
+      "devMetadata": {
+        "imageSrc": "assets/art-detail.jpg"
+      }
+    },
+    {
+      "id": "page-app-admin-home",
+      "title": "APP - 平台方工作台",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 0,
+        "y": 2256,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-895caf5e",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-admin-home.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "entry-artist-review",
+            "targetPageId": "page-app-admin-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "entry-artwork-review",
+            "targetPageId": "page-app-admin-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "entry-orders",
+            "targetPageId": "page-app-admin-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-review",
+            "targetPageId": "page-app-admin-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-app-admin-orders",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-admin-review",
+      "title": "APP - 平台方审核",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 309,
+        "y": 2256,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-f8f46aee",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-admin-review.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-home",
+            "targetPageId": "page-app-admin-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-app-admin-orders",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-admin-orders",
+      "title": "APP - 平台方订单",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 309,
+        "y": 2632,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1155,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-7e22a32a",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-admin-orders.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-home",
+            "targetPageId": "page-app-admin-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-review",
+            "targetPageId": "page-app-admin-review",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-artist-home",
+      "title": "APP - 艺术家工作台",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 0,
+        "y": 3008,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-05a63fee",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-artist-home.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "entry-publish",
+            "targetPageId": "page-app-artist-artwork",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "entry-artworks",
+            "targetPageId": "page-app-artist-artwork",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "entry-orders",
+            "targetPageId": "page-app-artist-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artworks",
+            "targetPageId": "page-app-artist-artwork",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-app-artist-orders",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-artist-artwork",
+      "title": "APP - 艺术家作品",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 309,
+        "y": 3008,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1636,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-7bacc244",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-artist-artwork.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-home",
+            "targetPageId": "page-app-artist-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-app-artist-orders",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-app-artist-orders",
+      "title": "APP - 艺术家订单",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1785998577616,
+      "canvasData": {
+        "x": 309,
+        "y": 3384,
+        "group": 2,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 1575,
+          "viewportWidth": 375,
+          "sourceHash": "fnv1a-20a876fa",
+          "measuredAt": 1786093070369
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/app-artist-orders.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-home",
+            "targetPageId": "page-app-artist-home",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artworks",
+            "targetPageId": "page-app-artist-artwork",
+            "action": "navigate"
+          }
+        ]
+      }
+    }
+  ],
+  "config": {
+    "autoLayout": true,
+    "deviceType": "mobile",
+    "projectName": "ArtGallery 买家端 APP"
+  }
+}

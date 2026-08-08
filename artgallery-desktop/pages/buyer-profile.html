@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>个人中心 - ArtGallery</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a href="buyer-home.html" class="nav-logo" id="nav-logo" data-dom-id="nav-logo" aria-label="ArtGallery 首页">
+        <span class="nav-logo-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+        </span>
+        ArtGallery
+      </a>
+      <nav class="nav-links" aria-label="作品分类">
+        <a href="buyer-category.html" class="nav-link">全部分类</a>
+        <a href="buyer-category.html" class="nav-link">抽象</a>
+        <a href="buyer-category.html" class="nav-link">古典</a>
+        <a href="buyer-category.html" class="nav-link">宗教</a>
+        <a href="buyer-category.html" class="nav-link">人物</a>
+      </nav>
+      <div class="nav-search" role="search">
+        <input type="text" class="search-input" placeholder="搜索 artworks、artists..." aria-label="搜索作品或艺术家">
+        <button type="button" class="search-btn" aria-label="搜索">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+      <div class="nav-actions">
+        <a href="buyer-login.html" class="nav-login" data-dom-id="nav-login">登录/注册</a>
+        <a href="buyer-cart.html" class="icon-btn" id="nav-cart" data-dom-id="nav-cart" aria-label="购物车">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/><path d="M2.5 3h2.5l2.4 12.6a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7.5H6"/></svg>
+          <span class="cart-badge">2</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="profile-page" aria-label="买家个人中心">
+    <div class="container">
+      <div class="profile-header">
+        <span class="profile-avatar" aria-hidden="true">张</span>
+        <div class="profile-info">
+          <h1 class="profile-name">张藏友</h1>
+          <p class="profile-email">zhang.collector@example.com</p>
+          <div class="profile-tags">
+            <span class="profile-tag">实名认证</span>
+            <span class="profile-tag">VIP 藏家</span>
+            <span class="profile-tag">绑定邮箱</span>
+          </div>
+        </div>
+        <div class="profile-actions">
+          <a href="buyer-profile-edit.html" class="btn-secondary">编辑资料</a>
+          <a href="buyer-login.html" class="btn-primary">退出登录</a>
+        </div>
+      </div>
+
+      <div class="dashboard-grid">
+        <!-- 我的订单 -->
+        <section class="dashboard-card dashboard-card--wide" id="my-orders" data-dom-id="my-orders" aria-label="我的订单">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg></span>
+              我的订单
+            </h2>
+            <a href="buyer-orders.html" class="card-link">查看全部订单</a>
+          </div>
+          <div class="order-stats">
+            <a href="buyer-orders.html?status=all" class="order-stat" id="order-all">
+              <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+              <span class="label">全部订单</span>
+              <span class="count">12</span>
+            </a>
+            <a href="buyer-orders.html?status=pending" class="order-stat" id="order-pending">
+              <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+              <span class="label">待付款</span>
+              <span class="count">2</span>
+            </a>
+            <a href="buyer-orders.html?status=paid" class="order-stat" id="order-paid">
+              <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+              <span class="label">待发货</span>
+              <span class="count">3</span>
+            </a>
+            <a href="buyer-orders.html?status=shipped" class="order-stat" id="order-shipped">
+              <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></span>
+              <span class="label">待收货</span>
+              <span class="count">1</span>
+            </a>
+            <a href="buyer-orders.html?status=completed" class="order-stat" id="order-completed">
+              <span class="icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></span>
+              <span class="label">已完成</span>
+              <span class="count">6</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- 快速入口 -->
+        <section class="dashboard-card dashboard-card--narrow" aria-label="快捷服务">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></span>
+              快捷服务
+            </h2>
+          </div>
+          <div class="menu-list">
+            <a href="buyer-wallet.html" class="menu-item">
+              <span class="menu-item-main">
+                <span class="menu-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg></span>
+                <span class="menu-item-text"><span class="menu-item-title">我的钱包</span><span class="menu-item-desc">余额、优惠券、积分</span></span>
+              </span>
+              <span class="menu-item-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </a>
+            <a href="buyer-history.html" class="menu-item">
+              <span class="menu-item-main">
+                <span class="menu-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></span>
+                <span class="menu-item-text"><span class="menu-item-title">浏览记录</span><span class="menu-item-desc">最近看过的作品</span></span>
+              </span>
+              <span class="menu-item-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- 我的收藏 -->
+        <section class="dashboard-card dashboard-card--full" id="my-favorites" aria-label="我的收藏">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></span>
+              我的收藏
+            </h2>
+            <a href="buyer-favorites.html" class="card-link">查看全部收藏</a>
+          </div>
+          <div class="favorites-preview">
+            <a href="artwork-detail.html" class="favorite-item" id="favorite-artwork-1">
+              <img class="favorite-img" src="../assets/art-abstract.jpg" alt="无界之境">
+              <span class="favorite-name">无界之境</span>
+              <span class="favorite-artist">李明华</span>
+            </a>
+            <a href="artwork-detail.html" class="favorite-item" id="favorite-artwork-2">
+              <img class="favorite-img" src="../assets/art-classical.jpg" alt="雅典回响">
+              <span class="favorite-name">雅典回响</span>
+              <span class="favorite-artist">陈工作室</span>
+            </a>
+            <a href="buyer-artist.html" class="favorite-item" id="favorite-artist-1">
+              <span class="favorite-img" style="display:inline-flex;align-items:center;justify-content:center;background:var(--ag-primary);color:#fff;font-size:var(--ag-text-xl);font-weight:600;">李</span>
+              <span class="favorite-name">李明华</span>
+              <span class="favorite-artist">个人艺术家</span>
+            </a>
+            <a href="buyer-artist.html" class="favorite-item" id="favorite-artist-2">
+              <span class="favorite-img" style="display:inline-flex;align-items:center;justify-content:center;background:var(--ag-primary-500);color:#fff;font-size:var(--ag-text-xl);font-weight:600;">陈</span>
+              <span class="favorite-name">陈工作室</span>
+              <span class="favorite-artist">艺术机构</span>
+            </a>
+          </div>
+        </section>
+
+        <!-- 收货地址 -->
+        <section class="dashboard-card dashboard-card--narrow" id="my-addresses" aria-label="收货地址管理">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+              收货地址
+            </h2>
+            <a href="buyer-addresses.html" class="card-link">管理</a>
+          </div>
+          <div class="menu-list">
+            <a href="buyer-addresses.html" class="menu-item">
+              <span class="menu-item-main">
+                <span class="menu-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></span>
+                <span class="menu-item-text"><span class="menu-item-title">默认地址</span><span class="menu-item-desc">北京市朝阳区xxx街道 1 号</span></span>
+              </span>
+              <span class="menu-item-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </a>
+            <a href="buyer-addresses.html" class="menu-item" id="btn-add-address">
+              <span class="menu-item-main">
+                <span class="menu-item-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></span>
+                <span class="menu-item-text"><span class="menu-item-title">新增地址</span><span class="menu-item-desc">添加新的收货地址</span></span>
+              </span>
+              <span class="menu-item-arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg></span>
+            </a>
+          </div>
+        </section>
+
+        <!-- 账号安全 -->
+        <section class="dashboard-card dashboard-card--full" id="account-security" aria-label="账号安全">
+          <div class="card-header">
+            <h2 class="card-title">
+              <span class="icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></span>
+              账号安全
+            </h2>
+          </div>
+          <div class="security-list">
+            <div class="security-item">
+              <div class="security-main">
+                <span class="security-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></span>
+                <div class="security-text">
+                  <span class="security-title">登录密码</span>
+                  <span class="security-status is-ok">已设置，建议定期更换</span>
+                </div>
+              </div>
+              <button type="button" class="btn-secondary" id="btn-change-password">修改密码</button>
+            </div>
+            <div class="security-item">
+              <div class="security-main">
+                <span class="security-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg></span>
+                <div class="security-text">
+                  <span class="security-title">绑定邮箱</span>
+                  <span class="security-status is-ok">已绑定 zhang.collector@example.com</span>
+                </div>
+              </div>
+              <button type="button" class="btn-secondary" id="btn-bind-email">更换邮箱</button>
+            </div>
+            <div class="security-item">
+              <div class="security-main">
+                <span class="security-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.4 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg></span>
+                <div class="security-text">
+                  <span class="security-title">手机验证</span>
+                  <span class="security-status is-ok">已绑定 +86 138****8888</span>
+                </div>
+              </div>
+              <button type="button" class="btn-secondary" id="btn-bind-phone">更换手机</button>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <div class="footer-name">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+            ArtGallery
+          </div>
+          <p class="footer-desc">ArtGallery 是领先的跨境美术原作交易平台，连接全球藏家与原创艺术家，提供鉴定、安全托管交易与跨境配送的一站式服务。</p>
+        </div>
+        <div class="footer-col">
+          <h4>购买须知</h4>
+          <ul class="footer-links">
+            <li><a href="#">如何购买</a></li>
+            <li><a href="#">支付方式</a></li>
+            <li><a href="#">配送说明</a></li>
+            <li><a href="#">退换政策</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>关于我们</h4>
+          <ul class="footer-links">
+            <li><a href="#">平台介绍</a></li>
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="#">用户协议</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>联系客服</h4>
+          <ul class="footer-contact">
+            <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></span>support@artgallery.com</li>
+            <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.4 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg></span>+1-800-XXX-XXXX</li>
+            <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg></span>工作时间 Mon-Fri 9:00-18:00</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">© 2026 ArtGallery. All rights reserved.</div>
+    </div>
+  </footer>
+
+    <style id="page-styles">
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; }
+      body { margin: 0; background: var(--ag-background); color: var(--ag-foreground); font-family: var(--ag-font-sans); font-size: var(--ag-text-lg); line-height: 1.6; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+      a { color: inherit; text-decoration: none; }
+      button { font-family: inherit; cursor: pointer; }
+      img { display: block; max-width: 100%; }
+      :focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 2px; border-radius: 2px; }
+      .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+      .nav-bar { position: sticky; top: 0; z-index: 50; width: 100%; height: 64px; background: var(--ag-background); border-bottom: 1px solid var(--ag-border); }
+      .nav-inner { max-width: 1280px; height: 100%; margin: 0 auto; padding: 0 24px; display: flex; align-items: center; gap: 24px; }
+      .nav-logo { font-size: var(--ag-text-2xl); font-weight: 700; color: var(--ag-primary); letter-spacing: -0.01em; white-space: nowrap; flex-shrink: 0; display: inline-flex; align-items: center; gap: 8px; }
+      .nav-logo-mark { width: 28px; height: 28px; border-radius: 6px; background: var(--ag-primary); display: inline-flex; align-items: center; justify-content: center; color: #fff; }
+      .nav-links { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+      .nav-link { font-size: var(--ag-text-md); color: var(--ag-neutral-700); font-weight: 500; white-space: nowrap; padding: 6px 0; position: relative; transition: color 0.15s cubic-bezier(.2,.8,.2,1); }
+      .nav-link:hover { color: var(--ag-primary); }
+      .nav-search { flex: 1 1 auto; max-width: 400px; margin: 0 auto; position: relative; display: flex; align-items: center; }
+      .search-input { width: 100%; height: 40px; padding: 0 44px 0 14px; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); background: var(--ag-neutral-50); color: var(--ag-foreground); font-size: var(--ag-text-md); font-family: inherit; transition: border-color 0.15s, background 0.15s, box-shadow 0.15s; }
+      .search-input::placeholder { color: var(--ag-neutral-400); }
+      .search-input:focus { outline: none; border-color: var(--ag-primary); background: #fff; box-shadow: 0 0 0 3px rgba(26,54,93,0.12); }
+      .search-btn { position: absolute; right: 6px; top: 50%; transform: translateY(-50%); width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border: none; background: transparent; color: var(--ag-neutral-500); border-radius: var(--ag-radius-small); transition: color 0.15s, background 0.15s; }
+      .search-btn:hover { color: var(--ag-primary); background: var(--ag-primary-50); }
+      .nav-actions { display: flex; align-items: center; gap: 18px; flex-shrink: 0; margin-left: auto; }
+      .nav-login { font-size: var(--ag-text-md); color: var(--ag-primary); font-weight: 500; white-space: nowrap; transition: color 0.15s; }
+      .nav-login:hover { color: var(--ag-primary-600); }
+      .icon-btn { position: relative; width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center; border: none; background: transparent; color: var(--ag-neutral-700); border-radius: var(--ag-radius-medium); transition: color 0.15s, background 0.15s; }
+      .icon-btn:hover { color: var(--ag-primary); background: var(--ag-primary-50); }
+      .cart-badge { position: absolute; top: -2px; right: -2px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 999px; background: var(--state-error); color: #fff; font-size: 11px; font-weight: 600; line-height: 18px; text-align: center; border: 2px solid var(--ag-background); }
+
+      .profile-page { padding: 40px 0 80px; background: var(--ag-neutral-50); min-height: calc(100vh - 64px); }
+      .profile-header { display: flex; align-items: center; gap: 24px; margin-bottom: 32px; }
+      .profile-avatar { width: 80px; height: 80px; border-radius: 999px; background: var(--ag-primary); color: #fff; display: inline-flex; align-items: center; justify-content: center; font-size: var(--ag-text-3xl); font-weight: 600; flex-shrink: 0; }
+      .profile-info { flex: 1; }
+      .profile-name { font-size: var(--ag-text-2xl); font-weight: 600; color: var(--ag-foreground); margin: 0 0 6px; }
+      .profile-email { font-size: var(--ag-text-md); color: var(--ag-muted-foreground); margin: 0 0 12px; }
+      .profile-tags { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+      .profile-tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: var(--ag-radius-full); font-size: var(--ag-text-xs); font-weight: 500; background: var(--ag-primary-50); color: var(--ag-primary); }
+      .profile-actions { display: flex; align-items: center; gap: 12px; margin-left: auto; }
+
+      .dashboard-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 24px; }
+      .dashboard-card { background: var(--ag-card); border: 1px solid var(--ag-border); border-radius: var(--ag-radius-large); padding: 24px; transition: border-color 0.15s, box-shadow 0.15s, transform 0.15s cubic-bezier(.2,.8,.2,1); }
+      .dashboard-card:hover { border-color: var(--ag-primary-200); box-shadow: var(--ag-shadow-md); transform: translateY(-2px); }
+      .dashboard-card--wide { grid-column: span 8; }
+      .dashboard-card--narrow { grid-column: span 4; }
+      .dashboard-card--full { grid-column: span 12; }
+
+      .card-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+      .card-title { font-size: var(--ag-text-lg); font-weight: 600; color: var(--ag-foreground); margin: 0; display: inline-flex; align-items: center; gap: 10px; }
+      .card-title .icon { width: 32px; height: 32px; border-radius: var(--ag-radius-medium); background: var(--ag-primary-50); color: var(--ag-primary); display: inline-flex; align-items: center; justify-content: center; }
+      .card-link { font-size: var(--ag-text-sm); color: var(--ag-primary); font-weight: 500; transition: color 0.15s; }
+      .card-link:hover { color: var(--ag-primary-600); }
+
+      .order-stats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+      .order-stat { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 16px 8px; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); background: var(--ag-background); color: inherit; transition: border-color 0.15s, background 0.15s; }
+      .order-stat:hover { border-color: var(--ag-primary-200); background: var(--ag-primary-50); }
+      .order-stat .icon { width: 28px; height: 28px; color: var(--ag-primary); }
+      .order-stat .label { font-size: var(--ag-text-sm); color: var(--ag-neutral-600); }
+      .order-stat .count { font-size: var(--ag-text-xl); font-weight: 600; color: var(--ag-foreground); }
+
+      .menu-list { display: flex; flex-direction: column; gap: 8px; }
+      .menu-item { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 16px; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); background: var(--ag-background); color: var(--ag-foreground); transition: border-color 0.15s, background 0.15s; }
+      .menu-item:hover { border-color: var(--ag-primary-200); background: var(--ag-primary-50); }
+      .menu-item-main { display: flex; align-items: center; gap: 12px; }
+      .menu-item-icon { width: 36px; height: 36px; border-radius: var(--ag-radius-medium); background: var(--ag-primary-50); color: var(--ag-primary); display: inline-flex; align-items: center; justify-content: center; }
+      .menu-item-text { display: flex; flex-direction: column; gap: 2px; }
+      .menu-item-title { font-size: var(--ag-text-md); font-weight: 500; color: var(--ag-foreground); }
+      .menu-item-desc { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); }
+      .menu-item-arrow { color: var(--ag-neutral-400); }
+
+      .favorites-preview { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+      .favorite-item { display: flex; flex-direction: column; gap: 8px; color: inherit; }
+      .favorite-img { width: 100%; aspect-ratio: 1 / 1; object-fit: cover; border-radius: var(--ag-radius-medium); background: var(--ag-neutral-100); }
+      .favorite-name { font-size: var(--ag-text-sm); font-weight: 500; color: var(--ag-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+      .favorite-artist { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); }
+
+      .tag-pending { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: var(--ag-radius-small); font-size: var(--ag-text-xs); font-weight: 500; background: var(--state-warning-light); color: var(--state-warning-dark); white-space: nowrap; }
+      .tag-approved { display: inline-flex; align-items: center; padding: 2px 10px; border-radius: var(--ag-radius-small); font-size: var(--ag-text-xs); font-weight: 500; background: var(--state-success-light); color: var(--state-success-dark); white-space: nowrap; }
+
+      .security-list { display: flex; flex-direction: column; gap: 12px; }
+      .security-item { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 16px; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); background: var(--ag-background); }
+      .security-main { display: flex; align-items: center; gap: 12px; }
+      .security-icon { width: 36px; height: 36px; border-radius: var(--ag-radius-medium); background: var(--ag-primary-50); color: var(--ag-primary); display: inline-flex; align-items: center; justify-content: center; }
+      .security-text { display: flex; flex-direction: column; gap: 2px; }
+      .security-title { font-size: var(--ag-text-md); font-weight: 500; color: var(--ag-foreground); }
+      .security-status { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); }
+      .security-status.is-ok { color: var(--state-success); }
+
+      .footer { background: var(--ag-primary); color: #fff; padding: 56px 0 24px; }
+      .footer-grid { display: grid; grid-template-columns: 1fr; gap: 32px; }
+      .footer-col h4 { font-size: var(--ag-text-md); font-weight: 600; margin: 0 0 16px; color: #fff; }
+      .footer-brand .footer-name { font-size: var(--ag-text-xl); font-weight: 700; margin-bottom: 12px; color: #fff; display: inline-flex; align-items: center; gap: 8px; }
+      .footer-desc { font-size: var(--ag-text-sm); color: rgba(255,255,255,0.78); line-height: 1.7; margin: 0; }
+      .footer-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+      .footer-links a { font-size: var(--ag-text-sm); color: rgba(255,255,255,0.78); transition: color 0.15s; }
+      .footer-links a:hover { color: #fff; }
+      .footer-contact { display: flex; flex-direction: column; gap: 12px; }
+      .footer-contact li { display: flex; align-items: center; gap: 10px; font-size: var(--ag-text-sm); color: rgba(255,255,255,0.85); list-style: none; }
+      .footer-contact .ci { color: rgba(255,255,255,0.7); flex-shrink: 0; display: inline-flex; }
+      .footer-bottom { margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.15); text-align: center; font-size: var(--ag-text-sm); color: rgba(255,255,255,0.7); }
+
+      @media (min-width: 640px) { .footer-grid { grid-template-columns: repeat(2, 1fr); } }
+      @media (min-width: 1024px) { .container { padding: 0 32px; } .nav-inner { padding: 0 32px; } .footer-grid { grid-template-columns: 2fr 1fr 1fr 1.4fr; gap: 40px; } }
+      @media (max-width: 1024px) { .nav-links { display: none; } .dashboard-card--wide, .dashboard-card--narrow, .dashboard-card--full { grid-column: span 12; } .order-stats { grid-template-columns: repeat(3, 1fr); } .favorites-preview { grid-template-columns: repeat(2, 1fr); } }
+      @media (max-width: 640px) { .profile-header { flex-direction: column; align-items: flex-start; } .profile-actions { margin-left: 0; width: 100%; } .order-stats { grid-template-columns: repeat(2, 1fr); } }
+    </style>
+  <script>
+    (function () {
+      // ===== 页脚示例链接 =====
+      document.querySelectorAll('.footer-links a').forEach(function (a) {
+        a.addEventListener('click', function (e) { e.preventDefault(); alert('示例链接'); });
+      });
+
+      // ===== 搜索 =====
+      var searchBtn = document.querySelector('.search-btn');
+      if (searchBtn) {
+        searchBtn.addEventListener('click', function () {
+          var input = document.querySelector('.search-input');
+          var kw = input ? input.value.trim() : '';
+          alert(kw ? '示例搜索：「' + kw + '」' : '请输入搜索关键词（示例）');
+        });
+      }
+
+      // ===== 订单状态统计 tab 切换（全部/待付款/待发货/待收货/已完成） =====
+      var orderStats = Array.prototype.slice.call(document.querySelectorAll('.order-stat'));
+      orderStats.forEach(function (stat) {
+        stat.addEventListener('click', function (e) {
+          e.preventDefault();
+          orderStats.forEach(function (s) {
+            s.classList.remove('is-active');
+            s.style.borderColor = '';
+            s.style.background = '';
+          });
+          stat.classList.add('is-active');
+          stat.style.borderColor = 'var(--ag-primary)';
+          stat.style.background = 'var(--ag-primary-50)';
+          var label = stat.querySelector('.label');
+          alert('已切换到「' + (label ? label.textContent : '全部订单') + '」订单列表（示例）');
+        });
+      });
+
+      // ===== 退出登录 =====
+      var logoutBtn = document.querySelector('.profile-actions .btn-primary');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          alert('已退出登录');
+          location.href = 'buyer-login.html';
+        });
+      }
+
+      // ===== 侧边菜单 / 卡片链接 / 编辑资料（无对应页面 → 示例链接） =====
+      document.querySelectorAll('.menu-item, .card-link, .favorite-item[href="buyer-artist.html"], .profile-actions .btn-secondary').forEach(function (el) {
+        el.addEventListener('click', function (e) { e.preventDefault(); alert('示例链接'); });
+      });
+
+      // ===== 安全设置按钮 =====
+      document.querySelectorAll('#btn-change-password, #btn-bind-email, #btn-bind-phone').forEach(function (btn) {
+        btn.addEventListener('click', function () { alert('示例链接'); });
+      });
+    })();
+  </script>
+<span data-dom-id="nav-category" style="display:none"></span>
+</body>
+</html>

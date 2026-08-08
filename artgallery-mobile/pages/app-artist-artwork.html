@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtGallery - 作品发布与管理</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen">
+<main>
+<div class="mobile-frame">
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="px-4 py-3">
+      <div class="flex items-center justify-between mb-3">
+        <h1 class="text-[16px] font-bold text-[#1E293B]">作品中心</h1>
+        <button id="btn-search-artworks" type="button" aria-label="搜索作品" class="w-10 h-10 flex items-center justify-center text-[#1E293B] rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21l-4.35-4.35"/>
+          </svg>
+        </button>
+      </div>
+      <div id="tabs-artwork" class="tab-group" role="tablist">
+        <button id="tab-publish" type="button" role="tab" aria-selected="true" class="tab-btn active">发布作品</button>
+        <button id="tab-my-artworks" type="button" role="tab" aria-selected="false" class="tab-btn">我的作品</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="px-4 pt-4 pb-24">
+    <!-- Publish Form -->
+    <section id="panel-publish" class="tab-panel active" aria-label="发布作品">
+      <form id="form-publish" class="card p-4 space-y-4">
+        <div>
+          <label for="input-name" class="block text-[13px] font-medium text-[#334155] mb-1.5">作品名称</label>
+          <input id="input-name" type="text" placeholder="请输入作品名称" class="input-field"/>
+        </div>
+        <div>
+          <label for="select-category" class="block text-[13px] font-medium text-[#334155] mb-1.5">一级分类</label>
+          <select id="select-category" class="select-field">
+            <option value="">请选择分类</option>
+            <option value="abstract">抽象</option>
+            <option value="classical">古典</option>
+            <option value="portrait">人物</option>
+            <option value="religious">宗教</option>
+            <option value="landscape">风景</option>
+            <option value="sculpture">雕塑</option>
+          </select>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label for="input-price" class="block text-[13px] font-medium text-[#334155] mb-1.5">价格（USD）</label>
+            <input id="input-price" type="number" placeholder="0.00" class="input-field"/>
+          </div>
+          <div>
+            <label for="input-size" class="block text-[13px] font-medium text-[#334155] mb-1.5">尺寸</label>
+            <input id="input-size" type="text" placeholder="如 80x100cm" class="input-field"/>
+          </div>
+        </div>
+        <div>
+          <label for="input-material" class="block text-[13px] font-medium text-[#334155] mb-1.5">材质</label>
+          <input id="input-material" type="text" placeholder="如 布面油画" class="input-field"/>
+        </div>
+        <div>
+          <label for="input-desc" class="block text-[13px] font-medium text-[#334155] mb-1.5">作品描述</label>
+          <textarea id="input-desc" placeholder="请输入作品简介、创作背景等" class="textarea-field"></textarea>
+        </div>
+        <div>
+          <label class="block text-[13px] font-medium text-[#334155] mb-1.5">上传图片</label>
+          <button id="upload-artwork" type="button" class="w-full h-[120px] border-2 border-dashed border-[#CBD5E1] rounded-lg flex flex-col items-center justify-center gap-2 text-[#64748B] bg-[#F8FAFC]">
+            <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+              <polyline points="17 8 12 3 7 8"/>
+              <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            <span class="text-[13px]">点击上传作品图片</span>
+            <span class="text-[11px] text-[#94A3B8]">支持 JPG / PNG，最多 9 张</span>
+          </button>
+        </div>
+        <button id="btn-submit-artwork" type="submit" class="btn-primary w-full h-11">提交审核</button>
+      </form>
+    </section>
+
+    <!-- My Artworks List -->
+    <section id="panel-my-artworks" class="tab-panel" aria-label="我的作品">
+      <div class="status-tabs" role="tablist" aria-label="作品状态筛选">
+        <button type="button" class="status-tab active" role="tab" aria-selected="true" data-filter="all">全部</button>
+        <button type="button" class="status-tab" role="tab" aria-selected="false" data-filter="pending">审核中</button>
+        <button type="button" class="status-tab" role="tab" aria-selected="false" data-filter="approved">已上架</button>
+        <button type="button" class="status-tab" role="tab" aria-selected="false" data-filter="offline">已下架</button>
+      </div>
+      <div class="space-y-3">
+        <div id="artwork-item-1" class="card p-3 flex gap-3">
+          <img src="../assets/art-abstract.jpg" alt="无界之境" class="w-20 h-20 rounded-lg object-cover shrink-0"/>
+          <div class="flex-1 min-w-0 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <div class="text-[14px] font-semibold text-[#1E293B] truncate">无界之境</div>
+                <span class="tag-approved">已通过</span>
+              </div>
+              <div class="text-[12px] text-[#64748B] mt-0.5">抽象 / 80x100cm / 布面油画</div>
+              <div class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$2,800</div>
+            </div>
+            <div class="flex items-center justify-end gap-2 mt-2">
+              <button id="edit-1" type="button" class="btn-secondary h-8 px-3 text-[13px]">编辑</button>
+              <button id="offline-1" type="button" class="btn-secondary h-8 px-3 text-[13px]">下架</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="artwork-item-2" class="card p-3 flex gap-3">
+          <img src="../assets/art-religious.jpg" alt="圣光降临" class="w-20 h-20 rounded-lg object-cover shrink-0"/>
+          <div class="flex-1 min-w-0 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <div class="text-[14px] font-semibold text-[#1E293B] truncate">圣光降临</div>
+                <span class="tag-rejected">已驳回</span>
+              </div>
+              <div class="text-[12px] text-[#64748B] mt-0.5">宗教 / 120x150cm / 布面油画</div>
+              <div class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$4,200</div>
+            </div>
+            <div class="flex items-center justify-end gap-2 mt-2">
+              <button id="resubmit-1" type="button" class="btn-primary h-8 px-3 text-[13px]">重新提交</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="artwork-item-3" class="card p-3 flex gap-3">
+          <img src="../assets/art-detail.jpg" alt="静默之诗" class="w-20 h-20 rounded-lg object-cover shrink-0"/>
+          <div class="flex-1 min-w-0 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <div class="text-[14px] font-semibold text-[#1E293B] truncate">静默之诗</div>
+                <span class="tag-forced-offline">平台强制下架</span>
+              </div>
+              <div class="text-[12px] text-[#64748B] mt-0.5">人物 / 60x80cm / 纸本水彩</div>
+              <div class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$1,500</div>
+            </div>
+            <div class="flex items-center justify-end gap-2 mt-2">
+              <button id="appeal-1" type="button" class="btn-secondary h-8 px-3 text-[13px]">申诉</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="artwork-item-4" class="card p-3 flex gap-3">
+          <img src="../assets/art-classical.jpg" alt="山水清音" class="w-20 h-20 rounded-lg object-cover shrink-0"/>
+          <div class="flex-1 min-w-0 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <div class="text-[14px] font-semibold text-[#1E293B] truncate">山水清音</div>
+                <span class="tag-offline">自主下架</span>
+              </div>
+              <div class="text-[12px] text-[#64748B] mt-0.5">古典 / 90x120cm / 绢本设色</div>
+              <div class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$3,500</div>
+            </div>
+            <div class="flex items-center justify-end gap-2 mt-2">
+              <button id="relist-1" type="button" class="btn-primary h-8 px-3 text-[13px]">重新上架</button>
+              <button id="delete-4" type="button" class="btn-danger h-8 px-3 text-[13px]">删除</button>
+            </div>
+          </div>
+        </div>
+
+        <div id="artwork-item-5" class="card p-3 flex gap-3">
+          <img src="../assets/art-portrait.jpg" alt="沉思者" class="w-20 h-20 rounded-lg object-cover shrink-0"/>
+          <div class="flex-1 min-w-0 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between gap-2">
+                <div class="text-[14px] font-semibold text-[#1E293B] truncate">沉思者</div>
+                <span class="tag-pending">待审核</span>
+              </div>
+              <div class="text-[12px] text-[#64748B] mt-0.5">人物 / 60x80cm / 布面油画</div>
+              <div class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$1,900</div>
+            </div>
+            <div class="flex items-center justify-end gap-2 mt-2">
+              <button id="withdraw-review-1" type="button" class="btn-secondary h-8 px-3 text-[13px]">撤回</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Bottom Tab Navigation -->
+  <nav data-mobile-nav="global" class="w-full h-[56px] border-t border-[#E2E8F0] bg-white">
+    <div class="w-full max-w-md mx-auto grid grid-cols-4 h-full">
+      <a data-nav-key="nav-home" id="nav-home" href="app-artist-home.html" data-dom-id="nav-home" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">首页</span>
+      </a>
+      <a data-nav-key="nav-category" data-active="true" id="nav-artworks" href="app-artist-artwork.html" data-dom-id="nav-artworks" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">作品</span>
+      </a>
+      <a data-nav-key="nav-cart" id="nav-orders" href="app-artist-orders.html" data-dom-id="nav-orders" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">订单</span>
+      </a>
+      <a data-nav-key="nav-profile" id="nav-profile" href="app-artist-home.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">我的</span>
+      </a>
+    </div>
+  </nav>
+</div>
+
+<script>
+(function() {
+  const tabPublish = document.getElementById('tab-publish');
+  const tabMy = document.getElementById('tab-my-artworks');
+  const panelPublish = document.getElementById('panel-publish');
+  const panelMy = document.getElementById('panel-my-artworks');
+
+  function switchTab(tab) {
+    if (tab === 'publish') {
+      tabPublish.classList.add('active');
+      tabPublish.setAttribute('aria-selected', 'true');
+      tabMy.classList.remove('active');
+      tabMy.setAttribute('aria-selected', 'false');
+      panelPublish.classList.add('active');
+      panelMy.classList.remove('active');
+    } else {
+      tabMy.classList.add('active');
+      tabMy.setAttribute('aria-selected', 'true');
+      tabPublish.classList.remove('active');
+      tabPublish.setAttribute('aria-selected', 'false');
+      panelMy.classList.add('active');
+      panelPublish.classList.remove('active');
+    }
+  }
+
+  tabPublish.addEventListener('click', function() { switchTab('publish'); });
+  tabMy.addEventListener('click', function() { switchTab('my'); });
+
+  document.getElementById('form-publish').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var name = document.getElementById('input-name').value.trim();
+    var price = document.getElementById('input-price').value.trim();
+    if (!name) { alert('请输入作品名称'); return; }
+    if (!price) { alert('请输入作品价格'); return; }
+    alert('发布成功，作品已提交审核');
+    document.getElementById('form-publish').reset();
+  });
+
+  // ===== 作品状态筛选（全部/审核中/已上架/已下架） =====
+  var statusCss = document.createElement('style');
+  statusCss.textContent =
+    '.status-tabs{display:flex;gap:4px;overflow-x:auto;border-bottom:1px solid var(--ag-border);background:var(--ag-card);margin-bottom:12px;-ms-overflow-style:none;scrollbar-width:none;}' +
+    '.status-tab{flex:1;min-width:62px;white-space:nowrap;display:flex;align-items:center;justify-content:center;min-height:40px;font-size:var(--ag-text-sm);color:var(--ag-neutral-500);background:transparent;border:none;border-bottom:2px solid transparent;cursor:pointer;padding:0 6px;font-weight:500;}' +
+    '.status-tab.active{color:var(--ag-primary);border-bottom-color:var(--ag-primary);}';
+  document.head.appendChild(statusCss);
+
+  var statusTabs = document.querySelectorAll('.status-tab');
+  var artworkItems = document.querySelectorAll('#panel-my-artworks [id^="artwork-item-"]');
+  function artStatus(item) {
+    var tag = item.querySelector('span[class*="tag-"]');
+    if (!tag) return 'all';
+    var c = tag.className;
+    if (c.indexOf('tag-pending') > -1) return 'pending';
+    if (c.indexOf('tag-approved') > -1) return 'approved';
+    if (c.indexOf('tag-offline') > -1 || c.indexOf('tag-forced-offline') > -1 || c.indexOf('tag-rejected') > -1) return 'offline';
+    return 'all';
+  }
+  function applyArtFilter(f) {
+    statusTabs.forEach(function(t) {
+      var on = t.getAttribute('data-filter') === f;
+      t.classList.toggle('active', on);
+      t.setAttribute('aria-selected', on ? 'true' : 'false');
+    });
+    artworkItems.forEach(function(item) {
+      item.style.display = (f === 'all' || artStatus(item) === f) ? '' : 'none';
+    });
+  }
+  statusTabs.forEach(function(t) {
+    t.addEventListener('click', function() { applyArtFilter(t.getAttribute('data-filter')); });
+  });
+
+  function setArtTag(item, cls, text) {
+    var tag = item.querySelector('span[class*="tag-"]');
+    if (tag) { tag.className = cls; tag.textContent = text; }
+  }
+
+  // 编辑（模拟）
+  var btnEdit = document.getElementById('edit-1');
+  if (btnEdit) { btnEdit.addEventListener('click', function() { alert('打开作品编辑（模拟）：无界之境'); }); }
+
+  // 上架 / 下架 切换（无界之境）
+  var btnOffline = document.getElementById('offline-1');
+  if (btnOffline) {
+    btnOffline.addEventListener('click', function() {
+      var item = btnOffline.closest('.card');
+      if (btnOffline.textContent.indexOf('下架') > -1) {
+        if (window.confirm('确认下架该作品？')) {
+          alert('已下架');
+          setArtTag(item, 'tag-offline', '自主下架');
+          btnOffline.textContent = '重新上架';
+        }
+      } else {
+        if (window.confirm('确认重新上架该作品？')) {
+          alert('已重新上架');
+          setArtTag(item, 'tag-approved', '已通过');
+          btnOffline.textContent = '下架';
+        }
+      }
+    });
+  }
+
+  // 重新提交（圣光降临）
+  var btnResubmit = document.getElementById('resubmit-1');
+  if (btnResubmit) {
+    btnResubmit.addEventListener('click', function() {
+      alert('已重新提交审核');
+      setArtTag(btnResubmit.closest('.card'), 'tag-pending', '待审核');
+      btnResubmit.disabled = true; btnResubmit.style.opacity = '0.5'; btnResubmit.style.cursor = 'not-allowed'; btnResubmit.textContent = '已提交';
+    });
+  }
+
+  // 申诉（静默之诗）
+  var btnAppeal = document.getElementById('appeal-1');
+  if (btnAppeal) {
+    btnAppeal.addEventListener('click', function() {
+      alert('申诉已提交，平台将在 3 个工作日内复核');
+      btnAppeal.disabled = true; btnAppeal.style.opacity = '0.5'; btnAppeal.style.cursor = 'not-allowed'; btnAppeal.textContent = '已申诉';
+    });
+  }
+
+  // 重新上架 / 下架 切换（山水清音）
+  var btnRelist = document.getElementById('relist-1');
+  if (btnRelist) {
+    btnRelist.addEventListener('click', function() {
+      var item = btnRelist.closest('.card');
+      if (btnRelist.textContent.indexOf('上架') > -1) {
+        if (window.confirm('确认重新上架该作品？')) {
+          alert('已重新上架');
+          setArtTag(item, 'tag-approved', '已通过');
+          btnRelist.textContent = '下架';
+        }
+      } else {
+        if (window.confirm('确认下架该作品？')) {
+          alert('已下架');
+          setArtTag(item, 'tag-offline', '自主下架');
+          btnRelist.textContent = '重新上架';
+        }
+      }
+    });
+  }
+
+  // 撤回（沉思者）
+  var btnWithdraw = document.getElementById('withdraw-review-1');
+  if (btnWithdraw) {
+    btnWithdraw.addEventListener('click', function() {
+      if (window.confirm('确认撤回审核申请？')) {
+        alert('已撤回，作品转为自主下架');
+        setArtTag(btnWithdraw.closest('.card'), 'tag-offline', '自主下架');
+        btnWithdraw.disabled = true; btnWithdraw.style.opacity = '0.5'; btnWithdraw.style.cursor = 'not-allowed'; btnWithdraw.textContent = '已撤回';
+      }
+    });
+  }
+
+  // 删除（山水清音）
+  var btnDelete = document.getElementById('delete-4');
+  if (btnDelete) {
+    btnDelete.addEventListener('click', function() {
+      if (window.confirm('确认删除该作品？此操作不可恢复。')) {
+        alert('已删除');
+        btnDelete.closest('.card').style.display = 'none';
+      }
+    });
+  }
+
+  // 上传图片（模拟）
+  var upload = document.getElementById('upload-artwork');
+  if (upload) { upload.addEventListener('click', function() { alert('请选择作品图片（模拟上传，支持 JPG/PNG，最多 9 张）'); }); }
+
+  // 搜索（模拟）
+  var searchBtn = document.getElementById('btn-search-artworks');
+  if (searchBtn) { searchBtn.addEventListener('click', function() { alert('搜索功能即将上线'); }); }
+
+  // 底部导航「我的」（模拟）
+  var navProfile = document.getElementById('nav-profile');
+  if (navProfile) { navProfile.addEventListener('click', function(e) { e.preventDefault(); alert('个人中心即将上线'); }); }
+})();
+</script>
+</main>
+
+    <style id="critical-layout">
+  .mobile-frame {
+    max-width: 414px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--ag-background);
+    position: relative;
+  }
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  [data-mobile-nav="global"] {
+    position: sticky;
+    bottom: 0;
+    z-index: 30;
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-spin { animation: none !important; }
+  }
+    </style>
+</body>
+</html>

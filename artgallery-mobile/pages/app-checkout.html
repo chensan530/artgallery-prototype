@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtGallery - 下单结算</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen">
+<main>
+<style id="critical-layout">
+  .mobile-frame {
+    max-width: 414px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--ag-background);
+    position: relative;
+  }
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  .submit-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 30;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+  }
+  .bottom-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 40;
+  }
+  .bottom-sheet {
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 414px;
+    background: #FFFFFF;
+    border-radius: 12px 12px 0 0;
+    z-index: 41;
+    padding: 20px 16px;
+    box-shadow: var(--ag-shadow-modal);
+  }
+  .toast-top {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    background: #2E7D32;
+    color: #FFFFFF;
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: var(--ag-shadow-md);
+  }
+  .checkout-card {
+    background: #FFFFFF;
+    border: 1px solid var(--ag-border);
+    border-radius: var(--ag-radius-medium);
+  }
+  .price-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .pay-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 12px;
+    border: 1px solid var(--ag-border);
+    border-radius: var(--ag-radius-medium);
+    background: #FFFFFF;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    width: 100%;
+    text-align: left;
+  }
+  .pay-option[aria-pressed="true"] {
+    border-color: var(--ag-primary);
+    background: var(--ag-primary-50);
+  }
+  .sheet-input {
+    width: 100%;
+    height: 44px;
+    padding: 0 12px;
+    border: 1px solid var(--ag-border);
+    border-radius: var(--ag-radius-medium);
+    font-size: var(--ag-text-base);
+    color: var(--ag-foreground);
+    background: #FFFFFF;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+  .sheet-input::placeholder { color: var(--ag-neutral-400); }
+  .sheet-input:focus { border-color: var(--ag-primary); }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+<div class="mobile-frame">
+  <!-- Top Bar with back button -->
+  <header class="top-bar">
+    <div class="px-4 py-2.5 flex items-center gap-3">
+      <a data-dom-id="btn-back" href="app-cart.html" aria-label="返回" class="w-9 h-9 flex items-center justify-center text-[#1E293B] shrink-0 rounded-lg">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <h1 class="text-[16px] font-semibold text-[#1E293B] flex-1" style="text-wrap: balance; word-break: keep-all;">确认订单</h1>
+    </div>
+  </header>
+
+  <!-- Content: address + order summary + price breakdown + payment method -->
+  <div class="pb-24" style="background: var(--ag-neutral-50);">
+
+    <!-- Address Card -->
+    <section class="px-4 pt-3" aria-label="收货地址">
+      <div class="checkout-card p-3.5">
+        <div class="flex items-start gap-3">
+          <svg class="w-5 h-5 text-[#1A365D] shrink-0 mt-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="12" cy="10" r="3"/>
+          </svg>
+          <div class="flex-1 min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <span class="text-[15px] font-semibold text-[#1E293B]">张明</span>
+              <span class="text-[13px] text-[#64748B]" style="font-variant-numeric: tabular-nums;">138****8888</span>
+            </div>
+            <p class="text-[13px] text-[#475569] mt-1 leading-relaxed" style="word-break: break-word;">123 Main St, New York, NY 10001</p>
+          </div>
+          <a data-dom-id="change-address" href="#" class="text-[13px] text-[#1A365D] font-medium whitespace-nowrap shrink-0 flex items-center gap-0.5">
+            更换地址
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Order Items Summary -->
+    <section class="px-4 mt-3" aria-label="订单商品">
+      <div class="checkout-card p-3.5">
+        <h2 class="text-[13px] font-medium text-[#64748B] mb-3">订单商品</h2>
+        <div class="flex items-start gap-3">
+          <img src="../assets/art-abstract.jpg" alt="无界之境 - 李明华" class="w-[72px] h-[72px] rounded-lg object-cover shrink-0 border border-[#E2E8F0]"/>
+          <div class="flex-1 min-w-0">
+            <div class="text-[15px] font-semibold text-[#1E293B] truncate">无界之境</div>
+            <div class="text-[13px] text-[#64748B] mt-0.5">李明华</div>
+            <div class="flex items-center justify-between mt-2">
+              <span class="text-[15px] font-bold text-[#1A365D]" style="font-variant-numeric: tabular-nums;">$2,800</span>
+              <span class="text-[13px] text-[#94A3B8]" style="font-variant-numeric: tabular-nums;">x1</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Price Breakdown -->
+    <section class="px-4 mt-3" aria-label="价格明细">
+      <div class="checkout-card p-3.5">
+        <h2 class="text-[13px] font-medium text-[#64748B] mb-3">价格明细</h2>
+        <div class="space-y-2.5">
+          <div class="price-row">
+            <span class="text-[14px] text-[#475569]">商品金额</span>
+            <span class="text-[14px] text-[#1E293B]" style="font-variant-numeric: tabular-nums;">$2,800</span>
+          </div>
+          <div class="price-row">
+            <span class="text-[14px] text-[#475569]">运费</span>
+            <span class="text-[14px] text-[#1E293B] flex items-center gap-1.5" style="font-variant-numeric: tabular-nums;">
+              <span class="text-[#94A3B8] line-through">$30</span>
+              <span class="text-[#2E7D32] font-medium">$0</span>
+              <span class="text-[12px] text-[#2E7D32] bg-[#E8F5E9] px-1.5 py-0.5 rounded" style="border-radius: 4px;">包邮</span>
+            </span>
+          </div>
+          <div class="border-t border-[#E2E8F0] pt-2.5 price-row">
+            <span class="text-[15px] font-semibold text-[#1E293B]">应付总价</span>
+            <span class="text-[20px] font-bold text-[#1A365D]" style="font-variant-numeric: tabular-nums;">$2,800</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Payment Method -->
+    <section class="px-4 mt-3 mb-4" aria-label="支付方式">
+      <div class="checkout-card p-3.5">
+        <h2 class="text-[13px] font-medium text-[#64748B] mb-3">选择支付方式</h2>
+        <div class="space-y-2.5">
+          <!-- PayPal option (selected) -->
+          <button type="button" data-dom-id="pay-paypal" aria-pressed="true" class="pay-option">
+            <svg class="w-5 h-5 shrink-0 text-[#1A365D]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <circle cx="12" cy="12" r="4" fill="currentColor" stroke="none"/>
+            </svg>
+            <span class="flex items-center gap-2 flex-1 min-w-0">
+              <span class="inline-flex items-center font-bold text-[15px]" style="font-style: italic; letter-spacing: -0.02em;">
+                <span style="color: #003087;">Pay</span><span style="color: #009cde;">Pal</span>
+              </span>
+              <span class="text-[12px] text-[#94A3B8]">推荐</span>
+            </span>
+            <svg class="w-4 h-4 text-[#94A3B8] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <!-- Credit card option -->
+          <button type="button" data-dom-id="pay-card" aria-pressed="false" class="pay-option">
+            <svg class="w-5 h-5 shrink-0 text-[#94A3B8]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+            </svg>
+            <span class="flex items-center gap-2 flex-1 min-w-0">
+              <svg class="w-5 h-5 text-[#1E293B]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="2" y="5" width="20" height="14" rx="2"/>
+                <line x1="2" y1="10" x2="22" y2="10"/>
+              </svg>
+              <span class="text-[15px] font-medium text-[#1E293B]">信用卡</span>
+            </span>
+            <svg class="w-4 h-4 text-[#94A3B8] shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 18l6-6-6-6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Fixed Bottom Submit Bar (NO bottom tab) -->
+  <div class="submit-bar">
+    <div class="px-4 py-3 flex items-center justify-between gap-4">
+      <div class="flex flex-col">
+        <span class="text-[12px] text-[#64748B] leading-none">应付总价</span>
+        <span class="text-[20px] font-bold text-[#1A365D] leading-tight mt-1" style="font-variant-numeric: tabular-nums;">$2,800</span>
+      </div>
+      <button type="button" data-dom-id="btn-submit-order" class="btn-primary" style="padding: 12px 32px; font-size: 15px; font-weight: 600; border-radius: var(--ag-radius-medium);">
+        提交订单
+      </button>
+    </div>
+  </div>
+
+  <!-- Payment Bottom Sheet (hidden by default) -->
+  <div id="payment-sheet" class="hidden">
+    <div class="bottom-sheet-overlay" data-dom-id="btn-close-sheet" role="button" aria-label="关闭支付"></div>
+    <div class="bottom-sheet" role="dialog" aria-modal="true" aria-label="支付确认">
+      <!-- Sheet header -->
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-[17px] font-semibold text-[#1E293B]">支付确认</h3>
+        <button type="button" data-dom-id="btn-close-sheet" aria-label="关闭" class="w-8 h-8 flex items-center justify-center text-[#64748B] rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- PayPal form (visible by default) -->
+      <div id="paypal-form">
+        <div class="flex items-center gap-2 mb-4">
+          <span class="inline-flex items-center font-bold text-[18px]" style="font-style: italic; letter-spacing: -0.02em;">
+            <span style="color: #003087;">Pay</span><span style="color: #009cde;">Pal</span>
+          </span>
+          <span class="text-[13px] text-[#64748B]">授权登录支付</span>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <label for="paypal-email" class="block text-[13px] font-medium text-[#475569] mb-1.5">PayPal 邮箱</label>
+            <input id="paypal-email" type="email" class="sheet-input" placeholder="email@example.com" autocomplete="email"/>
+          </div>
+          <div>
+            <label for="paypal-password" class="block text-[13px] font-medium text-[#475569] mb-1.5">密码</label>
+            <input id="paypal-password" type="password" class="sheet-input" placeholder="请输入密码" autocomplete="current-password"/>
+          </div>
+        </div>
+        <button type="button" data-dom-id="btn-confirm-pay" class="btn-primary w-full mt-5" style="padding: 12px; font-size: 15px; font-weight: 600; border-radius: var(--ag-radius-medium);">
+          授权支付 <span style="font-variant-numeric: tabular-nums;">$2,800</span>
+        </button>
+        <p class="text-[12px] text-[#94A3B8] text-center mt-3 leading-relaxed">授权后将自动完成支付，订单回执将发送至您的邮箱</p>
+      </div>
+
+      <!-- Credit card form (hidden by default) -->
+      <div id="card-form" class="hidden">
+        <div class="flex items-center gap-2 mb-4">
+          <svg class="w-5 h-5 text-[#1E293B]" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="2" y="5" width="20" height="14" rx="2"/>
+            <line x1="2" y1="10" x2="22" y2="10"/>
+          </svg>
+          <span class="text-[15px] font-medium text-[#1E293B]">信用卡支付</span>
+        </div>
+        <div class="space-y-3">
+          <div>
+            <label for="card-number" class="block text-[13px] font-medium text-[#475569] mb-1.5">卡号</label>
+            <input id="card-number" type="text" inputmode="numeric" class="sheet-input" placeholder="1234 5678 9012 3456" maxlength="19"/>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label for="card-expiry" class="block text-[13px] font-medium text-[#475569] mb-1.5">有效期</label>
+              <input id="card-expiry" type="text" inputmode="numeric" class="sheet-input" placeholder="MM/YY" maxlength="5"/>
+            </div>
+            <div>
+              <label for="card-cvv" class="block text-[13px] font-medium text-[#475569] mb-1.5">CVV</label>
+              <input id="card-cvv" type="text" inputmode="numeric" class="sheet-input" placeholder="123" maxlength="4"/>
+            </div>
+          </div>
+        </div>
+        <button type="button" class="btn-primary w-full mt-5" style="padding: 12px; font-size: 15px; font-weight: 600; border-radius: var(--ag-radius-medium);">
+          确认支付 <span style="font-variant-numeric: tabular-nums;">$2,800</span>
+        </button>
+        <p class="text-[12px] text-[#94A3B8] text-center mt-3 leading-relaxed">支付成功后订单回执将发送至您的邮箱</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Toast (hidden by default) -->
+  <div id="toast-success" class="toast-top hidden">
+    <div class="flex items-center gap-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M20 6L9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span>支付成功</span>
+    </div>
+  </div>
+
+</div>
+</main>
+<script>
+(function(){
+  var sheet = document.getElementById('payment-sheet');
+  var toast = document.getElementById('toast-success');
+  var paypalForm = document.getElementById('paypal-form');
+  var cardForm = document.getElementById('card-form');
+
+  function openSheet(){ if (sheet) { sheet.classList.remove('hidden'); } }
+  function closeSheet(){ if (sheet) { sheet.classList.add('hidden'); } }
+
+  // Payment method selection (radio-like)
+  var payOptions = document.querySelectorAll('.pay-option');
+  for (var i = 0; i < payOptions.length; i++) {
+    (function(opt){
+      opt.addEventListener('click', function(){
+        for (var j = 0; j < payOptions.length; j++) {
+          payOptions[j].setAttribute('aria-pressed', 'false');
+        }
+        opt.setAttribute('aria-pressed', 'true');
+        if (opt.getAttribute('data-dom-id') === 'pay-paypal') {
+          if (paypalForm) { paypalForm.classList.remove('hidden'); }
+          if (cardForm) { cardForm.classList.add('hidden'); }
+        } else {
+          if (cardForm) { cardForm.classList.remove('hidden'); }
+          if (paypalForm) { paypalForm.classList.add('hidden'); }
+        }
+      });
+    })(payOptions[i]);
+  }
+
+  // Change address placeholder
+  var changeAddr = document.querySelector('[data-dom-id="change-address"]');
+  if (changeAddr) {
+    changeAddr.addEventListener('click', function(e){
+      e.preventDefault();
+      alert('示例功能：更换收货地址');
+    });
+  }
+
+  // Submit order -> open payment sheet
+  var submitBtn = document.querySelector('[data-dom-id="btn-submit-order"]');
+  if (submitBtn) {
+    submitBtn.addEventListener('click', openSheet);
+  }
+
+  // Close sheet: overlay backdrop + X button + Esc
+  var closeBtns = document.querySelectorAll('[data-dom-id="btn-close-sheet"]');
+  for (var k = 0; k < closeBtns.length; k++) {
+    closeBtns[k].addEventListener('click', closeSheet);
+  }
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && sheet && !sheet.classList.contains('hidden')) { closeSheet(); }
+  });
+
+  function showToast(){
+    if (toast) {
+      toast.classList.remove('hidden');
+      setTimeout(function(){ toast.classList.add('hidden'); }, 2500);
+    }
+  }
+
+  function doPay(){
+    closeSheet();
+    showToast();
+    setTimeout(function(){
+      alert('支付成功');
+      window.location.href = 'app-order-detail.html';
+    }, 350);
+  }
+
+  var payNow = document.querySelector('[data-dom-id="btn-confirm-pay"]');
+  if (payNow) { payNow.addEventListener('click', doPay); }
+  var cardPay = document.querySelector('#card-form .btn-primary');
+  if (cardPay) { cardPay.addEventListener('click', doPay); }
+})();
+</script>
+</body>
+</html>

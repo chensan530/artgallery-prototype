@@ -1,0 +1,21 @@
+{
+  "root": {
+    "nodeId": "gen-project-shell",
+    "kind": "project-shell",
+    "pageIds": ["page-app-home","page-app-category","page-app-artwork-detail","page-app-cart","page-app-checkout","page-app-profile","page-app-order-detail"],
+    "output": "partials/project-shell.html",
+    "sharedRegions": ["brand CSS","font system","color tokens","bottom tab navigation","status tag styles","button styles"],
+    "privateRegions": [],
+    "mutableSlots": ["page-content","active-tab"],
+    "status": "planned",
+    "children": [
+      { "nodeId": "page-app-home", "kind": "page-leaf", "pageIds": ["page-app-home"], "output": "pages/app-home.html", "sharedRegions": [], "privateRegions": ["search bar","banner","category icons","waterfall cards","bottom tab"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-app-category", "kind": "page-leaf", "pageIds": ["page-app-category"], "output": "pages/app-category.html", "sharedRegions": [], "privateRegions": ["category tabs","filter panel","artwork list","bottom tab"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-app-artwork-detail", "kind": "page-leaf", "pageIds": ["page-app-artwork-detail"], "output": "pages/app-artwork-detail.html", "sharedRegions": [], "privateRegions": ["image scroll","artwork info","bottom buy bar","ticket button"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-app-cart", "kind": "page-leaf", "pageIds": ["page-app-cart"], "output": "pages/app-cart.html", "sharedRegions": [], "privateRegions": ["cart items","quantity edit","checkout bar","bottom tab"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-app-checkout", "kind": "page-leaf", "pageIds": ["page-app-checkout"], "output": "pages/app-checkout.html", "sharedRegions": [], "privateRegions": ["address form","order summary","payment popup","success toast"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-app-profile", "kind": "page-leaf", "pageIds": ["page-app-profile"], "output": "pages/app-profile.html", "sharedRegions": [], "privateRegions": ["avatar info","order entries","settings list","bottom tab"], "mutableSlots": [], "status": "planned", "children": [] },
+      { "nodeId": "page-app-order-detail", "kind": "page-leaf", "pageIds": ["page-app-order-detail"], "output": "pages/app-order-detail.html", "sharedRegions": [], "privateRegions": ["order info","logistics","confirm receipt","ticket button"], "mutableSlots": [], "status": "planned", "children": [] }
+    ]
+  }
+}

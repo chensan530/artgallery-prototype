@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtGallery - 艺术家工作台</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen">
+<main>
+<div class="mobile-frame">
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="px-4 py-3">
+      <div class="flex items-center justify-between gap-3">
+        <div class="flex items-center gap-3 min-w-0">
+          <div id="artist-avatar" class="w-11 h-11 rounded-full bg-[#1A365D] text-white flex items-center justify-center text-[15px] font-bold shrink-0" aria-label="艺术家头像">陈</div>
+          <div class="min-w-0">
+            <div id="artist-name" class="text-[16px] font-bold text-[#1E293B] truncate">陈墨白</div>
+            <div class="text-[12px] text-[#64748B] truncate">油画 / 当代艺术家</div>
+          </div>
+        </div>
+        <button id="btn-messages" type="button" aria-label="消息通知" class="relative w-11 h-11 flex items-center justify-center text-[#1E293B] shrink-0 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+            <path d="M13.73 21a2 2 0 01-3.46 0"/>
+          </svg>
+          <span class="absolute top-2 right-2.5 w-2 h-2 bg-[#E53935] rounded-full" aria-hidden="true"></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="px-4 pt-4 pb-24">
+    <!-- Data Cards -->
+    <section id="stats-section" class="grid grid-cols-2 gap-3" aria-label="数据概览">
+      <div id="stat-pending-settlement" class="card p-3">
+        <div class="text-[12px] text-[#64748B]">待结算金额</div>
+        <div class="text-[18px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$4,280</div>
+        <div class="text-[11px] text-[#2E7D32] mt-0.5">较上周 +12%</div>
+      </div>
+      <div id="stat-month-income" class="card p-3">
+        <div class="text-[12px] text-[#64748B]">本月收入</div>
+        <div class="text-[18px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$12,650</div>
+        <div class="text-[11px] text-[#2E7D32] mt-0.5">较上月 +8%</div>
+      </div>
+      <div id="stat-reviewing-artworks" class="card p-3">
+        <div class="text-[12px] text-[#64748B]">审核中作品</div>
+        <div class="text-[18px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">3</div>
+        <div class="text-[11px] text-[#64748B] mt-0.5">预计 1-2 天</div>
+      </div>
+    </section>
+
+    <!-- Quick Entries -->
+    <section id="quick-entries" class="card p-4 mt-4" aria-label="快捷入口">
+      <h2 class="text-[15px] font-bold text-[#1E293B] mb-3">常用功能</h2>
+      <div class="grid grid-cols-4 gap-3">
+        <a id="entry-publish" data-dom-id="entry-publish" href="app-artist-artwork.html" class="flex flex-col items-center gap-2 py-1 rounded-lg min-h-[72px] justify-center">
+          <span class="w-11 h-11 rounded-full bg-[#F0F5FA] flex items-center justify-center text-[#1A365D]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 5v14M5 12h14"/>
+            </svg>
+          </span>
+          <span class="text-[12px] text-[#1E293B] leading-none whitespace-nowrap">发布作品</span>
+        </a>
+        <a id="entry-artworks" data-dom-id="entry-artworks" href="app-artist-artwork.html" class="flex flex-col items-center gap-2 py-1 rounded-lg min-h-[72px] justify-center">
+          <span class="w-11 h-11 rounded-full bg-[#F0F5FA] flex items-center justify-center text-[#1A365D]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2"/>
+              <circle cx="8.5" cy="8.5" r="1.5"/>
+              <path d="M21 15l-5-5L5 21"/>
+            </svg>
+          </span>
+          <span class="text-[12px] text-[#1E293B] leading-none whitespace-nowrap">作品管理</span>
+        </a>
+        <a id="entry-orders" data-dom-id="entry-orders" href="app-artist-orders.html" class="flex flex-col items-center gap-2 py-1 rounded-lg min-h-[72px] justify-center">
+          <span class="w-11 h-11 rounded-full bg-[#F0F5FA] flex items-center justify-center text-[#1A365D]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+              <line x1="3" y1="6" x2="21" y2="6"/>
+              <path d="M16 10a4 4 0 01-8 0"/>
+            </svg>
+          </span>
+          <span class="text-[12px] text-[#1E293B] leading-none whitespace-nowrap">订单管理</span>
+        </a>
+        <a id="entry-finance" href="app-artist-orders.html" class="flex flex-col items-center gap-2 py-1 rounded-lg min-h-[72px] justify-center">
+          <span class="w-11 h-11 rounded-full bg-[#F0F5FA] flex items-center justify-center text-[#1A365D]">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/>
+            </svg>
+          </span>
+          <span class="text-[12px] text-[#1E293B] leading-none whitespace-nowrap">财务管理</span>
+        </a>
+      </div>
+    </section>
+
+    <!-- Recent Works -->
+    <section id="recent-works" class="mt-4" aria-label="最近上传作品">
+      <div class="flex items-center justify-between mb-3">
+        <h2 class="text-[15px] font-bold text-[#1E293B]">最近上传</h2>
+        <a id="view-all-artworks" href="app-artist-artwork.html" class="text-[13px] text-[#64748B] whitespace-nowrap flex items-center gap-0.5">
+          全部 <span aria-hidden="true">&gt;</span>
+        </a>
+      </div>
+      <div class="space-y-3">
+        <div id="artwork-card-1" class="card p-3 flex gap-3">
+          <img src="../assets/art-abstract.jpg" alt="无界之境" class="w-20 h-20 rounded-lg object-cover shrink-0"/>
+          <div class="flex-1 min-w-0 flex flex-col justify-between">
+            <div>
+              <div class="text-[14px] font-semibold text-[#1E293B] truncate">无界之境</div>
+              <div class="text-[12px] text-[#64748B] mt-0.5">抽象 / 80x100cm</div>
+            </div>
+            <div class="flex items-center justify-between mt-2">
+              <span class="text-[14px] font-bold text-[#1A365D]" style="font-variant-numeric: tabular-nums;">$2,800</span>
+              <span class="tag-pending">审核中</span>
+            </div>
+          </div>
+        </div>
+        <div id="artwork-card-2" class="card p-3 flex gap-3">
+          <img src="../assets/art-portrait.jpg" alt="沉思者" class="w-20 h-20 rounded-lg object-cover shrink-0"/>
+          <div class="flex-1 min-w-0 flex flex-col justify-between">
+            <div>
+              <div class="text-[14px] font-semibold text-[#1E293B] truncate">沉思者</div>
+              <div class="text-[12px] text-[#64748B] mt-0.5">人物 / 60x80cm</div>
+            </div>
+            <div class="flex items-center justify-between mt-2">
+              <span class="text-[14px] font-bold text-[#1A365D]" style="font-variant-numeric: tabular-nums;">$1,900</span>
+              <span class="tag-approved">已通过</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Bottom Tab Navigation -->
+  <nav data-mobile-nav="global" class="w-full h-[56px] border-t border-[#E2E8F0] bg-white">
+    <div class="w-full max-w-md mx-auto grid grid-cols-4 h-full">
+      <a data-nav-key="nav-home" data-active="true" id="nav-home" href="app-artist-home.html" data-dom-id="nav-home" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">首页</span>
+      </a>
+      <a data-nav-key="nav-category" id="nav-artworks" href="app-artist-artwork.html" data-dom-id="nav-artworks" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">作品</span>
+      </a>
+      <a data-nav-key="nav-cart" id="nav-orders" href="app-artist-orders.html" data-dom-id="nav-orders" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">订单</span>
+      </a>
+      <a data-nav-key="nav-profile" id="nav-profile" href="app-artist-home.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">我的</span>
+      </a>
+    </div>
+  </nav>
+</div>
+</main>
+
+    <style id="critical-layout">
+  .mobile-frame {
+    max-width: 414px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--ag-background);
+    position: relative;
+  }
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  [data-mobile-nav="global"] {
+    position: sticky;
+    bottom: 0;
+    z-index: 30;
+  }
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .animate-spin { animation: none !important; }
+  }
+    </style>
+    <script>
+    (function() {
+      // 数据卡点击跳转
+      var statMap = {
+        'stat-pending-settlement': 'app-artist-orders.html',
+        'stat-month-income': 'app-artist-orders.html',
+        'stat-reviewing-artworks': 'app-artist-artwork.html'
+      };
+      Object.keys(statMap).forEach(function(id) {
+        var el = document.getElementById(id);
+        if (!el) return;
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', function() { window.location.href = statMap[id]; });
+      });
+      // 最近上传卡片 → 作品管理页
+      ['artwork-card-1', 'artwork-card-2'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) {
+          el.style.cursor = 'pointer';
+          el.addEventListener('click', function() { window.location.href = 'app-artist-artwork.html'; });
+        }
+      });
+      // 消息通知
+      var msg = document.getElementById('btn-messages');
+      if (msg) { msg.addEventListener('click', function() { alert('暂无新消息'); }); }
+      // 底部导航「我的」（模拟）
+      var navProfile = document.getElementById('nav-profile');
+      if (navProfile) { navProfile.addEventListener('click', function(e) { e.preventDefault(); alert('个人中心即将上线'); }); }
+    })();
+    </script>
+</body>
+</html>

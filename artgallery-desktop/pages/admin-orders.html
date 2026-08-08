@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>订单管理 - ArtGallery 管理后台</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="ag-app-body">
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="管理后台导航">
+      <div class="sidebar-logo">
+        <span class="logo-mark"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></span>
+        <span class="logo-text">ArtGallery</span>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="nav-section-label">工作台</div>
+        <a class="nav-item" id="nav-dashboard" data-dom-id="nav-dashboard" href="admin-dashboard.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg><span class="nav-text">数据仪表盘</span></a>
+        <div class="nav-section-label">审核中心</div>
+        <a class="nav-item" id="nav-artist-review" data-dom-id="nav-artist-review" href="artist-review.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><polyline points="16 11 18 13 22 9"/></svg><span class="nav-text">艺术家入驻审核</span><span class="nav-badge">8</span></a>
+        <a class="nav-item" id="nav-artwork-review" data-dom-id="nav-artwork-review" href="artwork-review.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg><span class="nav-text">作品审核</span><span class="nav-badge">23</span></a>
+        <div class="nav-section-label">内容管理</div>
+        <a class="nav-item" id="nav-artist-mgmt" data-dom-id="nav-artist-mgmt" href="admin-artist-management.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span class="nav-text">艺术家管理</span></a>
+        <a class="nav-item" id="nav-artwork-mgmt" data-dom-id="nav-artwork-mgmt" href="admin-artwork-management.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 15l5-5 4 4 3-3 6 6"/><circle cx="8.5" cy="8.5" r="1.5"/></svg><span class="nav-text">作品总管理</span></a>
+        <a class="nav-item active" id="nav-orders" href="admin-orders.html" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg><span class="nav-text">订单管理</span></a>
+        <a class="nav-item" id="nav-finance" data-dom-id="nav-finance" href="admin-finance.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 7V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-2"/><path d="M3 5v14"/><path d="M21 12h-4a2 2 0 0 0 0 4h4v-4Z"/></svg><span class="nav-text">财务中心</span></a>
+        <div class="nav-section-label">运营支持</div>
+        <a class="nav-item" id="nav-settings" data-dom-id="nav-settings" href="admin-settings.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></svg><span class="nav-text">系统配置</span></a>
+        <a class="nav-item" id="nav-sub-accounts" href="admin-settings.html"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg><span class="nav-text">子账号管理</span></a>
+      </nav>
+      <div class="sidebar-foot">ArtGallery Admin · v2.4</div>
+    </aside>
+
+    <div class="main-area">
+      <header class="topbar">
+        <div class="topbar-left"><span class="topbar-title">订单管理</span><span class="topbar-sub">全平台 32.5K 订单 · 履约与售后一站式跟踪</span></div>
+        <div class="topbar-right">
+          <div class="admin-chip"><div class="admin-avatar">管</div><div class="admin-info"><span class="admin-name">管理员</span><span class="perm-badge">完整权限</span></div></div>
+          <button class="bell-btn" id="btn-notify" type="button" aria-label="通知"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg><span class="bell-dot"></span></button>
+        </div>
+      </header>
+      <style>.bell-btn { position: relative; width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; border-radius: var(--ag-radius-medium); background: #fff; border: 1px solid var(--ag-border); cursor: pointer; color: var(--ag-neutral-600); transition: background 0.15s, border-color 0.15s; } .bell-btn:hover { background: var(--ag-neutral-50); border-color: var(--ag-neutral-300); } .bell-dot { position: absolute; top: 8px; right: 9px; width: 8px; height: 8px; border-radius: 50%; background: var(--state-error); border: 1.5px solid #fff; }</style>
+
+      <main class="content-scroll">
+        <div class="order-stats" id="order-stats">
+          <div class="stat-card" id="stat-today"><div class="stat-label">今日订单</div><div class="stat-value">156</div></div>
+          <div class="stat-card" id="stat-pending"><div class="stat-label">待发货</div><div class="stat-value warn">42</div></div>
+          <div class="stat-card" id="stat-aftersale"><div class="stat-label">售后中</div><div class="stat-value warn">8</div></div>
+          <div class="stat-card" id="stat-amount"><div class="stat-label">今日成交额</div><div class="stat-value">$48,920</div></div>
+        </div>
+
+        <div class="filter-bar" id="filter-bar-orders">
+          <div class="filter-group"><label class="filter-label">订单状态</label><select class="filter-select" id="filter-order-status"><option value="">全部</option><option value="pending">待付款</option><option value="paid">已付款</option><option value="shipped">已发货</option><option value="completed">已完成</option><option value="refund">退款中</option></select></div>
+          <div class="filter-group"><label class="filter-label">下单时间</label><select class="filter-select" id="filter-order-time"><option value="">全部时间</option><option value="today">今天</option><option value="week">近7天</option><option value="month">近30天</option></select></div>
+          <div class="filter-group"><label class="filter-label">支付方式</label><select class="filter-select" id="filter-payment"><option value="">全部</option><option value="card">信用卡</option><option value="paypal">PayPal</option><option value="bank">银行转账</option><option value="crypto">加密货币</option></select></div>
+          <div class="filter-group"><label class="filter-label">艺术家</label><select class="filter-select" id="filter-artist"><option value="">全部</option><option value="chenmobai">陈墨白</option><option value="linqingyuan">林清远</option><option value="su">苏怀瑾</option></select></div>
+          <div class="filter-group" style="flex:1; min-width: 200px;"><input class="filter-input" id="filter-order-no" type="text" placeholder="搜索订单号 / 买家邮箱 / 作品名称"></div>
+          <div class="filter-group"><button class="btn-primary" id="btn-search-orders" type="button">查询</button><button class="btn-secondary" id="btn-reset-orders" type="button">重置</button></div>
+        </div>
+
+        <div class="data-card" id="orders-table-card">
+          <table class="data-table" id="orders-table">
+            <thead><tr><th>订单号</th><th>买家</th><th>作品</th><th>金额</th><th>支付渠道</th><th>状态</th><th>操作</th></tr></thead>
+            <tbody>
+              <tr id="order-row-1">
+                <td><div class="cell-order"><span class="cell-order-id">AG-20815</span><span class="cell-order-time">2026-08-05 11:20</span></div></td>
+                <td><div class="cell-buyer"><span class="cell-buyer-name">张雅文</span><span class="cell-buyer-email">zhangya@email.com</span></div></td>
+                <td>《山水清音》· 陈墨白</td>
+                <td><span class="cell-amount">$4,200</span></td>
+                <td><span class="cell-channel"><span class="channel-dot"></span>信用卡</span></td>
+                <td id="status-cell-1"></td>
+                <td id="act-cell-1"></td>
+              </tr>
+              <tr id="order-row-2">
+                <td><div class="cell-order"><span class="cell-order-id">AG-20814</span><span class="cell-order-time">2026-08-05 10:45</span></div></td>
+                <td><div class="cell-buyer"><span class="cell-buyer-name">李文昊</span><span class="cell-buyer-email">liwenhao@email.com</span></div></td>
+                <td>《城市切片 No.7》· 陆明远</td>
+                <td><span class="cell-amount">$2,800</span></td>
+                <td><span class="cell-channel"><span class="channel-dot" style="background:#003087;"></span>PayPal</span></td>
+                <td id="status-cell-2"></td>
+                <td id="act-cell-2"></td>
+              </tr>
+              <tr id="order-row-3">
+                <td><div class="cell-order"><span class="cell-order-id">AG-20813</span><span class="cell-order-time">2026-08-05 09:12</span></div></td>
+                <td><div class="cell-buyer"><span class="cell-buyer-name">Michael Chen</span><span class="cell-buyer-email">m.chen@us.com</span></div></td>
+                <td>《无题·蓝》· 何昭</td>
+                <td><span class="cell-amount">$1,600</span></td>
+                <td><span class="cell-channel"><span class="channel-dot" style="background:#8B0000;"></span>银行转账</span></td>
+                <td id="status-cell-3"></td>
+                <td id="act-cell-3"></td>
+              </tr>
+              <tr id="order-row-4">
+                <td><div class="cell-order"><span class="cell-order-id">AG-20812</span><span class="cell-order-time">2026-08-04 18:30</span></div></td>
+                <td><div class="cell-buyer"><span class="cell-buyer-name">Sarah Johnson</span><span class="cell-buyer-email">sarah.j@uk.com</span></div></td>
+                <td>《秋山图》· 王砚舟</td>
+                <td><span class="cell-amount">$5,500</span></td>
+                <td><span class="cell-channel"><span class="channel-dot"></span>信用卡</span></td>
+                <td id="status-cell-4"></td>
+                <td id="act-cell-4"></td>
+              </tr>
+              <tr id="order-row-5">
+                <td><div class="cell-order"><span class="cell-order-id">AG-20811</span><span class="cell-order-time">2026-08-04 16:05</span></div></td>
+                <td><div class="cell-buyer"><span class="cell-buyer-name">王晓萌</span><span class="cell-buyer-email">wangxm@email.com</span></div></td>
+                <td>《光与尘》· 周慕言</td>
+                <td><span class="cell-amount">$980</span></td>
+                <td><span class="cell-channel"><span class="channel-dot" style="background:#003087;"></span>PayPal</span></td>
+                <td id="status-cell-5"></td>
+                <td id="act-cell-5"></td>
+              </tr>
+              <tr id="order-row-6">
+                <td><div class="cell-order"><span class="cell-order-id">AG-20810</span><span class="cell-order-time">2026-08-04 14:22</span></div></td>
+                <td><div class="cell-buyer"><span class="cell-buyer-name">陈志强</span><span class="cell-buyer-email">chenzq@email.com</span></div></td>
+                <td>《静物三章》· 沈知白</td>
+                <td><span class="cell-amount">$1,250</span></td>
+                <td><span class="cell-channel"><span class="channel-dot" style="background:#F57C00;"></span>加密货币</span></td>
+                <td id="status-cell-6"></td>
+                <td id="act-cell-6"></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pagination" id="orders-pagination">
+            <span class="page-info">共 32,540 条 · 每页 20 条</span>
+            <button class="page-btn" id="page-prev" type="button" disabled>上一页</button>
+            <button class="page-btn active" id="page-1" type="button">1</button>
+            <button class="page-btn" id="page-2" type="button">2</button>
+            <button class="page-btn" id="page-3" type="button">3</button>
+            <button class="page-btn" id="page-4" type="button">4</button>
+            <button class="page-btn" id="page-5" type="button">5</button>
+            <button class="page-btn" id="page-next" type="button">下一页</button>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- 订单详情弹窗 -->
+  <div class="modal-backdrop" id="detail-modal" role="dialog" aria-modal="true" aria-labelledby="detail-modal-title" style="display:none;">
+    <div class="detail-modal">
+      <div class="modal-header">
+        <span class="modal-title" id="detail-modal-title">订单详情</span>
+        <button class="modal-close-btn" type="button" data-dom-id="order-modal-close" aria-label="关闭">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <div class="detail-label">订单号</div>
+            <div class="detail-value mono" id="dt-order-id">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">下单时间</div>
+            <div class="detail-value" id="dt-order-time">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">买家</div>
+            <div class="detail-value" id="dt-buyer">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">买家邮箱</div>
+            <div class="detail-value mono" id="dt-buyer-email">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">作品信息</div>
+            <div class="detail-value" id="dt-artwork">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">支付渠道</div>
+            <div class="detail-value" id="dt-channel">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">订单状态</div>
+            <div class="detail-value" id="dt-status">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">收货人</div>
+            <div class="detail-value" id="dt-receiver">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">联系电话</div>
+            <div class="detail-value mono" id="dt-phone">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">收货地址</div>
+            <div class="detail-value" id="dt-address">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">金额明细</div>
+            <div id="dt-amount"></div>
+          </div>
+          <div class="detail-item full" id="dt-logistics-wrap">
+            <div class="detail-label">物流信息</div>
+            <div id="dt-logistics"></div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">订单进度</div>
+            <div class="timeline" id="dt-timeline"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary btn-sm" type="button" data-dom-id="order-modal-close">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 确认已支付弹窗 -->
+  <div class="modal-backdrop nested" id="confirm-paid-modal" role="dialog" aria-modal="true" aria-labelledby="confirm-paid-modal-title" style="display:none;">
+    <div class="confirm-modal">
+      <div class="confirm-icon" style="background: var(--state-success-light); color: var(--state-success);">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg>
+      </div>
+      <div class="confirm-text" id="confirm-paid-modal-title">确认该买家已完成支付？</div>
+      <div class="confirm-sub">确认后订单将进入「待发货」状态，平台将线下通知艺术家发货。</div>
+      <div class="modal-footer" style="border-top:none;justify-content:center;padding-top:0;">
+        <button class="btn-secondary btn-sm" type="button" data-dom-id="confirm-paid-cancel">取消</button>
+        <button class="btn-primary btn-sm" type="button" data-dom-id="confirm-paid-confirm">确认已支付</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 物流详情弹窗 -->
+  <div class="modal-backdrop" id="logistics-modal" role="dialog" aria-modal="true" aria-labelledby="logistics-modal-title" style="display:none;">
+    <div class="detail-modal">
+      <div class="modal-header">
+        <span class="modal-title" id="logistics-modal-title">物流详情</span>
+        <button class="modal-close-btn" type="button" data-dom-id="logistics-modal-close" aria-label="关闭">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <div class="detail-label">物流公司</div>
+            <div class="detail-value" id="lg-company">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">运单号</div>
+            <div class="detail-value mono" id="lg-tracking">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">发货时间</div>
+            <div class="detail-value" id="lg-shipped-at">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">承运类型</div>
+            <div class="detail-value" id="lg-carrier">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">发货信息</div>
+            <div class="detail-value" id="lg-ship-info">-</div>
+            <div class="detail-value" id="lg-ship-note" style="margin-top:4px;font-size:var(--ag-text-sm);color:var(--ag-muted-foreground);font-weight:400;"></div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">发货物品照片</div>
+            <div class="logistics-photo" id="lg-photo">
+              <img id="lg-photo-img" src="" alt="发货物品照片" style="display:none;width:100%;max-height:260px;object-fit:cover;border-radius:var(--ag-radius-medium);"/>
+              <div id="lg-photo-empty">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+                <span id="lg-photo-label">暂无发货照片</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary btn-sm" type="button" data-dom-id="logistics-modal-close">关闭</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 给艺术家结算弹窗 -->
+  <div class="modal-backdrop" id="settle-modal" role="dialog" aria-modal="true" aria-labelledby="settle-modal-title" style="display:none;">
+    <div class="detail-modal">
+      <div class="modal-header">
+        <span class="modal-title" id="settle-modal-title">给艺术家结算</span>
+        <button class="modal-close-btn" type="button" data-dom-id="settle-cancel" aria-label="关闭">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <div class="detail-label">订单号</div>
+            <div class="detail-value mono" id="st-order-id">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">艺术家</div>
+            <div class="detail-value" id="st-artist">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">作品</div>
+            <div class="detail-value" id="st-artwork">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">成交金额</div>
+            <div class="detail-value" id="st-amount">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">结算明细</div>
+            <div id="st-detail"></div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">收款账户（艺术家入驻预留）</div>
+            <div class="detail-value mono" id="st-account">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">支付凭证上传</div>
+            <div class="voucher-upload" id="voucher-upload" role="button" tabindex="0">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <span id="voucher-upload-hint">点击上传支付凭证（打款截图 / PDF）</span>
+              <span class="voucher-file" id="voucher-file" style="display:none;">已上传：支付凭证.png</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary btn-sm" type="button" data-dom-id="settle-cancel">取消</button>
+        <button class="btn-primary btn-sm" type="button" data-dom-id="settle-confirm">确认打款</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 结算凭证弹窗 -->
+  <div class="modal-backdrop" id="voucher-modal" role="dialog" aria-modal="true" aria-labelledby="voucher-modal-title" style="display:none;">
+    <div class="detail-modal">
+      <div class="modal-header">
+        <span class="modal-title" id="voucher-modal-title">结算凭证</span>
+        <button class="modal-close-btn" type="button" data-dom-id="voucher-modal-close" aria-label="关闭">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="detail-grid">
+          <div class="detail-item">
+            <div class="detail-label">订单号</div>
+            <div class="detail-value mono" id="vc-order-id">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">艺术家</div>
+            <div class="detail-value" id="vc-artist">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">结算金额</div>
+            <div class="detail-value" id="vc-amount">-</div>
+          </div>
+          <div class="detail-item">
+            <div class="detail-label">结算时间</div>
+            <div class="detail-value" id="vc-time">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">收款账户</div>
+            <div class="detail-value mono" id="vc-account">-</div>
+          </div>
+          <div class="detail-item full">
+            <div class="detail-label">支付凭证照片</div>
+            <div class="logistics-photo" id="vc-photo">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+              <span>支付凭证.png</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-secondary btn-sm" type="button" data-dom-id="voucher-modal-close">关闭</button>
+      </div>
+    </div>
+  </div>
+
+    <style id="admin-layout">
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    .ag-app-body { height: 100vh; overflow: hidden; background: var(--ag-neutral-50); color: var(--ag-foreground); font-family: var(--ag-font-sans); font-size: var(--ag-text-base); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+    .app-shell { display: flex; height: 100vh; overflow: hidden; min-height: 0; }
+    .sidebar { width: 240px; flex-shrink: 0; background: var(--ag-primary); color: #fff; display: flex; flex-direction: column; height: 100vh; overflow-y: auto; }
+    .sidebar-logo { height: 64px; flex-shrink: 0; display: flex; align-items: center; gap: 10px; padding: 0 24px; font-size: var(--ag-text-xl); font-weight: 600; color: #fff; letter-spacing: 0.01em; border-bottom: 1px solid rgba(255,255,255,0.08); }
+    .sidebar-logo .logo-mark { width: 28px; height: 28px; border-radius: 6px; background: rgba(255,255,255,0.14); display: flex; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; }
+    .sidebar-nav { padding: 12px 0; flex: 1; min-height: 0; }
+    .nav-section-label { padding: 14px 24px 6px; font-size: var(--ag-text-xs); color: rgba(255,255,255,0.4); letter-spacing: 0.04em; }
+    .nav-item { display: flex; align-items: center; gap: 12px; padding: 11px 24px; color: rgba(255,255,255,0.72); font-size: var(--ag-text-md); cursor: pointer; transition: background 0.15s, color 0.15s; border-left: 3px solid transparent; text-decoration: none; white-space: nowrap; }
+    .nav-item:hover { background: rgba(255,255,255,0.06); color: #fff; }
+    .nav-item.active { background: rgba(255,255,255,0.10); color: #fff; border-left-color: #fff; font-weight: 500; }
+    .nav-item svg { flex-shrink: 0; }
+    .nav-badge { margin-left: auto; min-width: 20px; height: 20px; padding: 0 6px; border-radius: var(--ag-radius-full); background: var(--state-warning); color: #fff; font-size: 11px; font-weight: 600; display: inline-flex; align-items: center; justify-content: center; line-height: 1; }
+    .sidebar-foot { flex-shrink: 0; padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.08); font-size: var(--ag-text-xs); color: rgba(255,255,255,0.45); }
+    .main-area { flex: 1; min-width: 0; display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+    .topbar { height: 64px; flex-shrink: 0; background: #fff; border-bottom: 1px solid var(--ag-border); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; gap: 16px; }
+    .topbar-left { display: flex; flex-direction: column; min-width: 0; }
+    .topbar-title { font-size: var(--ag-text-xl); font-weight: 600; color: var(--ag-foreground); line-height: 1.3; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .topbar-sub { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .topbar-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+    .admin-chip { display: flex; align-items: center; gap: 10px; }
+    .admin-avatar { width: 36px; height: 36px; border-radius: 50%; background: var(--ag-primary); color: #fff; display: flex; align-items: center; justify-content: center; font-size: var(--ag-text-sm); font-weight: 600; flex-shrink: 0; }
+    .admin-info { display: flex; flex-direction: column; line-height: 1.3; }
+    .admin-name { font-size: var(--ag-text-md); color: var(--ag-foreground); font-weight: 500; }
+    .perm-badge { align-self: flex-start; font-size: 11px; padding: 1px 8px; border-radius: var(--ag-radius-small); background: var(--ag-primary-50); color: var(--ag-primary); font-weight: 500; white-space: nowrap; line-height: 1.5; }
+    .content-scroll { flex: 1; min-height: 0; overflow-y: auto; padding: 24px; }
+    .page-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 18px; }
+    .page-title { font-size: var(--ag-text-2xl); font-weight: 600; color: var(--ag-foreground); }
+    .toolbar-actions { display: flex; gap: 10px; }
+    .filter-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; padding: 16px; background: #fff; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); margin-bottom: 16px; }
+    .filter-group { display: flex; align-items: center; gap: 8px; }
+    .filter-label { font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); white-space: nowrap; }
+    .filter-select, .filter-input { height: 36px; padding: 0 12px; border: 1px solid var(--ag-input); border-radius: var(--ag-radius-small); font-size: var(--ag-text-sm); color: var(--ag-foreground); background: #fff; min-width: 130px; }
+    .filter-input { min-width: 180px; }
+    .filter-select:focus, .filter-input:focus { outline: none; border-color: var(--ag-primary-400); box-shadow: 0 0 0 3px rgba(26,54,93,0.08); }
+    .data-card { background: #fff; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); overflow: hidden; }
+    .data-table { width: 100%; border-collapse: collapse; font-size: var(--ag-text-sm); }
+    .data-table th, .data-table td { padding: 14px 16px; text-align: left; border-bottom: 1px solid var(--ag-border); vertical-align: middle; }
+    .data-table th { background: var(--ag-neutral-50); font-weight: 600; color: var(--ag-neutral-700); white-space: nowrap; }
+    .data-table tbody tr:hover { background: var(--ag-neutral-50); }
+    .data-table tbody tr:last-child td { border-bottom: none; }
+    .cell-actions { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .cell-order { display: flex; flex-direction: column; gap: 2px; }
+    .cell-order-id { font-weight: 600; color: var(--ag-primary); }
+    .cell-order-time { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); }
+    .cell-buyer { display: flex; flex-direction: column; gap: 2px; }
+    .cell-buyer-name { font-weight: 500; color: var(--ag-foreground); }
+    .cell-buyer-email { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); }
+    .cell-amount { font-weight: 600; color: var(--ag-foreground); font-variant-numeric: tabular-nums; }
+    .cell-channel { display: inline-flex; align-items: center; gap: 6px; }
+    .channel-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ag-primary); }
+    .pagination { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 14px 16px; border-top: 1px solid var(--ag-border); }
+    .page-btn { min-width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center; border-radius: var(--ag-radius-small); border: 1px solid var(--ag-border); background: #fff; color: var(--ag-foreground); font-size: var(--ag-text-sm); cursor: pointer; transition: background 0.15s, border-color 0.15s; }
+    .page-btn:hover { background: var(--ag-primary-50); border-color: var(--ag-primary-300); }
+    .page-btn.active { background: var(--ag-primary); color: #fff; border-color: var(--ag-primary); }
+    .page-btn:disabled { background: var(--ag-neutral-100); color: var(--ag-neutral-400); cursor: not-allowed; border-color: var(--ag-border); }
+    .page-info { font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); margin-right: 8px; }
+    .btn-text { display: inline-flex; align-items: center; gap: 4px; padding: 6px 10px; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-small); background: #fff; color: var(--ag-primary); font-size: var(--ag-text-sm); font-weight: 500; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; }
+    .btn-text:hover { background: var(--ag-primary-50); border-color: var(--ag-primary-300); }
+    .btn-text-danger { color: var(--state-error); }
+    .btn-text-danger:hover { background: var(--state-error-light); border-color: var(--state-error); color: var(--state-error-dark); }
+    .btn-text-notify { color: var(--state-info); }
+    .btn-text-notify:hover { background: var(--state-info-light); border-color: var(--state-info); color: var(--state-info-dark, var(--state-info)); }
+    .btn-sm { padding: 6px 14px; font-size: var(--ag-text-sm); }
+    /* ===== Modal Overlay ===== */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,0.45);
+      backdrop-filter: blur(2px);
+      -webkit-backdrop-filter: blur(2px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 24px;
+    }
+    .modal-backdrop.nested { z-index: 200; background: rgba(15,23,42,0.35); }
+    .detail-modal {
+      width: 760px;
+      max-width: 100%;
+      max-height: 82vh;
+      background: #fff;
+      border-radius: var(--ag-radius-large);
+      box-shadow: var(--ag-shadow-modal);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .confirm-modal { width: 420px; max-width: 100%; background: #fff; border-radius: var(--ag-radius-large); box-shadow: var(--ag-shadow-modal); overflow: hidden; }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--ag-border);
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .modal-title { font-size: var(--ag-text-xl); font-weight: 600; color: var(--ag-foreground); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .modal-close-btn {
+      width: 32px; height: 32px;
+      display: flex; align-items: center; justify-content: center;
+      border: none; background: transparent; color: var(--ag-neutral-500);
+      cursor: pointer; border-radius: var(--ag-radius-small);
+      transition: background 0.15s, color 0.15s; flex-shrink: 0;
+    }
+    .modal-close-btn:hover { background: var(--ag-neutral-100); color: var(--ag-neutral-700); }
+    .modal-body { padding: 24px; overflow-y: auto; flex: 1; min-height: 0; }
+    .modal-footer { display: flex; align-items: center; justify-content: flex-end; gap: 10px; padding: 16px 24px; border-top: 1px solid var(--ag-border); flex-shrink: 0; background: var(--ag-neutral-50); }
+    .detail-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .detail-item { background: var(--ag-neutral-50); border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); padding: 14px 16px; }
+    .detail-item.full { grid-column: 1 / -1; }
+    .detail-label { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); margin-bottom: 6px; }
+    .detail-value { font-size: var(--ag-text-md); color: var(--ag-foreground); font-weight: 500; }
+    .detail-value.mono { font-family: var(--ag-font-mono); font-size: var(--ag-text-sm); }
+    .amount-row { display: flex; justify-content: space-between; align-items: center; padding: 6px 0; font-size: var(--ag-text-sm); }
+    .amount-row .label { color: var(--ag-muted-foreground); }
+    .amount-row .value { color: var(--ag-foreground); font-variant-numeric: tabular-nums; font-weight: 500; }
+    .amount-row.total { border-top: 1px solid var(--ag-border); margin-top: 6px; padding-top: 10px; }
+    .amount-row.total .value { font-size: var(--ag-text-lg); font-weight: 700; color: var(--ag-primary); }
+    .timeline { display: flex; flex-direction: column; gap: 12px; }
+    .timeline-item { display: flex; gap: 12px; }
+    .timeline-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--ag-primary-300); margin-top: 6px; flex-shrink: 0; }
+    .timeline-dot.done { background: var(--state-success); }
+    .timeline-dot.current { background: var(--state-warning); box-shadow: 0 0 0 3px var(--state-warning-light); }
+    .timeline-text { font-size: var(--ag-text-sm); color: var(--ag-foreground); }
+    .timeline-time { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); margin-top: 2px; }
+    .lg-line { display: flex; gap: 12px; padding: 4px 0; font-size: var(--ag-text-sm); }
+    .lg-line .lg-key { color: var(--ag-muted-foreground); min-width: 64px; flex-shrink: 0; }
+    .lg-line .lg-val { color: var(--ag-foreground); font-weight: 500; }
+    .lg-line .lg-val.mono { font-family: var(--ag-font-mono); font-size: var(--ag-text-xs); }
+    .lg-empty { font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); }
+    .logistics-photo { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 28px 16px; border: 1.5px dashed var(--ag-border); border-radius: var(--ag-radius-medium); background: var(--ag-neutral-50); color: var(--ag-muted-foreground); font-size: var(--ag-text-sm); }
+    .logistics-photo svg { color: var(--ag-neutral-400); }
+    .voucher-upload { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 26px 16px; border: 1.5px dashed var(--ag-primary-300); border-radius: var(--ag-radius-medium); background: var(--ag-primary-50); color: var(--ag-muted-foreground); font-size: var(--ag-text-sm); cursor: pointer; transition: border-color 0.15s, background 0.15s; }
+    .voucher-upload:hover { border-color: var(--ag-primary); background: var(--ag-primary-100); }
+    .voucher-upload svg { color: var(--ag-primary-400); }
+    .voucher-upload.uploaded { border-color: var(--state-success); background: var(--state-success-light); }
+    .voucher-upload .voucher-file { font-weight: 600; color: var(--state-success-dark); }
+    .confirm-icon { width: 48px; height: 48px; border-radius: 50%; background: var(--state-info-light); color: var(--state-info); display: flex; align-items: center; justify-content: center; margin: 20px auto 0; }
+    .confirm-text { text-align: center; font-size: var(--ag-text-md); color: var(--ag-foreground); padding: 16px 24px 4px; line-height: 1.7; }
+    .confirm-sub { text-align: center; font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); padding: 0 24px 20px; line-height: 1.6; }
+    .order-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .stat-card { background: #fff; border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium); padding: 16px; }
+    .stat-label { font-size: var(--ag-text-xs); color: var(--ag-muted-foreground); margin-bottom: 6px; }
+    .stat-value { font-size: var(--ag-text-2xl); font-weight: 600; color: var(--ag-foreground); font-variant-numeric: tabular-nums; }
+    .stat-value.warn { color: var(--state-warning-dark); }
+    @media (max-width: 760px) { .sidebar { width: 64px; } .sidebar-logo span.logo-text, .nav-item .nav-text, .nav-section-label, .nav-badge, .sidebar-foot { display: none; } .nav-item { justify-content: center; padding: 12px 0; } .sidebar-logo { justify-content: center; padding: 0; } }
+    @media (max-width: 480px) { .content-scroll { padding: 16px; } .filter-bar { flex-direction: column; align-items: stretch; } .filter-group { width: 100%; } .filter-select, .filter-input { width: 100%; } .order-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  </style>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  function bind(id, fn) {
+    var el = document.getElementById(id);
+    if (el) { el.addEventListener('click', fn); }
+  }
+  // 查询 / 重置
+  bind('btn-search-orders', function () { alert('查询成功：已按当前条件过滤订单列表（模拟）'); });
+  bind('btn-reset-orders', function () {
+    var bar = document.getElementById('filter-bar-orders');
+    if (bar) {
+      var sels = bar.querySelectorAll('select');
+      for (var i = 0; i < sels.length; i++) { sels[i].value = ''; }
+    }
+    var kw = document.getElementById('filter-order-no');
+    if (kw) { kw.value = ''; }
+    alert('筛选条件已重置');
+  });
+  // 筛选下拉 change
+  ['filter-order-status', 'filter-order-time', 'filter-payment', 'filter-artist'].forEach(function (id) {
+    var sel = document.getElementById(id);
+    if (sel) { sel.addEventListener('change', function () { alert('筛选条件已更新（模拟）'); }); }
+  });
+  // ===== 订单数据（模拟） =====
+  var orderData = {
+    1: {
+      orderId: 'AG-20815', time: '2026-08-05 11:20', buyer: '张雅文', email: 'zhangya@email.com',
+      artwork: '《山水清音》· 陈墨白 · 水墨纸本 68×138cm', channel: '信用卡', status: '已完成',
+      artist: '陈墨白', joinMode: 'commission', commissionRate: 0.15, receiverAccount: 'PayPal: chenmobai@art.gallery', settled: false,
+      receiver: '张雅文', phone: '+86 138-0000-2158',
+      address: '北京市朝阳区望京 SOHO T1 座 1208 室',
+      amounts: [['作品售价', '$4,200.00'], ['平台佣金 (15%)', '-$630.00'], ['支付通道费', '-$121.80'], ['艺术家实收', '$3,448.20']],
+      timeline: [
+        { text: '买家下单并完成支付', time: '2026-08-05 11:20', cls: 'done' },
+        { text: '艺术家确认并安排发货', time: '2026-08-06 09:15', cls: 'done' },
+        { text: '包裹已签收（国际物流 SF-Express）', time: '2026-08-10 14:02', cls: 'done' },
+        { text: '订单完成，款项已结算', time: '2026-08-10 14:30', cls: 'current' }
+      ],
+      logistics: {
+        company: '顺丰国际', trackingNo: 'SF-8899-2608-0201', shippedAt: '2026-08-06 09:15', carrier: '国际件',
+        note: '作品已装裱并加强防震包装，随附收藏证书。',
+        photoLabel: '发货物品照片（《山水清音》装裱包装）',
+        photoUrl: '../assets/art-detail.jpg'
+      }
+    },
+    2: {
+      orderId: 'AG-20814', time: '2026-08-05 10:45', buyer: '李文昊', email: 'liwenhao@email.com',
+      artwork: '《城市切片 No.7》· 陆明远 · 布面油画 90×120cm', channel: 'PayPal', status: '待发货',
+      artist: '陆明远', joinMode: 'commission', commissionRate: 0.15, receiverAccount: 'PayPal: lumingyuan@art.gallery', settled: false,
+      receiver: '李文昊', phone: '+86 139-2211-3344',
+      address: '上海市徐汇区淮海中路 999 号环贸广场 2105 室',
+      amounts: [['作品售价', '$2,800.00'], ['平台佣金 (15%)', '-$420.00'], ['支付通道费', '-$81.20'], ['艺术家实收', '$2,298.80']],
+      timeline: [
+        { text: '买家下单并完成支付', time: '2026-08-05 10:45', cls: 'done' },
+        { text: '等待艺术家确认发货', time: '待处理', cls: 'current' }
+      ],
+      logistics: null
+    },
+    3: {
+      orderId: 'AG-20813', time: '2026-08-05 09:12', buyer: 'Michael Chen', email: 'm.chen@us.com',
+      artwork: '《无题·蓝》· 何昭 · 综合材料 60×80cm', channel: '银行转账', status: '待付款',
+      artist: '何昭', joinMode: 'commission', commissionRate: 0.15, receiverAccount: '银行 ****5566', settled: false,
+      receiver: 'Michael Chen', phone: '+1 415-555-0198',
+      address: '28 Liberty St, New York, NY 10005, USA',
+      amounts: [['作品售价', '$1,600.00'], ['待买家付款', '-']],
+      timeline: [
+        { text: '买家已下单', time: '2026-08-05 09:12', cls: 'done' },
+        { text: '等待买家完成付款', time: '待支付', cls: 'current' }
+      ],
+      logistics: null
+    },
+    4: {
+      orderId: 'AG-20812', time: '2026-08-04 18:30', buyer: 'Sarah Johnson', email: 'sarah.j@uk.com',
+      artwork: '《秋山图》· 王砚舟 · 设色绢本 45×95cm', channel: '信用卡', status: '退款中',
+      artist: '王砚舟', joinMode: 'fee', commissionRate: 0, receiverAccount: 'PayPal: wangyazhou@art.gallery', settled: false,
+      receiver: 'Sarah Johnson', phone: '+44 20 7946 0958',
+      address: '221B Baker Street, London NW1 6XE, UK',
+      amounts: [['作品售价', '$5,500.00'], ['平台佣金 (15%)', '-$825.00'], ['支付通道费', '-$159.50'], ['退款金额（进行中）', '$5,500.00']],
+      timeline: [
+        { text: '买家下单并完成支付', time: '2026-08-04 18:30', cls: 'done' },
+        { text: '买家申请退款（运输损坏）', time: '2026-08-06 10:00', cls: 'done' },
+        { text: '平台审核中，退款处理中', time: '进行中', cls: 'current' }
+      ],
+      logistics: null
+    },
+    5: {
+      orderId: 'AG-20811', time: '2026-08-04 16:05', buyer: '王晓萌', email: 'wangxm@email.com',
+      artwork: '《光与尘》· 周慕言 · 布面丙烯 80×100cm', channel: 'PayPal', status: '已完成',
+      artist: '周慕言', joinMode: 'fee', commissionRate: 0, receiverAccount: 'PayPal: zhou@lens.art', settled: false,
+      receiver: '王晓萌', phone: '+86 137-8899-0102',
+      address: '深圳市南山区科技园南区 T3 栋 903 室',
+      amounts: [['作品售价', '$980.00'], ['平台佣金', '已缴纳入驻费，免佣金'], ['支付通道费', '-$28.42'], ['艺术家实收', '$951.58']],
+      timeline: [
+        { text: '买家下单并完成支付', time: '2026-08-04 16:05', cls: 'done' },
+        { text: '艺术家确认并安排发货', time: '2026-08-05 10:30', cls: 'done' },
+        { text: '买家确认收货', time: '2026-08-08 12:00', cls: 'done' },
+        { text: '订单完成，款项已结算', time: '2026-08-08 12:20', cls: 'current' }
+      ],
+      logistics: {
+        company: '顺丰国际', trackingNo: 'SF-8899-2608-0117', shippedAt: '2026-08-05 10:30', carrier: '国内快运',
+        note: '画作已用气泡膜包裹并装入定制木箱。',
+        photoLabel: '发货物品照片（《光与尘》包装）',
+        photoUrl: '../assets/art-portrait.jpg'
+      }
+    },
+    6: {
+      orderId: 'AG-20810', time: '2026-08-04 14:22', buyer: '陈志强', email: 'chenzq@email.com',
+      artwork: '《静物三章》· 沈知白 · 木板油画 40×50cm', channel: '加密货币', status: '已发货',
+      artist: '沈知白', joinMode: 'commission', commissionRate: 0.15, receiverAccount: '银行 ****3388', settled: false,
+      receiver: '陈志强', phone: '+86 136-5566-7788',
+      address: '广州市天河区珠江新城华夏路 16 号 3201 室',
+      amounts: [['作品售价', '$1,250.00'], ['平台佣金 (15%)', '-$187.50'], ['支付通道费', '-$36.25'], ['艺术家实收', '$1,026.25']],
+      timeline: [
+        { text: '买家下单并完成支付', time: '2026-08-04 14:22', cls: 'done' },
+        { text: '艺术家已发货（顺丰国际 SF-Express）', time: '2026-08-06 16:40', cls: 'done' },
+        { text: '运输中，预计 3-5 个工作日送达', time: '进行中', cls: 'current' }
+      ],
+      logistics: {
+        company: '顺丰国际', trackingNo: 'SF-8899-2608-0152', shippedAt: '2026-08-06 16:40', carrier: '国际件',
+        note: '作品已装入硬质画筒，外层加防水袋。',
+        photoLabel: '发货物品照片（《静物三章》包装）',
+        photoUrl: '../assets/art-classical.jpg'
+      }
+    }
+  };
+
+  // ===== 状态标签 / 操作列渲染（按订单状态驱动） =====
+  var statusMeta = {
+    '待付款': { cls: 'tag-pending', text: '待付款' },
+    '待发货': { cls: 'tag-pending', text: '待发货' },
+    '已发货': { cls: 'tag-pending', text: '已发货' },
+    '已完成': { cls: 'tag-approved', text: '已完成' },
+    '退款中': { cls: 'tag-rejected', text: '退款中' }
+  };
+  function renderStatus(n) {
+    var cell = document.getElementById('status-cell-' + n);
+    if (!cell || !orderData[n]) { return; }
+    var d = orderData[n];
+    var meta = statusMeta[d.status] || { cls: 'tag-offline', text: d.status };
+    var html = '<span class="' + meta.cls + '">' + meta.text + '</span>';
+    // 已完成且已结算 → 状态标签旁追加「已结算」标记
+    if (d.status === '已完成' && d.settled) {
+      html += ' <span class="tag-approved" style="margin-left:6px;">已结算</span>';
+    }
+    cell.innerHTML = html;
+  }
+  // renderActions 按状态机渲染操作按钮（订单1/5=已完成→view-logistics-1/5，
+  // 订单2=待发货→仅 order-detail-2（平台人工线下通知艺术家发货，平台内不体现按钮），
+  // 订单3=待付款→confirm-paid-3，订单4=退款中→仅 order-detail-4，
+  // 订单6=已发货→view-logistics-6；任何「已发货/已完成」订单均可渲染 view-logistics-N，
+  // 「待付款」订单可渲染 confirm-paid-N，含 confirm-paid-1 与 confirm-paid-3 等场景；
+  // 已完成未结算 → settle-order-1 / settle-order-5（结算给艺术家），
+  // 已完成已结算 → view-voucher-N（结算凭证））
+  function renderActions(n) {
+    var cell = document.getElementById('act-cell-' + n);
+    if (!cell || !orderData[n]) { return; }
+    var d = orderData[n];
+    var html = '<div class="cell-actions">';
+    html += '<button class="btn-text" id="order-detail-' + n + '" type="button">查看详情</button>';
+    if (d.status === '待付款') {
+      html += '<button class="btn-primary btn-sm" id="confirm-paid-' + n + '" type="button">确认已支付</button>';
+    } else if (d.status === '已发货' || d.status === '已完成') {
+      html += '<button class="btn-text" id="view-logistics-' + n + '" type="button">查看物流</button>';
+      if (d.status === '已完成') {
+        if (!d.settled) {
+          html += '<button class="btn-primary btn-sm" id="settle-order-' + n + '" type="button">结算给艺术家</button>';
+        } else {
+          html += '<button class="btn-text" id="view-voucher-' + n + '" type="button">结算凭证</button>';
+        }
+      }
+    }
+    html += '</div>';
+    cell.innerHTML = html;
+  }
+
+  // ===== 订单详情弹窗 =====
+  var detailModal = document.getElementById('detail-modal');
+  function openDetail(n) {
+    var d = orderData[n];
+    if (!d || !detailModal) { return; }
+    document.getElementById('dt-order-id').textContent = d.orderId;
+    document.getElementById('dt-order-time').textContent = d.time;
+    document.getElementById('dt-buyer').textContent = d.buyer;
+    document.getElementById('dt-buyer-email').textContent = d.email;
+    document.getElementById('dt-artwork').textContent = d.artwork;
+    document.getElementById('dt-channel').textContent = d.channel;
+    document.getElementById('dt-status').textContent = d.status;
+    document.getElementById('dt-receiver').textContent = d.receiver;
+    document.getElementById('dt-phone').textContent = d.phone;
+    document.getElementById('dt-address').textContent = d.address;
+    var amt = document.getElementById('dt-amount');
+    amt.innerHTML = '';
+    d.amounts.forEach(function (row) {
+      var div = document.createElement('div');
+      div.className = 'amount-row' + (row[0].indexOf('实收') > -1 || row[0].indexOf('退款') > -1 ? ' total' : '');
+      div.innerHTML = '<span class="label">' + row[0] + '</span><span class="value">' + row[1] + '</span>';
+      amt.appendChild(div);
+    });
+    var tl = document.getElementById('dt-timeline');
+    tl.innerHTML = '';
+    d.timeline.forEach(function (t) {
+      var div = document.createElement('div');
+      div.className = 'timeline-item';
+      div.innerHTML = '<span class="timeline-dot ' + t.cls + '"></span><div><div class="timeline-text">' + t.text + '</div><div class="timeline-time">' + t.time + '</div></div>';
+      tl.appendChild(div);
+    });
+    var lgWrap = document.getElementById('dt-logistics-wrap');
+    var lgBox = document.getElementById('dt-logistics');
+    if (lgWrap && lgBox) {
+      lgWrap.style.display = '';
+      if (d.logistics && d.logistics.trackingNo) {
+        lgBox.innerHTML =
+          '<div class="lg-line"><span class="lg-key">物流公司</span><span class="lg-val">' + d.logistics.company + '</span></div>' +
+          '<div class="lg-line"><span class="lg-key">运单号</span><span class="lg-val mono">' + d.logistics.trackingNo + '</span></div>' +
+          '<div class="lg-line"><span class="lg-key">发货时间</span><span class="lg-val">' + d.logistics.shippedAt + '</span></div>';
+      } else {
+        lgBox.innerHTML = '<div class="lg-empty">暂无物流信息，等待艺术家发货</div>';
+      }
+    }
+    detailModal.style.display = 'flex';
+  }
+  function closeDetail() {
+    if (detailModal) { detailModal.style.display = 'none'; }
+  }
+
+  // ===== 确认已支付 =====
+  var paidModal = document.getElementById('confirm-paid-modal');
+  var paidTarget = null;
+  function openConfirmPaid(n) {
+    paidTarget = n;
+    if (paidModal) { paidModal.style.display = 'flex'; }
+  }
+  function closeConfirmPaid() {
+    if (paidModal) { paidModal.style.display = 'none'; }
+    paidTarget = null;
+  }
+  var paidConfirm = document.querySelector('[data-dom-id="confirm-paid-confirm"]');
+  if (paidConfirm) {
+    paidConfirm.addEventListener('click', function () {
+      if (paidTarget && orderData[paidTarget]) {
+        orderData[paidTarget].status = '待发货';
+        renderStatus(paidTarget);
+        renderActions(paidTarget);
+        alert('已确认支付，订单进入待发货，请线下通知艺术家发货');
+      }
+      closeConfirmPaid();
+    });
+  }
+  document.querySelectorAll('[data-dom-id="confirm-paid-cancel"]').forEach(function (btn) {
+    btn.addEventListener('click', closeConfirmPaid);
+  });
+  if (paidModal) {
+    paidModal.addEventListener('click', function (e) { if (e.target === paidModal) { closeConfirmPaid(); } });
+  }
+
+  // ===== 物流详情 =====
+  var logisticsModal = document.getElementById('logistics-modal');
+  function openLogistics(n) {
+    var d = orderData[n];
+    if (!d || !d.logistics || !d.logistics.trackingNo) {
+      alert('该订单暂无物流信息');
+      return;
+    }
+    document.getElementById('lg-company').textContent = d.logistics.company;
+    document.getElementById('lg-tracking').textContent = d.logistics.trackingNo;
+    document.getElementById('lg-shipped-at').textContent = d.logistics.shippedAt;
+    document.getElementById('lg-carrier').textContent = d.logistics.carrier || '-';
+    // 发货信息：只展示艺术家发货时间
+    document.getElementById('lg-ship-info').textContent = '艺术家已于 ' + d.logistics.shippedAt + ' 发货';
+    var noteEl = document.getElementById('lg-ship-note');
+    noteEl.textContent = d.logistics.note || '';
+    // 发货物品照片
+    var img = document.getElementById('lg-photo-img');
+    var empty = document.getElementById('lg-photo-empty');
+    var label = document.getElementById('lg-photo-label');
+    if (d.logistics.photoUrl) {
+      img.src = d.logistics.photoUrl;
+      img.alt = d.logistics.photoLabel || '发货物品照片';
+      img.style.display = 'block';
+      if (empty) { empty.style.display = 'none'; }
+    } else {
+      img.style.display = 'none';
+      if (empty) { empty.style.display = 'flex'; }
+      if (label) { label.textContent = d.logistics.photoLabel || '暂无发货照片'; }
+    }
+    if (logisticsModal) { logisticsModal.style.display = 'flex'; }
+  }
+  function closeLogistics() {
+    if (logisticsModal) { logisticsModal.style.display = 'none'; }
+  }
+  document.querySelectorAll('[data-dom-id="logistics-modal-close"]').forEach(function (btn) {
+    btn.addEventListener('click', closeLogistics);
+  });
+  if (logisticsModal) {
+    logisticsModal.addEventListener('click', function (e) { if (e.target === logisticsModal) { closeLogistics(); } });
+  }
+
+  // ===== 给艺术家结算（已完成订单） =====
+  var settleModal = document.getElementById('settle-modal');
+  var settleTarget = null;
+  var voucherUploaded = false;
+  function fmtMoney(v) {
+    var neg = v < 0;
+    var abs = Math.abs(v).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    return (neg ? '-$' : '$') + abs;
+  }
+  // 按入驻方式计算结算金额：佣金方式 = 成交额 - 佣金 - 手续费；入驻费方式 = 成交额 - 手续费
+  function computeSettle(d) {
+    var price = parseFloat(d.amounts[0][1].replace(/[$,]/g, ''));
+    var commission = d.joinMode === 'commission' ? price * (d.commissionRate || 0) : 0;
+    var fee = price * 0.029;
+    return { price: price, commission: commission, fee: fee, payable: price - commission - fee };
+  }
+  function openSettle(n) {
+    var d = orderData[n];
+    if (!d || !settleModal) { return; }
+    settleTarget = n;
+    voucherUploaded = false;
+    document.getElementById('st-order-id').textContent = d.orderId;
+    document.getElementById('st-artist').textContent = d.artist;
+    document.getElementById('st-artwork').textContent = d.artwork;
+    var s = computeSettle(d);
+    document.getElementById('st-amount').textContent = fmtMoney(s.price);
+    document.getElementById('st-account').textContent = d.receiverAccount;
+    var html = '';
+    html += '<div class="amount-row"><span class="label">成交金额</span><span class="value">' + fmtMoney(s.price) + '</span></div>';
+    if (d.joinMode === 'commission') {
+      html += '<div class="amount-row"><span class="label">佣金（' + Math.round((d.commissionRate || 0) * 100) + '%）</span><span class="value">' + fmtMoney(-s.commission) + '</span></div>';
+    } else {
+      html += '<div class="amount-row"><span class="label">佣金（已缴纳入驻费，免佣金）</span><span class="value">$0.00</span></div>';
+    }
+    html += '<div class="amount-row"><span class="label">手续费</span><span class="value">' + fmtMoney(-s.fee) + '</span></div>';
+    html += '<div class="amount-row total"><span class="label">应付给艺术家</span><span class="value">' + fmtMoney(s.payable) + '</span></div>';
+    document.getElementById('st-detail').innerHTML = html;
+    // 重置凭证上传状态
+    var vu = document.getElementById('voucher-upload');
+    var vf = document.getElementById('voucher-file');
+    if (vu) { vu.classList.remove('uploaded'); }
+    if (vf) { vf.style.display = 'none'; }
+    settleModal.style.display = 'flex';
+  }
+  function closeSettle() {
+    if (settleModal) { settleModal.style.display = 'none'; }
+    settleTarget = null;
+  }
+  var voucherUploadEl = document.getElementById('voucher-upload');
+  if (voucherUploadEl) {
+    voucherUploadEl.addEventListener('click', function () {
+      voucherUploaded = true;
+      this.classList.add('uploaded');
+      var vf = document.getElementById('voucher-file');
+      if (vf) { vf.style.display = 'block'; vf.textContent = '已上传：支付凭证.png'; }
+      alert('已上传支付凭证');
+    });
+  }
+  document.querySelectorAll('[data-dom-id="settle-cancel"]').forEach(function (btn) {
+    btn.addEventListener('click', closeSettle);
+  });
+  if (settleModal) {
+    settleModal.addEventListener('click', function (e) { if (e.target === settleModal) { closeSettle(); } });
+  }
+  var settleConfirm = document.querySelector('[data-dom-id="settle-confirm"]');
+  if (settleConfirm) {
+    settleConfirm.addEventListener('click', function () {
+      if (!settleTarget || !orderData[settleTarget]) { return; }
+      if (!voucherUploaded) { alert('请先上传支付凭证'); return; }
+      var d = orderData[settleTarget];
+      d.settled = true;
+      d.settledAt = '2026-08-08';
+      renderStatus(settleTarget);
+      renderActions(settleTarget);
+      var s = computeSettle(d);
+      alert('结算完成：已向 ' + d.artist + ' 支付 ' + fmtMoney(s.payable) + '，支付凭证已记录');
+      closeSettle();
+    });
+  }
+
+  // ===== 结算凭证 =====
+  var voucherModal = document.getElementById('voucher-modal');
+  function openVoucher(n) {
+    var d = orderData[n];
+    if (!d || !voucherModal) { return; }
+    document.getElementById('vc-order-id').textContent = d.orderId;
+    document.getElementById('vc-artist').textContent = d.artist;
+    var s = computeSettle(d);
+    document.getElementById('vc-amount').textContent = fmtMoney(s.payable);
+    document.getElementById('vc-time').textContent = d.settledAt || '2026-08-08';
+    document.getElementById('vc-account').textContent = d.receiverAccount;
+    voucherModal.style.display = 'flex';
+  }
+  function closeVoucher() {
+    if (voucherModal) { voucherModal.style.display = 'none'; }
+  }
+  document.querySelectorAll('[data-dom-id="voucher-modal-close"]').forEach(function (btn) {
+    btn.addEventListener('click', closeVoucher);
+  });
+  if (voucherModal) {
+    voucherModal.addEventListener('click', function (e) { if (e.target === voucherModal) { closeVoucher(); } });
+  }
+
+  // ===== 表格行操作：初始化渲染 + 事件委托（renderActions 重渲染后仍生效） =====
+  for (var i = 1; i <= 6; i++) {
+    renderStatus(i);
+    renderActions(i);
+  }
+  document.addEventListener('click', function (e) {
+    var btn = e.target && e.target.closest ? e.target.closest('button[id]') : null;
+    if (!btn || !btn.id) { return; }
+    var m = btn.id.match(/^(order-detail|confirm-paid|view-logistics|settle-order|view-voucher)-(\d+)$/);
+    if (!m) { return; }
+    var kind = m[1];
+    var n = parseInt(m[2], 10);
+    if (kind === 'order-detail') { openDetail(n); }
+    else if (kind === 'confirm-paid') { openConfirmPaid(n); }
+    else if (kind === 'view-logistics') { openLogistics(n); }
+    else if (kind === 'settle-order') { openSettle(n); }
+    else if (kind === 'view-voucher') { openVoucher(n); }
+  });
+
+  // ===== 弹窗关闭：按钮 / 遮罩 / Esc =====
+  document.querySelectorAll('[data-dom-id="order-modal-close"]').forEach(function (btn) {
+    btn.addEventListener('click', closeDetail);
+  });
+  if (detailModal) {
+    detailModal.addEventListener('click', function (e) { if (e.target === detailModal) { closeDetail(); } });
+  }
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { closeDetail(); closeConfirmPaid(); closeLogistics(); closeSettle(); closeVoucher(); }
+  });
+  // 分页
+  function bindPagination(containerId, maxPage) {
+    var bar = document.getElementById(containerId);
+    if (!bar) { return; }
+    var btns = bar.querySelectorAll('.page-btn');
+    for (var i = 0; i < btns.length; i++) {
+      (function (btn) {
+        btn.addEventListener('click', function () {
+          if (btn.disabled) { return; }
+          for (var j = 0; j < btns.length; j++) { btns[j].classList.remove('active'); }
+          btn.classList.add('active');
+          if (btn.id === 'page-prev') { alert('已跳转到上一页（模拟）'); return; }
+          if (btn.id === 'page-next') { alert('已跳转到下一页（模拟）'); return; }
+          alert('已跳转到第 ' + btn.textContent + ' 页（模拟）');
+        });
+      })(btns[i]);
+    }
+  }
+  bindPagination('orders-pagination', 5);
+  // 通知
+  bind('btn-notify', function () { alert('暂无新通知'); });
+});
+</script>
+</body>
+</html>

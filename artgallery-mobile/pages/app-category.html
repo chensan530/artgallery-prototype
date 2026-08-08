@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>分类 - ArtGallery</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen">
+<main>
+<style id="critical-layout">
+  .mobile-frame {
+    max-width: 414px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--ag-background);
+    position: relative;
+  }
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  .tab-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 0;
+  }
+  .tab-item {
+    flex-shrink: 0;
+    padding: 12px 16px;
+    font-size: 14px;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    line-height: 1.4;
+  }
+  .tab-item-active {
+    color: #1A365D;
+    font-weight: 500;
+    border-bottom-color: #1A365D;
+  }
+  .tab-item-default {
+    color: #64748B;
+    border-bottom-color: transparent;
+  }
+  .sort-bar {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .sort-item {
+    font-size: 12px;
+    white-space: nowrap;
+    color: #64748B;
+  }
+  .sort-item-active {
+    color: #1A365D;
+    font-weight: 500;
+  }
+  [data-mobile-nav="global"] {
+    position: sticky;
+    bottom: 0;
+    z-index: 30;
+  }
+  .masonry-grid {
+    column-count: 2;
+    column-gap: 8px;
+  }
+  .masonry-card {
+    break-inside: avoid;
+    margin-bottom: 8px;
+    display: block;
+  }
+  .filter-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 50;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .filter-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+  }
+  .filter-sheet {
+    position: relative;
+    background: #FFFFFF;
+    border-radius: 12px 12px 0 0;
+    padding: 20px 16px 24px;
+    box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.12);
+  }
+  .radio-row {
+    display: flex;
+    gap: 8px;
+  }
+  .radio-option {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 10px 8px;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #64748B;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .radio-option-selected {
+    border-color: #1A365D;
+    background: #F0F5FA;
+    color: #1A365D;
+    font-weight: 500;
+  }
+  .price-input {
+    flex: 1;
+    min-width: 0;
+    height: 40px;
+    padding: 0 12px;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    font-size: 14px;
+    color: #1E293B;
+    background: #FFFFFF;
+    outline: none;
+  }
+  .price-input:focus {
+    border-color: #1A365D;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { transition: none !important; }
+  }
+</style>
+
+<div class="mobile-frame">
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="px-4 py-3">
+      <div class="grid grid-cols-3 items-center">
+        <div class="min-w-0"></div>
+        <h1 class="text-center text-[18px] font-bold text-[#1E293B] leading-tight" style="text-wrap: balance; word-break: keep-all; overflow-wrap: break-word;">分类</h1>
+        <div class="flex justify-end">
+          <button data-dom-id="filter-btn" type="button" aria-label="筛选" class="w-10 h-10 flex items-center justify-center text-[#1E293B] shrink-0 rounded-lg">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <line x1="4" y1="6" x2="20" y2="6"/>
+              <line x1="7" y1="12" x2="17" y2="12"/>
+              <line x1="10" y1="18" x2="14" y2="18"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Category Tabs (horizontal scrollable) -->
+  <div class="tab-scroll no-scrollbar border-b border-[#E2E8F0] bg-white px-2">
+    <button data-dom-id="tab-abstract" type="button" class="tab-item tab-item-active">抽象</button>
+    <button data-dom-id="tab-classical" type="button" class="tab-item tab-item-default">古典</button>
+    <button data-dom-id="tab-religious" type="button" class="tab-item tab-item-default">宗教</button>
+    <button data-dom-id="tab-portrait" type="button" class="tab-item tab-item-default">人物</button>
+  </div>
+
+  <!-- Sort Bar -->
+  <div class="px-4 py-3 bg-white">
+    <div class="sort-bar">
+      <button data-dom-id="sort-latest" type="button" class="sort-item sort-item-active">最新上架</button>
+      <button data-dom-id="sort-price-asc" type="button" class="sort-item">价格 ↑</button>
+      <button data-dom-id="sort-price-desc" type="button" class="sort-item">价格 ↓</button>
+    </div>
+  </div>
+
+  <!-- Artwork Grid (2 columns, masonry) -->
+  <section class="px-4 pt-1 pb-6" aria-label="抽象作品列表">
+    <div class="masonry-grid">
+      <a data-dom-id="artwork-1" href="app-artwork-detail.html" class="masonry-card bg-white rounded-lg border border-[#E2E8F0] overflow-hidden">
+        <img src="../assets/art-abstract.jpg" alt="无界之境 - 李明华" class="w-full block rounded-t-lg" style="height: 180px; object-fit: cover;"/>
+        <div class="p-2">
+          <div class="text-[14px] font-semibold text-[#1E293B] truncate">无界之境</div>
+          <div class="text-[12px] text-[#64748B] truncate mt-0.5">李明华</div>
+          <div class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$2,800</div>
+        </div>
+      </a>
+      <a data-dom-id="artwork-2" href="app-artwork-detail.html" class="masonry-card bg-white rounded-lg border border-[#E2E8F0] overflow-hidden">
+        <img src="../assets/art-abstract.jpg" alt="色彩交响 - 李明华" class="w-full block rounded-t-lg" style="height: 140px; object-fit: cover;"/>
+        <div class="p-2">
+          <div class="text-[14px] font-semibold text-[#1E293B] truncate">色彩交响</div>
+          <div class="text-[12px] text-[#64748B] truncate mt-0.5">李明华</div>
+          <div class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$2,200</div>
+        </div>
+      </a>
+      <a data-dom-id="artwork-3" href="app-artwork-detail.html" class="masonry-card bg-white rounded-lg border border-[#E2E8F0] overflow-hidden">
+        <img src="../assets/art-abstract.jpg" alt="蓝色梦境 - 张艺术" class="w-full block rounded-t-lg" style="height: 160px; object-fit: cover;"/>
+        <div class="p-2">
+          <div class="text-[14px] font-semibold text-[#1E293B] truncate">蓝色梦境</div>
+          <div class="text-[12px] text-[#64748B] truncate mt-0.5">张艺术</div>
+          <div class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$1,500</div>
+        </div>
+      </a>
+      <a data-dom-id="artwork-4" href="app-artwork-detail.html" class="masonry-card bg-white rounded-lg border border-[#E2E8F0] overflow-hidden">
+        <img src="../assets/art-abstract.jpg" alt="几何之美 - 刘丹青" class="w-full block rounded-t-lg" style="height: 200px; object-fit: cover;"/>
+        <div class="p-2">
+          <div class="text-[14px] font-semibold text-[#1E293B] truncate">几何之美</div>
+          <div class="text-[12px] text-[#64748B] truncate mt-0.5">刘丹青</div>
+          <div class="text-[14px] font-bold text-[#1A365D] mt-1" style="font-variant-numeric: tabular-nums;">$3,100</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <!-- Bottom Tab Navigation -->
+  <nav data-mobile-nav="global" class="w-full h-[56px] border-t border-[#E2E8F0] bg-white">
+    <div class="w-full max-w-md mx-auto grid grid-cols-4 h-full">
+      <a data-nav-key="nav-home" id="nav-home" href="app-home.html" data-dom-id="nav-home" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">首页</span>
+      </a>
+      <a data-nav-key="nav-category" data-active="true" id="nav-category" href="app-category.html" data-dom-id="nav-category" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#1A365D] font-medium">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">分类</span>
+      </a>
+      <a data-nav-key="nav-cart" id="nav-cart" href="app-cart.html" data-dom-id="nav-cart" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">购物车</span>
+      </a>
+      <a data-nav-key="nav-profile" id="nav-profile" href="app-profile.html" data-dom-id="nav-profile" class="min-w-0 flex flex-col items-center justify-center gap-0.5 px-1 h-full text-[#64748B]">
+        <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <span class="text-[11px] leading-none whitespace-nowrap">我的</span>
+      </a>
+    </div>
+  </nav>
+
+  <!-- Filter Bottom Sheet (overlay) -->
+  <div class="filter-overlay" role="dialog" aria-modal="true" aria-label="筛选">
+    <div class="filter-backdrop" aria-hidden="true"></div>
+    <div class="filter-sheet">
+      <!-- Sheet Header -->
+      <div class="flex items-center justify-between mb-5">
+        <h2 class="text-[18px] font-bold text-[#1E293B] leading-tight">筛选</h2>
+        <button type="button" aria-label="关闭筛选" class="w-8 h-8 flex items-center justify-center text-[#64748B] shrink-0 rounded-lg">
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Price Range -->
+      <div class="mb-5">
+        <div class="text-[14px] font-semibold text-[#1E293B] mb-3">价格区间</div>
+        <div class="flex items-center gap-2">
+          <input type="number" min="0" placeholder="$0" aria-label="最低价格" class="price-input"/>
+          <span class="text-[#94A3B8] text-[14px] shrink-0">-</span>
+          <input type="number" max="10000" placeholder="$10000" aria-label="最高价格" class="price-input"/>
+        </div>
+      </div>
+
+      <!-- Artist Type -->
+      <div class="mb-6">
+        <div class="text-[14px] font-semibold text-[#1E293B] mb-3">艺术家类型</div>
+        <div class="radio-row">
+          <label class="radio-option radio-option-selected">
+            <input type="radio" name="artist-type" value="all" checked class="sr-only"/>
+            <span>全部</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="artist-type" value="individual" class="sr-only"/>
+            <span>个人艺术家</span>
+          </label>
+          <label class="radio-option">
+            <input type="radio" name="artist-type" value="institution" class="sr-only"/>
+            <span>艺术机构</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-col gap-2">
+        <button data-dom-id="filter-confirm" type="button" class="btn-primary w-full" style="padding: 12px 20px; font-size: 15px;">确认筛选</button>
+        <button data-dom-id="filter-reset" type="button" class="btn-secondary w-full" style="padding: 12px 20px; font-size: 15px;">重置</button>
+      </div>
+    </div>
+  </div>
+</div>
+</main>
+<script>
+(function(){
+  var grid = document.querySelector('.masonry-grid');
+  var cards = grid ? Array.prototype.slice.call(grid.querySelectorAll('.masonry-card')) : [];
+  var originalOrder = cards.slice();
+
+  // --- Top category tabs: active switch + simple list filter ---
+  var filters = {
+    'tab-abstract': ['artwork-1','artwork-2','artwork-3','artwork-4'],
+    'tab-classical': ['artwork-1'],
+    'tab-religious': ['artwork-3'],
+    'tab-portrait': ['artwork-2']
+  };
+  var tabs = document.querySelectorAll('.tab-item');
+  for (var t = 0; t < tabs.length; t++) {
+    (function(tab){
+      tab.addEventListener('click', function(){
+        for (var j = 0; j < tabs.length; j++) {
+          tabs[j].classList.remove('tab-item-active');
+          tabs[j].classList.add('tab-item-default');
+        }
+        tab.classList.add('tab-item-active');
+        tab.classList.remove('tab-item-default');
+        var show = filters[tab.getAttribute('data-dom-id')] || [];
+        for (var k = 0; k < cards.length; k++) {
+          cards[k].style.display = (show.indexOf(cards[k].getAttribute('data-dom-id')) !== -1) ? '' : 'none';
+        }
+      });
+    })(tabs[t]);
+  }
+
+  // --- Sort bar (latest / price asc / price desc) ---
+  function parsePrice(card){
+    var el = card.querySelector('.font-bold');
+    if (!el) { return 0; }
+    return parseFloat(el.textContent.replace(/[$,]/g, '')) || 0;
+  }
+  var sortBtns = document.querySelectorAll('.sort-item');
+  function setSortActive(btn){
+    for (var i = 0; i < sortBtns.length; i++) {
+      sortBtns[i].classList.remove('sort-item-active');
+    }
+    btn.classList.add('sort-item-active');
+  }
+  function resort(order){
+    if (!grid) { return; }
+    for (var i = 0; i < order.length; i++) { grid.appendChild(order[i]); }
+    cards = order.slice();
+  }
+  for (var s = 0; s < sortBtns.length; s++) {
+    (function(btn){
+      btn.addEventListener('click', function(){
+        setSortActive(btn);
+        var key = btn.getAttribute('data-dom-id');
+        var order;
+        if (key === 'sort-price-asc') {
+          order = cards.slice().sort(function(a, b){ return parsePrice(a) - parsePrice(b); });
+        } else if (key === 'sort-price-desc') {
+          order = cards.slice().sort(function(a, b){ return parsePrice(b) - parsePrice(a); });
+        } else {
+          order = originalOrder.slice();
+        }
+        resort(order);
+      });
+    })(sortBtns[s]);
+  }
+
+  // --- Filter bottom sheet (hidden by default) ---
+  var overlay = document.querySelector('.filter-overlay');
+  if (overlay) {
+    overlay.style.display = 'none';
+    function openSheet(){ overlay.style.display = 'flex'; }
+    function closeSheet(){ overlay.style.display = 'none'; }
+
+    var filterBtn = document.querySelector('[data-dom-id="filter-btn"]');
+    if (filterBtn) { filterBtn.addEventListener('click', openSheet); }
+
+    var closeBtns = overlay.querySelectorAll('.filter-backdrop, button[aria-label="关闭筛选"]');
+    for (var c = 0; c < closeBtns.length; c++) {
+      closeBtns[c].addEventListener('click', closeSheet);
+    }
+
+    var confirmBtn = document.querySelector('[data-dom-id="filter-confirm"]');
+    if (confirmBtn) {
+      confirmBtn.addEventListener('click', function(){
+        closeSheet();
+        alert('已应用筛选条件');
+      });
+    }
+
+    var resetBtn = document.querySelector('[data-dom-id="filter-reset"]');
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function(){
+        var inputs = overlay.querySelectorAll('.price-input');
+        for (var i = 0; i < inputs.length; i++) { inputs[i].value = ''; }
+        var radios = overlay.querySelectorAll('input[name="artist-type"]');
+        for (var r = 0; r < radios.length; r++) {
+          radios[r].checked = (radios[r].value === 'all');
+        }
+        var labels = overlay.querySelectorAll('.radio-option');
+        for (var l = 0; l < labels.length; l++) {
+          if (labels[l].querySelector('input') && labels[l].querySelector('input').checked) {
+            labels[l].classList.add('radio-option-selected');
+          } else {
+            labels[l].classList.remove('radio-option-selected');
+          }
+        }
+        closeSheet();
+        alert('已重置筛选条件');
+      });
+    }
+
+    // Radio option select state
+    var labels = overlay.querySelectorAll('.radio-option');
+    for (var rl = 0; rl < labels.length; rl++) {
+      (function(label){
+        label.addEventListener('click', function(){
+          var row = label.parentElement;
+          var options = row.querySelectorAll('.radio-option');
+          for (var o = 0; o < options.length; o++) {
+            options[o].classList.remove('radio-option-selected');
+          }
+          label.classList.add('radio-option-selected');
+          var input = label.querySelector('input[type="radio"]');
+          if (input) { input.checked = true; }
+        });
+      })(labels[rl]);
+    }
+
+    document.addEventListener('keydown', function(e){
+      if (e.key === 'Escape' && overlay.style.display !== 'none') { closeSheet(); }
+    });
+  }
+})();
+</script>
+</body>
+</html>

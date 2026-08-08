@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ArtGallery - 作品详情</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body class="min-h-screen">
+<main>
+<style id="critical-layout">
+  .mobile-frame {
+    max-width: 414px;
+    margin: 0 auto;
+    min-height: 100vh;
+    background: var(--ag-background);
+    position: relative;
+  }
+  .top-bar {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: #FFFFFF;
+    border-bottom: 1px solid #E2E8F0;
+  }
+  .buy-bar {
+    position: sticky;
+    bottom: 0;
+    z-index: 30;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+  }
+  .thumb-row {
+    display: flex;
+    gap: 8px;
+  }
+  .thumb {
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    padding: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    background: none;
+    transition: border-color 0.15s;
+  }
+  .thumb[aria-current="true"] {
+    border-color: var(--ag-primary);
+  }
+  .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .gallery-stage {
+    background: #F8FAFC;
+    width: 100%;
+  }
+  .gallery-stage img {
+    width: 100%;
+    display: block;
+    object-fit: contain;
+  }
+  .meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 16px;
+  }
+  .meta-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+  }
+  .meta-label {
+    color: #94A3B8;
+    white-space: nowrap;
+  }
+  .meta-value {
+    color: #334155;
+    font-weight: 500;
+  }
+  .artist-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+  }
+  .artist-avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 9999px;
+    background: #1A365D;
+    color: #FFFFFF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: 600;
+    flex-shrink: 0;
+  }
+  .buy-btn-cart {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #1A365D;
+    background: #FFFFFF;
+    color: #1A365D;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .buy-btn-cart:hover {
+    background: #F0F5FA;
+  }
+  .buy-btn-now {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 10px 16px;
+    border-radius: 8px;
+    border: 1px solid #1A365D;
+    background: #1A365D;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .buy-btn-now:hover {
+    background: #2A5279;
+  }
+  .fav-btn {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    background: #FFFFFF;
+    color: #64748B;
+    cursor: pointer;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .fav-btn[aria-pressed="true"] {
+    color: #1A365D;
+    border-color: #1A365D;
+  }
+  .cat-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 3px 10px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    background: #F0F5FA;
+    color: #1A365D;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .ship-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 500;
+    background: #E8F5E9;
+    color: #1B5E20;
+    white-space: nowrap;
+  }
+  .role-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 500;
+    background: #F0F5FA;
+    color: #1A365D;
+    white-space: nowrap;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .thumb, .fav-btn, .buy-btn-cart, .buy-btn-now { transition: none !important; }
+  }
+</style>
+
+<div class="mobile-frame">
+  <!-- Top Bar with back button -->
+  <header class="top-bar">
+    <div class="flex items-center" style="height: 56px;">
+      <a data-dom-id="btn-back" href="#" aria-label="返回上一页" class="flex items-center justify-center shrink-0 rounded-lg" style="width: 44px; height: 44px; margin-left: 4px; color: #1E293B;">
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+      </a>
+      <h1 class="flex-1 text-center" style="font-size: 16px; font-weight: 600; color: #1E293B; text-wrap: balance;">作品详情</h1>
+      <div style="width: 44px; height: 44px; margin-right: 4px; flex-shrink: 0;" aria-hidden="true"></div>
+    </div>
+  </header>
+
+  <!-- Content -->
+  <div class="pb-24">
+    <!-- Image Gallery -->
+    <section aria-label="作品图片">
+      <div class="gallery-stage">
+        <img id="main-image" src="../assets/art-abstract.jpg" alt="无界之境 — 抽象油画作品主图" style="height: 380px;"/>
+      </div>
+      <div class="px-4 py-3 thumb-row">
+        <button type="button" class="thumb" aria-current="true" aria-label="查看作品主图">
+          <img src="../assets/art-abstract.jpg" alt="无界之境 主图缩略"/>
+        </button>
+        <button type="button" data-dom-id="thumb-1" class="thumb" aria-current="false" aria-label="查看作品细节一">
+          <img src="../assets/art-detail.jpg" alt="无界之境 细节缩略一"/>
+        </button>
+        <button type="button" data-dom-id="thumb-2" class="thumb" aria-current="false" aria-label="查看作品细节二">
+          <img src="../assets/art-detail.jpg" alt="无界之境 细节缩略二"/>
+        </button>
+      </div>
+    </section>
+
+    <!-- Info Section -->
+    <section class="px-4 pt-1" aria-label="作品信息">
+      <div class="flex items-start justify-between gap-3">
+        <h2 style="font-size: 20px; font-weight: 700; color: #1E293B; line-height: 1.3; text-wrap: balance; word-break: keep-all; overflow-wrap: break-word;">无界之境</h2>
+        <span class="cat-badge">抽象</span>
+      </div>
+
+      <dl class="meta-grid" style="margin-top: 12px;">
+        <div class="meta-item">
+          <dt class="meta-label">年份</dt>
+          <dd class="meta-value">2024</dd>
+        </div>
+        <div class="meta-item">
+          <dt class="meta-label">尺寸</dt>
+          <dd class="meta-value">120×80cm</dd>
+        </div>
+        <div class="meta-item">
+          <dt class="meta-label">材质</dt>
+          <dd class="meta-value">布面油画</dd>
+        </div>
+        <div class="meta-item">
+          <dt class="meta-label">编号</dt>
+          <dd class="meta-value">LMH-2024-03</dd>
+        </div>
+      </dl>
+
+      <div style="margin-top: 16px; padding-top: 16px; border-top: 1px solid #E2E8F0;">
+        <div class="flex items-end justify-between gap-3">
+          <div style="font-size: 24px; font-weight: 700; color: #1A365D; line-height: 1.1; font-variant-numeric: tabular-nums;">$2,800</div>
+          <span class="ship-badge">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="1" y="3" width="15" height="13" rx="1"/>
+              <path d="M16 8h4l3 3v5h-7V8z"/>
+              <circle cx="5.5" cy="18.5" r="2.5"/>
+              <circle cx="18.5" cy="18.5" r="2.5"/>
+            </svg>
+            包邮
+          </span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Artist Card -->
+    <section class="px-4" style="margin-top: 20px;" aria-label="艺术家">
+      <div class="artist-card">
+        <div class="artist-avatar" aria-hidden="true">李</div>
+        <div class="flex-1 min-w-0">
+          <div class="flex items-center gap-2">
+            <span style="font-size: 14px; font-weight: 600; color: #1E293B;">李明华</span>
+            <span class="role-tag">个人艺术家</span>
+          </div>
+          <div style="font-size: 12px; color: #64748B; margin-top: 2px;">原创艺术作品 · 已认证</div>
+        </div>
+        <a data-dom-id="view-artist" href="#" class="flex items-center gap-0.5 shrink-0" style="min-height: 44px; padding: 0 8px; font-size: 13px; font-weight: 500; color: #1A365D; text-decoration: none;">
+          查看主页
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+            <polyline points="9 18 15 12 9 6"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- Description -->
+    <section class="px-4" style="margin-top: 20px;" aria-label="作品简介">
+      <h3 style="font-size: 16px; font-weight: 600; color: #1E293B; margin-bottom: 8px;">作品简介</h3>
+      <p style="font-size: 14px; color: #475569; line-height: 1.7;">《无界之境》创作于2024年，是李明华"边界"系列的代表之作。画面以深邃的靛蓝与沉静的灰白为主调，通过层叠刮擦的笔触与厚重肌理，在画布上构建出一个超越具象边界的视觉场域。艺术家试图在有限的120×80cm画布空间内，探索色彩、光影与情绪之间无边无际的可能，引导观者进入一场关于存在与虚无的静默对话。作品采用传统布面油画技法，颜料层次丰富，质感厚重，横幅构图给予画面充足的呼吸感与延展性。</p>
+    </section>
+
+  </div>
+
+  <!-- Fixed Bottom Buy Bar (NO bottom tab) -->
+  <div class="buy-bar">
+    <div class="flex items-center gap-2.5" style="padding: 10px 16px; padding-bottom: max(10px, env(safe-area-inset-bottom));">
+      <button data-dom-id="btn-favorite" type="button" aria-label="收藏作品" aria-pressed="false" class="fav-btn">
+        <svg class="w-5 h-5 fav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+        </svg>
+      </button>
+      <a data-dom-id="btn-add-cart" href="app-cart.html" class="buy-btn-cart">加入购物车</a>
+      <a data-dom-id="btn-buy-now" href="app-checkout.html" class="buy-btn-now">立即购买</a>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  // Thumbnail switching
+  var mainImg = document.getElementById('main-image');
+  var thumbs = document.querySelectorAll('.thumb');
+  for (var i = 0; i < thumbs.length; i++) {
+    (function(thumb){
+      thumb.addEventListener('click', function(){
+        var img = thumb.querySelector('img');
+        if (mainImg && img) {
+          mainImg.setAttribute('src', img.getAttribute('src'));
+        }
+        for (var j = 0; j < thumbs.length; j++) {
+          thumbs[j].setAttribute('aria-current', 'false');
+        }
+        thumb.setAttribute('aria-current', 'true');
+      });
+    })(thumbs[i]);
+  }
+
+  // Favorite toggle
+  var favBtn = document.querySelector('[data-dom-id="btn-favorite"]');
+  if (favBtn) {
+    favBtn.addEventListener('click', function(){
+      var pressed = favBtn.getAttribute('aria-pressed') === 'true';
+      favBtn.setAttribute('aria-pressed', String(!pressed));
+      var icon = favBtn.querySelector('.fav-icon');
+      if (icon) {
+        icon.setAttribute('fill', !pressed ? 'currentColor' : 'none');
+      }
+    });
+  }
+
+  // Back button: go back to previous page, fallback to home
+  var backBtn = document.querySelector('[data-dom-id="btn-back"]');
+  if (backBtn) {
+    backBtn.addEventListener('click', function(e){
+      e.preventDefault();
+      if (window.history && window.history.length > 1) {
+        window.history.back();
+      } else {
+        window.location.href = 'app-home.html';
+      }
+    });
+  }
+
+  // Add to cart feedback (keeps navigating to cart)
+  var addCartBtn = document.querySelector('[data-dom-id="btn-add-cart"]');
+  if (addCartBtn) {
+    addCartBtn.addEventListener('click', function(){
+      alert('已加入购物车');
+    });
+  }
+
+  // Artist placeholder link
+  var viewArtist = document.querySelector('[data-dom-id="view-artist"]');
+  if (viewArtist) {
+    viewArtist.addEventListener('click', function(e){
+      e.preventDefault();
+      alert('示例功能：查看艺术家主页');
+    });
+  }
+
+  // Fullscreen image preview overlay (click main image / thumb to open)
+  var preview = document.createElement('div');
+  preview.style.cssText = 'position:fixed;inset:0;z-index:60;background:rgba(15,23,42,0.92);display:none;align-items:center;justify-content:center;cursor:zoom-out;';
+  var previewImg = document.createElement('img');
+  previewImg.style.cssText = 'max-width:92%;max-height:88%;border-radius:8px;box-shadow:0 12px 40px rgba(0,0,0,0.5);';
+  preview.appendChild(previewImg);
+  document.body.appendChild(preview);
+  function openPreview(src){
+    previewImg.setAttribute('src', src);
+    preview.style.display = 'flex';
+  }
+  function closePreview(){ preview.style.display = 'none'; }
+  preview.addEventListener('click', closePreview);
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && preview.style.display !== 'none') { closePreview(); }
+  });
+  var stageImg = document.querySelector('.gallery-stage img');
+  if (stageImg) {
+    stageImg.addEventListener('click', function(){
+      openPreview(stageImg.getAttribute('src'));
+    });
+  }
+  for (var k = 0; k < thumbs.length; k++) {
+    (function(thumb){
+      thumb.addEventListener('click', function(){
+        var img = thumb.querySelector('img');
+        if (img) { openPreview(img.getAttribute('src')); }
+      });
+    })(thumbs[k]);
+  }
+
+})();
+</script>
+</main>
+</body>
+</html>

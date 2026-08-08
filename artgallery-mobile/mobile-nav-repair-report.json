@@ -1,0 +1,73 @@
+{
+  "success": true,
+  "repairedPages": [
+    {
+      "htmlSrc": "pages/app-home.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "buyer-nav-home"
+    },
+    {
+      "htmlSrc": "pages/app-category.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "buyer-nav-category"
+    },
+    {
+      "htmlSrc": "pages/app-cart.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "buyer-nav-cart"
+    },
+    {
+      "htmlSrc": "pages/app-profile.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "buyer-nav-profile"
+    },
+    {
+      "htmlSrc": "pages/app-admin-home.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "admin-nav-home"
+    },
+    {
+      "htmlSrc": "pages/app-admin-review.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "admin-nav-review"
+    },
+    {
+      "htmlSrc": "pages/app-admin-orders.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "admin-nav-orders"
+    },
+    {
+      "htmlSrc": "pages/app-artist-home.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "artist-nav-home"
+    },
+    {
+      "htmlSrc": "pages/app-artist-artwork.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "artist-nav-artworks"
+    },
+    {
+      "htmlSrc": "pages/app-artist-orders.html",
+      "action": "replace-data-mobile-nav-global",
+      "activeKey": "artist-nav-orders"
+    }
+  ],
+  "skippedPages": [
+    {
+      "htmlSrc": "pages/app-artwork-detail.html",
+      "reason": "detail/reward page without global nav"
+    },
+    {
+      "htmlSrc": "pages/app-checkout.html",
+      "reason": "detail/reward page without global nav"
+    },
+    {
+      "htmlSrc": "pages/app-order-detail.html",
+      "reason": "detail/reward page without global nav"
+    }
+  ],
+  "failedPages": [],
+  "repairCount": 10,
+  "previousFailedReportDetected": false,
+  "checkedAt": "2026-08-07T08:55:26.970Z"
+}

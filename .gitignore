@@ -1,0 +1,12 @@
+# Node / deps
+node_modules/
+
+# Design runtime artifacts
+validation-report.json
+*.log
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车 - ArtGallery</title>
+    <style id="theme-vars">
+/* ==========================================================================
+   ArtGallery Brand CSS — Deep Blue-Grey Art Platform
+   Primary: #1A365D | States: Success #2E7D32, Warning #F57C00, Error #E53935
+   ========================================================================== */
+
+:root {
+  /* --- Brand Primary Scale (#1A365D base) --- */
+  --ag-primary-50: #F0F5FA;
+  --ag-primary-100: #DCE7F2;
+  --ag-primary-200: #B8CFE5;
+  --ag-primary-300: #8FB0D2;
+  --ag-primary-400: #5E87B5;
+  --ag-primary-500: #3A6A9A;
+  --ag-primary-600: #2A5279;
+  --ag-primary-700: #1A365D;  /* === MAIN BRAND COLOR === */
+  --ag-primary-800: #152B4A;
+  --ag-primary-900: #102136;
+
+  /* --- Neutral Scale (blue-grey) --- */
+  --ag-neutral-50: #F8FAFC;
+  --ag-neutral-100: #F1F5F9;
+  --ag-neutral-200: #E2E8F0;
+  --ag-neutral-300: #CBD5E1;
+  --ag-neutral-400: #94A3B8;
+  --ag-neutral-500: #64748B;
+  --ag-neutral-600: #475569;
+  --ag-neutral-700: #334155;
+  --ag-neutral-800: #1E293B;
+  --ag-neutral-900: #0F172A;
+
+  /* --- State Colors (semantic status only) --- */
+  --state-success: #2E7D32;
+  --state-success-light: #E8F5E9;
+  --state-success-dark: #1B5E20;
+  --state-warning: #F57C00;
+  --state-warning-light: #FFF3E0;
+  --state-warning-dark: #E65100;
+  --state-error: #E53935;
+  --state-error-light: #FFEBEE;
+  --state-error-dark: #C62828;
+  --state-info: #1976D2;
+  --state-info-light: #E3F2FD;
+
+  /* --- Force Takedown (special dark-red) --- */
+  --state-forced-takedown: #8B0000;
+  --state-forced-takedown-light: #FCE4EC;
+
+  /* --- Semantic Aliases (light mode) --- */
+  --ag-background: #FFFFFF;
+  --ag-foreground: #1E293B;
+  --ag-card: #FFFFFF;
+  --ag-card-foreground: #1E293B;
+  --ag-popover: #FFFFFF;
+  --ag-popover-foreground: #1E293B;
+  --ag-primary: #1A365D;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #F1F5F9;
+  --ag-muted-foreground: #64748B;
+  --ag-border: #E2E8F0;
+  --ag-input: #E2E8F0;
+  --ag-ring: #1A365D;
+
+  /* --- Radius --- */
+  --ag-radius-small: 4px;
+  --ag-radius-medium: 8px;
+  --ag-radius-large: 12px;
+  --ag-radius-full: 9999px;
+
+  /* --- Typography --- */
+  --ag-font-sans: "PingFang SC", "Microsoft YaHei", "Noto Sans SC", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --ag-font-mono: "SF Mono", "Fira Code", "JetBrains Mono", Consolas, monospace;
+
+  /* --- Font Sizes --- */
+  --ag-text-xs: 12px;
+  --ag-text-sm: 13px;
+  --ag-text-base: 14px;
+  --ag-text-md: 15px;
+  --ag-text-lg: 16px;
+  --ag-text-xl: 18px;
+  --ag-text-2xl: 20px;
+  --ag-text-3xl: 24px;
+  --ag-text-4xl: 28px;
+  --ag-text-5xl: 32px;
+
+  /* --- Shadows (floating layers only: modal, popover, dropdown) --- */
+  --ag-shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+  --ag-shadow-md: 0 4px 12px rgba(0,0,0,0.08);
+  --ag-shadow-lg: 0 8px 24px rgba(0,0,0,0.12);
+  --ag-shadow-modal: 0 12px 40px rgba(0,0,0,0.16);
+}
+
+/* --- Dark Mode (optional, for admin dark panels) --- */
+.dark {
+  --ag-background: #0F172A;
+  --ag-foreground: #E2E8F0;
+  --ag-card: #1E293B;
+  --ag-card-foreground: #E2E8F0;
+  --ag-popover: #1E293B;
+  --ag-popover-foreground: #E2E8F0;
+  --ag-primary: #5E87B5;
+  --ag-primary-foreground: #FFFFFF;
+  --ag-muted: #334155;
+  --ag-muted-foreground: #94A3B8;
+  --ag-border: #334155;
+  --ag-input: #334155;
+  --ag-ring: #5E87B5;
+}
+
+/* --- Base Typography --- */
+body {
+  font-family: var(--ag-font-sans);
+  font-size: var(--ag-text-base);
+  color: var(--ag-foreground);
+  background: var(--ag-background);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Status Tag Utility Classes --- */
+.tag-pending {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-warning-light);
+  color: var(--state-warning-dark);
+  white-space: nowrap;
+}
+
+.tag-approved {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-success-light);
+  color: var(--state-success-dark);
+  white-space: nowrap;
+}
+
+.tag-rejected {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-error-light);
+  color: var(--state-error-dark);
+  white-space: nowrap;
+}
+
+.tag-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-600);
+  white-space: nowrap;
+}
+
+.tag-forced-offline {
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 10px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-xs);
+  font-weight: 500;
+  background: var(--state-forced-takedown-light);
+  color: var(--state-forced-takedown);
+  white-space: nowrap;
+}
+
+/* --- Button Utilities --- */
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-primary);
+  color: var(--ag-primary-foreground);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-primary:hover {
+  background: var(--ag-primary-600);
+}
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: #FFFFFF;
+  color: var(--ag-primary);
+  border: 1px solid var(--ag-primary);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--ag-primary-50);
+}
+
+.btn-disabled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--ag-neutral-100);
+  color: var(--ag-neutral-400);
+  border: 1px solid var(--ag-neutral-200);
+  cursor: not-allowed;
+}
+
+.btn-danger {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: var(--ag-radius-small);
+  font-size: var(--ag-text-base);
+  font-weight: 500;
+  background: var(--state-error);
+  color: #FFFFFF;
+  border: 1px solid var(--state-error);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-danger:hover {
+  background: var(--state-error-dark);
+}
+
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.1/dist/index.global.js"></script>
+    <script src="https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js"></script>
+    <style type="text/tailwindcss">
+  @theme inline {
+    --color-background: var(--ag-background);
+    --color-foreground: var(--ag-foreground);
+    --color-card: var(--ag-card);
+    --color-card-foreground: var(--ag-card-foreground);
+    --color-popover: var(--ag-popover);
+    --color-popover-foreground: var(--ag-popover-foreground);
+    --color-primary: var(--ag-primary);
+    --color-primary-foreground: var(--ag-primary-foreground);
+    --color-muted: var(--ag-muted);
+    --color-muted-foreground: var(--ag-muted-foreground);
+    --color-border: var(--ag-border);
+    --color-input: var(--ag-input);
+    --color-ring: var(--ag-ring);
+    --radius-sm: var(--ag-radius-small);
+    --radius-md: var(--ag-radius-medium);
+    --radius-lg: var(--ag-radius-large);
+  }
+  @layer base {
+    body { background: var(--ag-background); color: var(--ag-foreground); }
+    td, th { @apply break-words; word-break: break-all; word-break: auto-phrase; }
+    th { @apply whitespace-nowrap; }
+  }
+    </style>
+    <style id="semantic-token-fallback">
+      .bg-background { background-color: var(--ag-background); }
+      .text-background { color: var(--ag-background); }
+      .border-background { border-color: var(--ag-background); }
+      .ring-background { --tw-ring-color: var(--ag-background); }
+      .bg-foreground { background-color: var(--ag-foreground); }
+      .text-foreground { color: var(--ag-foreground); }
+      .border-foreground { border-color: var(--ag-foreground); }
+      .ring-foreground { --tw-ring-color: var(--ag-foreground); }
+      .bg-card { background-color: var(--ag-card); }
+      .text-card { color: var(--ag-card); }
+      .border-card { border-color: var(--ag-card); }
+      .ring-card { --tw-ring-color: var(--ag-card); }
+      .bg-card-foreground { background-color: var(--ag-card-foreground); }
+      .text-card-foreground { color: var(--ag-card-foreground); }
+      .border-card-foreground { border-color: var(--ag-card-foreground); }
+      .ring-card-foreground { --tw-ring-color: var(--ag-card-foreground); }
+      .bg-popover { background-color: var(--ag-popover); }
+      .text-popover { color: var(--ag-popover); }
+      .border-popover { border-color: var(--ag-popover); }
+      .ring-popover { --tw-ring-color: var(--ag-popover); }
+      .bg-popover-foreground { background-color: var(--ag-popover-foreground); }
+      .text-popover-foreground { color: var(--ag-popover-foreground); }
+      .border-popover-foreground { border-color: var(--ag-popover-foreground); }
+      .ring-popover-foreground { --tw-ring-color: var(--ag-popover-foreground); }
+      .bg-primary { background-color: var(--ag-primary); }
+      .text-primary { color: var(--ag-primary); }
+      .border-primary { border-color: var(--ag-primary); }
+      .ring-primary { --tw-ring-color: var(--ag-primary); }
+      .bg-primary-foreground { background-color: var(--ag-primary-foreground); }
+      .text-primary-foreground { color: var(--ag-primary-foreground); }
+      .border-primary-foreground { border-color: var(--ag-primary-foreground); }
+      .ring-primary-foreground { --tw-ring-color: var(--ag-primary-foreground); }
+      .bg-muted { background-color: var(--ag-muted); }
+      .text-muted { color: var(--ag-muted); }
+      .border-muted { border-color: var(--ag-muted); }
+      .ring-muted { --tw-ring-color: var(--ag-muted); }
+      .bg-muted-foreground { background-color: var(--ag-muted-foreground); }
+      .text-muted-foreground { color: var(--ag-muted-foreground); }
+      .border-muted-foreground { border-color: var(--ag-muted-foreground); }
+      .ring-muted-foreground { --tw-ring-color: var(--ag-muted-foreground); }
+      .bg-border { background-color: var(--ag-border); }
+      .text-border { color: var(--ag-border); }
+      .border-border { border-color: var(--ag-border); }
+      .ring-border { --tw-ring-color: var(--ag-border); }
+      .bg-input { background-color: var(--ag-input); }
+      .text-input { color: var(--ag-input); }
+      .border-input { border-color: var(--ag-input); }
+      .ring-input { --tw-ring-color: var(--ag-input); }
+      .bg-ring { background-color: var(--ag-ring); }
+      .text-ring { color: var(--ag-ring); }
+      .border-ring { border-color: var(--ag-ring); }
+      .ring-ring { --tw-ring-color: var(--ag-ring); }
+    </style>
+    <style>
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+      [data-icon] {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        -webkit-mask-size: contain;
+        mask-size: contain;
+        -webkit-mask-repeat: no-repeat;
+        mask-repeat: no-repeat;
+        -webkit-mask-position: center;
+        mask-position: center;
+        background-color: currentColor;
+      }
+    </style>
+</head>
+<body>
+  <style id="critical-layout">
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background: var(--ag-neutral-50);
+      color: var(--ag-foreground);
+      font-family: var(--ag-font-sans);
+      font-size: var(--ag-text-lg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    a { color: inherit; text-decoration: none; }
+    button { font-family: inherit; cursor: pointer; }
+    img { display: block; max-width: 100%; }
+    input, button { font-family: inherit; }
+    :focus-visible { outline: 2px solid var(--ag-ring); outline-offset: 2px; border-radius: 2px; }
+
+    /* ===== Layout containers ===== */
+    .container { width: 100%; max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+    .page-main { padding: 32px 0 80px; }
+
+    /* ===== Top Navigation (matches buyer-home) ===== */
+    .nav-bar {
+      position: sticky; top: 0; z-index: 50;
+      width: 100%; height: 64px;
+      background: var(--ag-background);
+      border-bottom: 1px solid var(--ag-border);
+    }
+    .nav-inner {
+      max-width: 1280px; height: 100%; margin: 0 auto; padding: 0 24px;
+      display: flex; align-items: center; gap: 24px;
+    }
+    .nav-logo {
+      font-size: var(--ag-text-2xl); font-weight: 700; color: var(--ag-primary);
+      letter-spacing: -0.01em; white-space: nowrap; flex-shrink: 0;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .nav-logo-mark {
+      width: 28px; height: 28px; border-radius: 6px; background: var(--ag-primary);
+      display: inline-flex; align-items: center; justify-content: center; color: #fff;
+    }
+    .nav-links { display: flex; align-items: center; gap: 20px; flex-shrink: 0; }
+    .nav-link {
+      font-size: var(--ag-text-md); color: var(--ag-neutral-700); font-weight: 500;
+      white-space: nowrap; padding: 6px 0;
+      transition: color 0.15s cubic-bezier(.2,.8,.2,1);
+    }
+    .nav-link:hover { color: var(--ag-primary); }
+    .nav-link.is-dropdown { display: inline-flex; align-items: center; gap: 4px; }
+    .nav-search {
+      flex: 1 1 auto; max-width: 400px; margin: 0 auto; position: relative;
+      display: flex; align-items: center;
+    }
+    .search-input {
+      width: 100%; height: 40px; padding: 0 44px 0 14px;
+      border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium);
+      background: var(--ag-neutral-50); color: var(--ag-foreground);
+      font-size: var(--ag-text-md);
+      transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+    }
+    .search-input::placeholder { color: var(--ag-neutral-400); }
+    .search-input:hover { border-color: var(--ag-neutral-300); }
+    .search-input:focus {
+      outline: none; border-color: var(--ag-primary); background: #fff;
+      box-shadow: 0 0 0 3px rgba(26,54,93,0.12);
+    }
+    .search-btn {
+      position: absolute; right: 6px; top: 50%; transform: translateY(-50%);
+      width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+      border: none; background: transparent; color: var(--ag-neutral-500);
+      border-radius: var(--ag-radius-small); transition: color 0.15s, background 0.15s;
+    }
+    .search-btn:hover { color: var(--ag-primary); background: var(--ag-primary-50); }
+    .nav-actions { display: flex; align-items: center; gap: 18px; flex-shrink: 0; margin-left: auto; }
+    .nav-login {
+      font-size: var(--ag-text-md); color: var(--ag-primary); font-weight: 500;
+      white-space: nowrap; transition: color 0.15s;
+    }
+    .nav-login:hover { color: var(--ag-primary-600); }
+    .icon-btn {
+      position: relative; width: 36px; height: 36px; display: inline-flex;
+      align-items: center; justify-content: center; border: none; background: transparent;
+      color: var(--ag-neutral-700); border-radius: var(--ag-radius-medium);
+      transition: color 0.15s, background 0.15s;
+    }
+    .icon-btn:hover { color: var(--ag-primary); background: var(--ag-primary-50); }
+    .icon-btn.is-active { color: var(--ag-primary); background: var(--ag-primary-50); }
+    .cart-badge {
+      position: absolute; top: -2px; right: -2px; min-width: 18px; height: 18px;
+      padding: 0 5px; border-radius: 999px; background: var(--state-error); color: #fff;
+      font-size: 11px; font-weight: 600; line-height: 18px; text-align: center;
+      border: 2px solid var(--ag-background);
+    }
+    .nav-avatar {
+      display: inline-flex; align-items: center; gap: 4px; padding: 4px 6px 4px 4px;
+      border-radius: 999px; transition: background 0.15s;
+    }
+    .nav-avatar:hover { background: var(--ag-primary-50); }
+    .avatar-circle {
+      width: 32px; height: 32px; border-radius: 999px; background: var(--ag-primary);
+      color: #fff; display: inline-flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .nav-avatar .chev { color: var(--ag-neutral-400); }
+
+    /* ===== Page Header ===== */
+    .page-header {
+      display: flex; align-items: baseline; gap: 12px;
+      margin-bottom: 24px;
+    }
+    .page-title {
+      font-size: var(--ag-text-3xl); font-weight: 700; color: var(--ag-foreground);
+      letter-spacing: -0.01em; margin: 0; line-height: 1.2;
+      text-wrap: balance; word-break: keep-all; overflow-wrap: break-word;
+    }
+    .page-count {
+      font-size: var(--ag-text-md); color: var(--ag-muted-foreground);
+      font-weight: 400; white-space: nowrap;
+    }
+
+    /* ===== Cart Layout (2 columns) ===== */
+    .cart-layout {
+      display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px;
+      align-items: start;
+    }
+
+    /* ===== Cart Card ===== */
+    .cart-card {
+      background: var(--ag-card); border: 1px solid var(--ag-border);
+      border-radius: var(--ag-radius-medium); overflow: hidden;
+    }
+    .cart-table { display: grid; grid-template-columns: 48px minmax(0, 1fr) 110px 150px 120px 80px; }
+    .cart-head {
+      display: contents;
+    }
+    .cart-head > * {
+      padding: 14px 16px; font-size: var(--ag-text-sm); font-weight: 500;
+      color: var(--ag-muted-foreground); background: var(--ag-neutral-50);
+      border-bottom: 1px solid var(--ag-border); white-space: nowrap;
+    }
+    .cart-head .col-center { text-align: center; }
+    .cart-row {
+      display: contents;
+    }
+    .cart-row > * {
+      padding: 20px 16px; border-bottom: 1px solid var(--ag-border);
+      display: flex; align-items: center;
+    }
+    .cart-row:last-child > * { border-bottom: none; }
+
+    .col-check { justify-content: center; }
+    .col-product { gap: 14px; min-width: 0; }
+    .col-price { justify-content: flex-end; }
+    .col-qty { justify-content: center; }
+    .col-subtotal { justify-content: flex-end; }
+    .col-action { justify-content: center; }
+
+    .cart-check {
+      width: 18px; height: 18px; accent-color: var(--ag-primary); cursor: pointer;
+      flex-shrink: 0;
+    }
+    .cart-thumb {
+      width: 80px; height: 80px; border-radius: var(--ag-radius-medium);
+      object-fit: cover; flex-shrink: 0; background: var(--ag-neutral-100);
+    }
+    .product-meta { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
+    .product-name {
+      font-size: var(--ag-text-md); font-weight: 600; color: var(--ag-foreground);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .product-name a { transition: color 0.15s; }
+    .product-name a:hover { color: var(--ag-primary); }
+    .product-desc {
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground);
+      overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+    }
+    .price-text {
+      font-size: var(--ag-text-md); color: var(--ag-foreground);
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .subtotal-text {
+      font-size: var(--ag-text-md); font-weight: 600; color: var(--ag-primary);
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .remove-link {
+      font-size: var(--ag-text-sm); color: var(--state-error);
+      background: none; border: none; padding: 6px 8px;
+      white-space: nowrap; transition: color 0.15s, background 0.15s;
+      border-radius: var(--ag-radius-small);
+    }
+    .remove-link:hover { color: var(--state-error-dark); background: var(--state-error-light); }
+
+    /* Quantity stepper */
+    .qty-stepper {
+      display: inline-flex; align-items: stretch; border: 1px solid var(--ag-border);
+      border-radius: var(--ag-radius-medium); overflow: hidden; background: var(--ag-background);
+    }
+    .qty-btn {
+      width: 36px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+      border: none; background: var(--ag-background); color: var(--ag-neutral-700);
+      font-size: var(--ag-text-lg); transition: background 0.15s, color 0.15s;
+    }
+    .qty-btn:hover { background: var(--ag-primary-50); color: var(--ag-primary); }
+    .qty-btn:disabled { color: var(--ag-neutral-300); cursor: not-allowed; }
+    .qty-btn:disabled:hover { background: var(--ag-background); color: var(--ag-neutral-300); }
+    .qty-value {
+      width: 44px; height: 36px; display: inline-flex; align-items: center; justify-content: center;
+      border-left: 1px solid var(--ag-border); border-right: 1px solid var(--ag-border);
+      font-size: var(--ag-text-md); font-weight: 500; color: var(--ag-foreground);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Cart footer */
+    .cart-footer {
+      display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+      padding: 16px 20px; background: var(--ag-neutral-50);
+      border-top: 1px solid var(--ag-border);
+    }
+    .cart-footer-select {
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: var(--ag-text-sm); color: var(--ag-foreground); cursor: pointer;
+    }
+    .cart-footer-select .cart-check { width: 16px; height: 16px; }
+    .footer-divider { width: 1px; height: 16px; background: var(--ag-border); }
+    .footer-link-btn {
+      font-size: var(--ag-text-sm); color: var(--ag-neutral-700); background: none;
+      border: none; padding: 6px 8px; transition: color 0.15s; white-space: nowrap;
+    }
+    .footer-link-btn:hover { color: var(--ag-primary); }
+
+    /* ===== Summary Card (sticky) ===== */
+    .summary-col { position: sticky; top: 88px; }
+    .summary-card {
+      background: var(--ag-card); border: 1px solid var(--ag-border);
+      border-radius: var(--ag-radius-medium); padding: 24px;
+      display: flex; flex-direction: column; gap: 20px;
+    }
+    .summary-title {
+      font-size: var(--ag-text-xl); font-weight: 600; color: var(--ag-foreground);
+      margin: 0; letter-spacing: -0.01em;
+    }
+    .address-section { display: flex; flex-direction: column; gap: 12px; }
+    .section-label {
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); font-weight: 500;
+    }
+    .address-card {
+      border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium);
+      padding: 14px; background: var(--ag-neutral-50);
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .address-name {
+      font-size: var(--ag-text-md); font-weight: 600; color: var(--ag-foreground);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .address-tag {
+      display: inline-flex; align-items: center; padding: 1px 8px;
+      border-radius: var(--ag-radius-small); font-size: var(--ag-text-xs); font-weight: 500;
+      background: var(--ag-primary-50); color: var(--ag-primary); white-space: nowrap;
+    }
+    .address-detail {
+      font-size: var(--ag-text-sm); color: var(--ag-neutral-700); line-height: 1.5;
+      overflow: hidden; text-overflow: ellipsis;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    }
+    .address-phone {
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground);
+      font-variant-numeric: tabular-nums;
+    }
+    .address-actions { display: flex; align-items: center; gap: 16px; }
+    .addr-link {
+      font-size: var(--ag-text-sm); color: var(--ag-primary); font-weight: 500;
+      white-space: nowrap; transition: color 0.15s;
+    }
+    .addr-link:hover { color: var(--ag-primary-600); }
+
+    .summary-divider { height: 1px; background: var(--ag-border); border: none; margin: 0; }
+
+    .price-list { display: flex; flex-direction: column; gap: 12px; }
+    .price-row {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    }
+    .price-label {
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); white-space: nowrap;
+    }
+    .price-value {
+      font-size: var(--ag-text-md); color: var(--ag-foreground);
+      font-variant-numeric: tabular-nums; white-space: nowrap;
+    }
+    .price-value.is-free { color: var(--state-success-dark); }
+    .price-total {
+      display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+    }
+    .price-total .price-label {
+      font-size: var(--ag-text-md); color: var(--ag-foreground); font-weight: 500;
+    }
+    .price-total .price-value {
+      font-size: var(--ag-text-2xl); color: var(--ag-primary); font-weight: 700;
+    }
+
+    .submit-btn {
+      width: 100%; padding: 12px 20px; font-size: var(--ag-text-md); font-weight: 600;
+    }
+    .security-note {
+      display: flex; align-items: center; gap: 8px; justify-content: center;
+      font-size: var(--ag-text-xs); color: var(--ag-muted-foreground);
+    }
+    .payment-icons {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+    }
+    .pay-chip {
+      display: inline-flex; align-items: center; justify-content: center;
+      height: 24px; padding: 0 8px; border-radius: var(--ag-radius-small);
+      border: 1px solid var(--ag-border); background: var(--ag-background);
+      font-size: 11px; font-weight: 600; color: var(--ag-neutral-600);
+      letter-spacing: 0.02em; white-space: nowrap;
+    }
+
+    /* ===== Modals ===== */
+    .modal-backdrop {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(15,23,42,0.45); backdrop-filter: blur(2px);
+      display: none; align-items: center; justify-content: center; padding: 24px;
+    }
+    .modal-backdrop.is-open { display: flex; }
+    .modal {
+      background: var(--ag-card); border-radius: var(--ag-radius-medium);
+      box-shadow: var(--ag-shadow-modal); width: 100%; max-width: 500px;
+      display: flex; flex-direction: column; max-height: 90vh; overflow: hidden;
+    }
+    .modal--sm { max-width: 400px; }
+    .modal-header {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 20px 24px; border-bottom: 1px solid var(--ag-border);
+    }
+    .modal-title {
+      font-size: var(--ag-text-lg); font-weight: 600; color: var(--ag-foreground); margin: 0;
+    }
+    .modal-close {
+      width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+      border: none; background: transparent; color: var(--ag-neutral-500);
+      border-radius: var(--ag-radius-small); transition: color 0.15s, background 0.15s;
+    }
+    .modal-close:hover { color: var(--ag-foreground); background: var(--ag-neutral-100); }
+    .modal-body {
+      padding: 20px 24px; overflow-y: auto; flex: 1 1 auto; min-height: 0;
+    }
+    .modal-footer {
+      display: flex; align-items: center; justify-content: flex-end; gap: 12px;
+      padding: 16px 24px; border-top: 1px solid var(--ag-border);
+    }
+
+    /* Address option list */
+    .addr-option-list { display: flex; flex-direction: column; gap: 12px; }
+    .addr-option {
+      display: flex; align-items: flex-start; gap: 12px; padding: 14px;
+      border: 1px solid var(--ag-border); border-radius: var(--ag-radius-medium);
+      cursor: pointer; transition: border-color 0.15s, background 0.15s;
+    }
+    .addr-option:hover { border-color: var(--ag-primary-200); }
+    .addr-option.is-selected { border-color: var(--ag-primary); background: var(--ag-primary-50); }
+    .addr-option-radio {
+      width: 18px; height: 18px; flex-shrink: 0; margin-top: 2px;
+      accent-color: var(--ag-primary); cursor: pointer;
+    }
+    .addr-option-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1 1 auto; }
+    .addr-option-name {
+      font-size: var(--ag-text-md); font-weight: 600; color: var(--ag-foreground);
+      display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+    }
+    .addr-option-detail {
+      font-size: var(--ag-text-sm); color: var(--ag-neutral-700); line-height: 1.5;
+      overflow: hidden; text-overflow: ellipsis;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    }
+    .addr-option-phone {
+      font-size: var(--ag-text-sm); color: var(--ag-muted-foreground);
+      font-variant-numeric: tabular-nums;
+    }
+    .modal-add-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: var(--ag-text-sm); color: var(--ag-primary); font-weight: 500;
+      background: none; border: none; padding: 8px 0; margin-top: 4px;
+      transition: color 0.15s;
+    }
+    .modal-add-btn:hover { color: var(--ag-primary-600); }
+
+    /* ===== Footer (matches buyer-home) ===== */
+    .footer {
+      background: var(--ag-primary); color: #fff; padding: 56px 0 24px;
+    }
+    .footer .container { display: block; }
+    .footer-grid {
+      display: grid; grid-template-columns: 1fr; gap: 32px;
+    }
+    .footer-col h4 {
+      font-size: var(--ag-text-md); font-weight: 600; margin: 0 0 16px; color: #fff;
+    }
+    .footer-brand .footer-name {
+      font-size: var(--ag-text-xl); font-weight: 700; margin-bottom: 12px; color: #fff;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .footer-desc {
+      font-size: var(--ag-text-sm); color: rgba(255,255,255,0.78); line-height: 1.7; margin: 0;
+    }
+    .footer-links { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+    .footer-links a {
+      font-size: var(--ag-text-sm); color: rgba(255,255,255,0.78);
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: #fff; }
+    .footer-contact { display: flex; flex-direction: column; gap: 12px; padding: 0; margin: 0; list-style: none; }
+    .footer-contact li {
+      display: flex; align-items: center; gap: 10px; font-size: var(--ag-text-sm);
+      color: rgba(255,255,255,0.85);
+    }
+    .footer-contact .ci { color: rgba(255,255,255,0.7); flex-shrink: 0; display: inline-flex; }
+    .footer-bottom {
+      margin-top: 40px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.15);
+      text-align: center; font-size: var(--ag-text-sm); color: rgba(255,255,255,0.7);
+    }
+
+    /* ===== Responsive ===== */
+    @media (min-width: 768px) {
+      .cart-layout { grid-template-columns: minmax(0, 1fr) 360px; }
+    }
+    @media (min-width: 1024px) {
+      .container { padding: 0 32px; }
+      .nav-inner { padding: 0 32px; }
+      .cart-layout { grid-template-columns: minmax(0, 1fr) 400px; gap: 32px; }
+      .footer-grid { grid-template-columns: 2fr 1fr 1fr 1.4fr; gap: 40px; }
+    }
+    @media (max-width: 1023px) {
+      .nav-links { display: none; }
+    }
+    @media (max-width: 767px) {
+      .page-main { padding: 24px 0 56px; }
+      .cart-table {
+        grid-template-columns: 40px minmax(0, 1fr);
+        row-gap: 0;
+      }
+      .cart-head { display: none; }
+      .cart-row { display: contents; }
+      .cart-row > * { border-bottom: 1px solid var(--ag-border); padding: 12px 16px; }
+      .col-product { grid-column: 2; border-top: 1px solid var(--ag-border); padding-top: 16px; }
+      .col-check { grid-column: 1; grid-row: 1; border-top: 1px solid var(--ag-border); padding-top: 16px; }
+      .col-price, .col-qty, .col-subtotal, .col-action {
+        grid-column: 1 / -1; justify-content: space-between; padding: 8px 16px;
+      }
+      .col-price::before { content: "单价"; font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); }
+      .col-qty::before { content: "数量"; font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); }
+      .col-subtotal::before { content: "小计"; font-size: var(--ag-text-sm); color: var(--ag-muted-foreground); }
+      .col-action { justify-content: center; }
+      .nav-search { display: none; }
+      .nav-login { display: none; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: 0.01ms !important; animation-duration: 0.01ms !important; }
+    }
+  </style>
+
+  <!-- ===== Top Navigation ===== -->
+  <header class="nav-bar">
+    <div class="nav-inner">
+      <a href="buyer-home.html" class="nav-logo" data-dom-id="nav-home" aria-label="ArtGallery 首页">
+        <span class="nav-logo-mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+        </span>
+        ArtGallery
+      </a>
+
+      <nav class="nav-links" aria-label="作品分类">
+        <a href="buyer-category.html" class="nav-link is-dropdown">
+          全部分类
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </a>
+        <a href="buyer-category.html" class="nav-link">抽象</a>
+        <a href="buyer-category.html" class="nav-link">古典</a>
+        <a href="buyer-category.html" class="nav-link">宗教</a>
+        <a href="buyer-category.html" class="nav-link">人物</a>
+      </nav>
+
+      <div class="nav-search" role="search">
+        <input type="text" class="search-input" placeholder="搜索 artworks、artists..." aria-label="搜索作品或艺术家">
+        <button type="button" class="search-btn" aria-label="搜索">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        </button>
+      </div>
+
+      <div class="nav-actions">
+        <a href="buyer-login.html" class="nav-login" data-dom-id="nav-login">登录/注册</a>
+        <button type="button" class="icon-btn is-active" aria-label="购物车，当前 2 件商品" aria-current="page">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="21" r="1"/><circle cx="18" cy="21" r="1"/><path d="M2.5 3h2.5l2.4 12.6a1.5 1.5 0 0 0 1.5 1.2h8.4a1.5 1.5 0 0 0 1.5-1.2L21 7.5H6"/></svg>
+          <span class="cart-badge">2</span>
+        </button>
+        <button type="button" class="nav-avatar" aria-label="我的账户">
+          <span class="avatar-circle" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8"/></svg>
+          </span>
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="page-main">
+    <div class="container">
+      <!-- ===== Page Title ===== -->
+      <div class="page-header">
+        <h1 class="page-title">购物车</h1>
+        <span class="page-count">(2件)</span>
+      </div>
+
+      <!-- ===== Cart Layout ===== -->
+      <div class="cart-layout">
+        <!-- Left: Cart Items -->
+        <section class="cart-card" aria-label="购物车商品列表">
+          <div class="cart-table" role="table">
+            <div class="cart-head" role="row">
+              <span class="col-check" role="columnheader">
+                <input type="checkbox" class="cart-check" aria-label="全选" checked>
+              </span>
+              <span role="columnheader">商品信息</span>
+              <span class="col-price" role="columnheader">单价</span>
+              <span class="col-qty col-center" role="columnheader">数量</span>
+              <span class="col-subtotal" role="columnheader">小计</span>
+              <span class="col-action col-center" role="columnheader">操作</span>
+            </div>
+
+            <!-- Cart Item 1 -->
+            <div class="cart-row" role="row">
+              <div class="col-check" role="cell">
+                <input type="checkbox" class="cart-check" aria-label="选择 无界之境" checked>
+              </div>
+              <div class="col-product" role="cell">
+                <img class="cart-thumb" src="../assets/art-abstract.jpg" alt="无界之境 抽象艺术作品缩略图">
+                <div class="product-meta">
+                  <span class="product-name">
+                    <a href="artwork-detail.html" data-dom-id="artwork-link-1">无界之境</a>
+                  </span>
+                  <span class="product-desc">李明华 | 抽象 | 120×80cm</span>
+                </div>
+              </div>
+              <div class="col-price" role="cell">
+                <span class="price-text">$2,800</span>
+              </div>
+              <div class="col-qty" role="cell">
+                <div class="qty-stepper">
+                  <button type="button" class="qty-btn" aria-label="减少数量" disabled>−</button>
+                  <span class="qty-value">1</span>
+                  <button type="button" class="qty-btn" aria-label="增加数量">+</button>
+                </div>
+              </div>
+              <div class="col-subtotal" role="cell">
+                <span class="subtotal-text">$2,800</span>
+              </div>
+              <div class="col-action" role="cell">
+                <button type="button" class="remove-link" data-dom-id="remove-item-1">删除</button>
+              </div>
+            </div>
+
+            <!-- Cart Item 2 -->
+            <div class="cart-row" role="row">
+              <div class="col-check" role="cell">
+                <input type="checkbox" class="cart-check" aria-label="选择 山水清音" checked>
+              </div>
+              <div class="col-product" role="cell">
+                <img class="cart-thumb" src="../assets/art-classical.jpg" alt="山水清音 古典艺术作品缩略图">
+                <div class="product-meta">
+                  <span class="product-name">
+                    <a href="artwork-detail.html">山水清音</a>
+                  </span>
+                  <span class="product-desc">王画师 | 古典 | 100×70cm</span>
+                </div>
+              </div>
+              <div class="col-price" role="cell">
+                <span class="price-text">$3,500</span>
+              </div>
+              <div class="col-qty" role="cell">
+                <div class="qty-stepper">
+                  <button type="button" class="qty-btn" aria-label="减少数量" disabled>−</button>
+                  <span class="qty-value">1</span>
+                  <button type="button" class="qty-btn" aria-label="增加数量">+</button>
+                </div>
+              </div>
+              <div class="col-subtotal" role="cell">
+                <span class="subtotal-text">$3,500</span>
+              </div>
+              <div class="col-action" role="cell">
+                <button type="button" class="remove-link" data-dom-id="remove-item-2">删除</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cart Footer -->
+          <div class="cart-footer">
+            <label class="cart-footer-select">
+              <input type="checkbox" class="cart-check" aria-label="全选" checked>
+              全选
+            </label>
+            <span class="footer-divider" aria-hidden="true"></span>
+            <button type="button" class="footer-link-btn">删除选中</button>
+            <span class="footer-divider" aria-hidden="true"></span>
+            <button type="button" class="btn-secondary" data-dom-id="clear-cart">清空购物车</button>
+          </div>
+        </section>
+
+        <!-- Right: Order Summary -->
+        <aside class="summary-col" aria-label="订单汇总">
+          <div class="summary-card">
+            <h2 class="summary-title">订单汇总</h2>
+
+            <!-- Address -->
+            <div class="address-section">
+              <span class="section-label">收货地址</span>
+              <div class="address-card">
+                <span class="address-name">
+                  John Smith
+                  <span class="address-tag">默认</span>
+                </span>
+                <span class="address-detail">123 Main St, Apt 4B, New York, NY 10001, United States</span>
+                <span class="address-phone">Phone: +1-212-555-0123</span>
+              </div>
+              <div class="address-actions">
+                <button type="button" class="addr-link" data-dom-id="change-address">更换地址</button>
+                <button type="button" class="addr-link" data-dom-id="add-address">新增地址</button>
+              </div>
+            </div>
+
+            <hr class="summary-divider">
+
+            <!-- Price Breakdown -->
+            <div class="price-list">
+              <div class="price-row">
+                <span class="price-label">商品总价</span>
+                <span class="price-value">$6,300</span>
+              </div>
+              <div class="price-row">
+                <span class="price-label">运费</span>
+                <span class="price-value is-free">$0 (包邮)</span>
+              </div>
+              <div class="price-row">
+                <span class="price-label">税费</span>
+                <span class="price-value">$0</span>
+              </div>
+            </div>
+
+            <hr class="summary-divider">
+
+            <!-- Total -->
+            <div class="price-total">
+              <span class="price-label">应付总价</span>
+              <span class="price-value">$6,300</span>
+            </div>
+
+            <!-- Submit -->
+            <button type="button" class="btn-primary submit-btn" data-dom-id="submit-order">提交订单</button>
+
+            <div class="security-note">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 8-8 10-4.5-2-8-5-8-10V6l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+              <span>资金由平台托管，收货完成后结算</span>
+            </div>
+
+            <div class="payment-icons" aria-label="支持的支付方式">
+              <span class="pay-chip">PayPal</span>
+              <span class="pay-chip">VISA</span>
+              <span class="pay-chip">Mastercard</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </main>
+
+  <!-- ===== Address Selection Modal ===== -->
+  <div class="modal-backdrop" id="address-modal" role="dialog" aria-modal="true" aria-labelledby="address-modal-title">
+    <div class="modal">
+      <div class="modal-header">
+        <h3 class="modal-title" id="address-modal-title">选择收货地址</h3>
+        <button type="button" class="modal-close" data-dom-id="address-modal-close" aria-label="关闭">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="addr-option-list">
+          <label class="addr-option is-selected">
+            <input type="radio" name="address" class="addr-option-radio" checked>
+            <span class="addr-option-body">
+              <span class="addr-option-name">
+                John Smith
+                <span class="address-tag">默认</span>
+              </span>
+              <span class="addr-option-detail">123 Main St, Apt 4B, New York, NY 10001, United States</span>
+              <span class="addr-option-phone">Phone: +1-212-555-0123</span>
+            </span>
+          </label>
+          <label class="addr-option">
+            <input type="radio" name="address" class="addr-option-radio">
+            <span class="addr-option-body">
+              <span class="addr-option-name">Jane Doe</span>
+              <span class="addr-option-detail">456 Oak Ave, Los Angeles, CA 90001, United States</span>
+              <span class="addr-option-phone">Phone: +1-213-555-0145</span>
+            </span>
+          </label>
+        </div>
+        <button type="button" class="modal-add-btn" data-dom-id="add-address-modal">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          新增地址
+        </button>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-primary">确认</button>
+        <button type="button" class="btn-secondary" data-dom-id="address-modal-close">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Delete Confirmation Modal ===== -->
+  <div class="modal-backdrop" id="delete-modal" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
+    <div class="modal modal--sm">
+      <div class="modal-header">
+        <h3 class="modal-title" id="delete-modal-title">确认删除该商品？</h3>
+        <button type="button" class="modal-close" data-dom-id="delete-modal-close" aria-label="关闭">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p style="margin: 0; font-size: var(--ag-text-sm); color: var(--ag-muted-foreground);">删除后商品将从购物车移除，且无法恢复，确认要删除吗？</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn-danger">确认</button>
+        <button type="button" class="btn-secondary" data-dom-id="delete-modal-close">取消</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== Footer ===== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <div class="footer-name">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M9 21v-6h6v6"/></svg>
+            ArtGallery
+          </div>
+          <p class="footer-desc">ArtGallery 是美国领先的跨境美术原作交易平台，连接全球藏家与原创艺术家，提供鉴定、安全托管交易与跨境配送的一站式服务。</p>
+        </div>
+
+        <div class="footer-col">
+          <h4>购买须知</h4>
+          <ul class="footer-links">
+            <li><a href="#">如何购买</a></li>
+            <li><a href="#">支付方式</a></li>
+            <li><a href="#">配送说明</a></li>
+            <li><a href="#">退换政策</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>关于我们</h4>
+          <ul class="footer-links">
+            <li><a href="#">平台介绍</a></li>
+            <li><a href="#">隐私政策</a></li>
+            <li><a href="#">用户协议</a></li>
+            <li><a href="#">联系我们</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h4>联系客服</h4>
+          <ul class="footer-contact">
+            <li>
+              <span class="ci" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></span>
+              support@artgallery.com
+            </li>
+            <li>
+              <span class="ci" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6 19.8 19.8 0 0 1-3.1-8.7A2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.3 1.8.6 2.6a2 2 0 0 1-.4 2.1L8 9.6a16 16 0 0 0 6 6l1.2-1.3a2 2 0 0 1 2.1-.4c.8.3 1.7.5 2.6.6a2 2 0 0 1 1.7 2z"/></svg></span>
+              +1-800-XXX-XXXX
+            </li>
+            <li>
+              <span class="ci" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><polyline points="12 7 12 12 15 14"/></svg></span>
+              工作时间 Mon-Fri 9:00-18:00
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">© 2026 ArtGallery. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script>
+    // Modal open/close via class toggle (no DOM structure mutation)
+    (function() {
+      var addressModal = document.getElementById('address-modal');
+      var deleteModal = document.getElementById('delete-modal');
+      function open(el){ if(el) el.classList.add('is-open'); }
+      function close(el){ if(el) el.classList.remove('is-open'); }
+
+      var changeBtn = document.querySelector('[data-dom-id="change-address"]');
+      if (changeBtn) changeBtn.addEventListener('click', function(){ open(addressModal); });
+
+      var submitBtn = document.querySelector('[data-dom-id="submit-order"]');
+      if (submitBtn) submitBtn.addEventListener('click', function(){ window.location.href = 'buyer-payment.html'; });
+
+      document.querySelectorAll('[data-dom-id="remove-item-1"], [data-dom-id="remove-item-2"]').forEach(function(btn){
+        btn.addEventListener('click', function(){ open(deleteModal); });
+      });
+
+      document.querySelectorAll('[data-dom-id="address-modal-close"]').forEach(function(btn){
+        btn.addEventListener('click', function(){ close(addressModal); });
+      });
+      document.querySelectorAll('[data-dom-id="delete-modal-close"]').forEach(function(btn){
+        btn.addEventListener('click', function(){ close(deleteModal); });
+      });
+
+      // Close on backdrop click
+      [addressModal, deleteModal].forEach(function(m){
+        if (!m) return;
+        m.addEventListener('click', function(e){ if (e.target === m) close(m); });
+      });
+
+      // Address option selection
+      document.querySelectorAll('.addr-option').forEach(function(opt){
+        opt.addEventListener('click', function(){
+          document.querySelectorAll('.addr-option').forEach(function(o){ o.classList.remove('is-selected'); });
+          opt.classList.add('is-selected');
+          var radio = opt.querySelector('.addr-option-radio');
+          if (radio) radio.checked = true;
+        });
+      });
+    })();
+    // ===== 购物车交互（数量 / 选择 / 删除 / 合计 / 结算） =====
+    (function () {
+      var addressModal = document.getElementById('address-modal');
+      var deleteModal = document.getElementById('delete-modal');
+      function open(el) { if (el) el.classList.add('is-open'); }
+      function close(el) { if (el) el.classList.remove('is-open'); }
+
+      function parsePrice(txt) { return parseFloat(String(txt).replace(/[$,]/g, '')) || 0; }
+      function fmt(n) { return '$' + n.toLocaleString('en-US'); }
+      function rowQty(row) {
+        var v = row.querySelector('.qty-value');
+        return v ? (parseInt(v.textContent, 10) || 1) : 1;
+      }
+      function rowPrice(row) {
+        var p = row.querySelector('.price-text');
+        return parsePrice(p ? p.textContent : '0');
+      }
+      function updateRow(row) {
+        var subtotal = row.querySelector('.subtotal-text');
+        if (subtotal) subtotal.textContent = fmt(rowPrice(row) * rowQty(row));
+      }
+      function updateSummary() {
+        var sum = 0, count = 0;
+        document.querySelectorAll('.cart-row').forEach(function (row) {
+          var cb = row.querySelector('input[type="checkbox"].cart-check');
+          var sub = row.querySelector('.subtotal-text');
+          if (cb && cb.checked && sub) { sum += parsePrice(sub.textContent); count += rowQty(row); }
+        });
+        var totalEl = document.querySelector('.price-total .price-value');
+        if (totalEl) totalEl.textContent = fmt(sum);
+        var goodsEl = document.querySelector('.price-list .price-row:first-child .price-value');
+        if (goodsEl) goodsEl.textContent = fmt(sum);
+        var pageCount = document.querySelector('.page-count');
+        if (pageCount) pageCount.textContent = '(' + count + '件)';
+        var badge = document.querySelector('.cart-badge');
+        if (badge) badge.textContent = count;
+      }
+      function syncSelectAll() {
+        var rows = document.querySelectorAll('.cart-row');
+        var allChecked = rows.length > 0;
+        rows.forEach(function (r) {
+          var cb = r.querySelector('input[type="checkbox"].cart-check');
+          if (!cb || !cb.checked) allChecked = false;
+        });
+        document.querySelectorAll('input[type="checkbox"].cart-check[aria-label="全选"]').forEach(function (cb) { cb.checked = allChecked; });
+      }
+
+      // 数量 +/-
+      document.querySelectorAll('.cart-row').forEach(function (row) {
+        var minus = row.querySelector('.qty-btn[aria-label="减少数量"]');
+        var plus = row.querySelector('.qty-btn[aria-label="增加数量"]');
+        var valueEl = row.querySelector('.qty-value');
+        if (minus) minus.addEventListener('click', function () {
+          var v = rowQty(row);
+          if (v <= 1) return;
+          valueEl.textContent = v - 1;
+          if (v - 1 <= 1) minus.disabled = true;
+          updateRow(row); updateSummary(); syncSelectAll();
+        });
+        if (plus) plus.addEventListener('click', function () {
+          var v = rowQty(row);
+          valueEl.textContent = v + 1;
+          if (minus) minus.disabled = false;
+          updateRow(row); updateSummary(); syncSelectAll();
+        });
+      });
+
+      // 行选择
+      document.querySelectorAll('.cart-row input[type="checkbox"].cart-check').forEach(function (cb) {
+        cb.addEventListener('change', function () { updateSummary(); syncSelectAll(); });
+      });
+
+      // 全选（表头 + 底部）
+      document.querySelectorAll('input[type="checkbox"].cart-check[aria-label="全选"]').forEach(function (cb) {
+        cb.addEventListener('change', function () {
+          document.querySelectorAll('.cart-row input[type="checkbox"].cart-check').forEach(function (r) { r.checked = cb.checked; });
+          updateSummary(); syncSelectAll();
+        });
+      });
+
+      // 删除行：打开确认弹窗并记录待删行
+      var pendingRow = null;
+      document.querySelectorAll('[data-dom-id^="remove-item-"]').forEach(function (btn) {
+        btn.addEventListener('click', function () { pendingRow = btn.closest('.cart-row'); open(deleteModal); });
+      });
+      var deleteConfirm = deleteModal ? deleteModal.querySelector('.btn-danger') : null;
+      if (deleteConfirm) {
+        deleteConfirm.addEventListener('click', function () {
+          close(deleteModal);
+          if (pendingRow && pendingRow.parentNode) {
+            pendingRow.parentNode.removeChild(pendingRow);
+            pendingRow = null;
+          }
+          if (!document.querySelector('.cart-row')) alert('购物车已清空');
+          updateSummary(); syncSelectAll();
+        });
+      }
+
+      // 删除选中
+      var removeSelected = null;
+      document.querySelectorAll('.cart-footer .footer-link-btn').forEach(function (b) {
+        if (b.textContent.indexOf('删除选中') > -1) removeSelected = b;
+      });
+      if (removeSelected) {
+        removeSelected.addEventListener('click', function () {
+          var removed = false;
+          Array.prototype.slice.call(document.querySelectorAll('.cart-row')).forEach(function (row) {
+            var cb = row.querySelector('input[type="checkbox"].cart-check');
+            if (cb && cb.checked) { row.parentNode.removeChild(row); removed = true; }
+          });
+          if (!document.querySelector('.cart-row')) alert('购物车已清空');
+          else if (removed) alert('已删除选中的商品（示例）');
+          updateSummary(); syncSelectAll();
+        });
+      }
+
+      // 清空购物车
+      var clearBtn = document.querySelector('[data-dom-id="clear-cart"]');
+      if (clearBtn) {
+        clearBtn.addEventListener('click', function () {
+          document.querySelectorAll('.cart-row').forEach(function (row) { row.parentNode.removeChild(row); });
+          alert('购物车已清空');
+          updateSummary(); syncSelectAll();
+        });
+      }
+
+      // 地址：新增入口 + 弹窗内新增 + 确认应用所选地址
+      var addAddressBtn = document.querySelector('[data-dom-id="add-address"]');
+      if (addAddressBtn) addAddressBtn.addEventListener('click', function () { open(addressModal); });
+      var addAddressModalBtn = document.querySelector('[data-dom-id="add-address-modal"]');
+      if (addAddressModalBtn) addAddressModalBtn.addEventListener('click', function () { alert('示例链接'); });
+      var addressConfirm = addressModal ? addressModal.querySelector('.btn-primary') : null;
+      if (addressConfirm) {
+        addressConfirm.addEventListener('click', function () {
+          var selected = document.querySelector('.addr-option.is-selected');
+          if (selected) {
+            var name = selected.querySelector('.addr-option-name');
+            var detail = selected.querySelector('.addr-option-detail');
+            var phone = selected.querySelector('.addr-option-phone');
+            var cardName = document.querySelector('.address-card .address-name');
+            var cardDetail = document.querySelector('.address-card .address-detail');
+            var cardPhone = document.querySelector('.address-card .address-phone');
+            if (name && cardName) {
+              var nameText = name.textContent.replace(/默认/g, '').trim();
+              cardName.innerHTML = ' ' + nameText + ' <span class="address-tag">默认</span>';
+            }
+            if (detail && cardDetail) cardDetail.textContent = detail.textContent.trim();
+            if (phone && cardPhone) cardPhone.textContent = phone.textContent.trim();
+          }
+          close(addressModal);
+        });
+      }
+
+      // ===== 页脚示例链接 =====
+      document.querySelectorAll('.footer-links a').forEach(function (a) {
+        a.addEventListener('click', function (e) { e.preventDefault(); alert('示例链接'); });
+      });
+
+      // ===== 搜索 =====
+      var searchBtn = document.querySelector('.search-btn');
+      if (searchBtn) {
+        searchBtn.addEventListener('click', function () {
+          var input = document.querySelector('.search-input');
+          var kw = input ? input.value.trim() : '';
+          alert(kw ? '示例搜索：「' + kw + '」' : '请输入搜索关键词（示例）');
+        });
+      }
+
+      // 个人中心入口
+      var navAvatar = document.querySelector('.nav-avatar');
+      if (navAvatar) navAvatar.addEventListener('click', function () { window.location.href = 'buyer-profile.html'; });
+
+      // Esc 关闭弹窗
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { close(addressModal); close(deleteModal); }
+      });
+
+      // 初始合计同步
+      updateSummary(); syncSelectAll();
+    })();
+  </script>
+<span data-dom-id="nav-profile" style="display:none"></span>
+<span data-dom-id="nav-category" style="display:none"></span>
+</body>
+</html>
