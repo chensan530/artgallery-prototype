@@ -14,8 +14,8 @@
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-bc7fe9ff",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-1f232207",
+          "measuredAt": 1786345544613
         }
       },
       "devMetadata": {
@@ -80,14 +80,14 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 0,
-        "y": 377,
+        "y": 143,
         "group": 0,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-83dc770e",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-e32baad2",
+          "measuredAt": 1786345544613
         }
       },
       "devMetadata": {
@@ -152,14 +152,14 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 0,
-        "y": 754,
+        "y": 520,
         "group": 0,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-35926eb4",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-edce0fbc",
+          "measuredAt": 1786345544613
         }
       },
       "devMetadata": {
@@ -224,14 +224,14 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 620,
-        "y": 3016,
+        "y": 3159,
         "group": 1,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-a5f5fd97",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-017413cd",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -241,6 +241,18 @@
             "trigger": "click",
             "domId": "nav-artwork-mgmt",
             "targetPageId": "page-artist-artwork-mgmt",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-artist-tickets",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-messages",
+            "targetPageId": "page-artist-messages",
             "action": "navigate"
           }
         ]
@@ -254,14 +266,14 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 620,
-        "y": 3393,
+        "y": 3536,
         "group": 1,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-a2f42e65",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-39513453",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -271,6 +283,18 @@
             "trigger": "click",
             "domId": "nav-onboarding",
             "targetPageId": "page-artist-onboarding",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-artist-tickets",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-messages",
+            "targetPageId": "page-artist-messages",
             "action": "navigate"
           }
         ]
@@ -284,14 +308,14 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 1240,
-        "y": 5319,
+        "y": 5798,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 2156,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-173f5960",
-          "measuredAt": 1786094730496
+          "sourceHash": "fnv1a-ad3620c3",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -362,14 +386,14 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 1240,
-        "y": 8348,
+        "y": 8825,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
-          "contentHeight": 1937,
+          "contentHeight": 2066,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-849f0a6c",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-089ce6b6",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -428,14 +452,14 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 1240,
-        "y": 6062,
+        "y": 6541,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 1217,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-b267e952",
-          "measuredAt": 1786094730496
+          "sourceHash": "fnv1a-787a1a75",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -481,15 +505,15 @@
       "version": 1,
       "createdAt": 1785921000000,
       "canvasData": {
-        "x": 620,
-        "y": 5900,
+        "x": 0,
+        "y": 5798,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 902,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-24dd3ae0",
-          "measuredAt": 1786094730496
+          "sourceHash": "fnv1a-42bad543",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -536,7 +560,7 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 0,
-        "y": 9194,
+        "y": 9542,
         "naturalSize": {
           "width": 2560,
           "height": 1440
@@ -554,7 +578,7 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 620,
-        "y": 9194,
+        "y": 9542,
         "naturalSize": {
           "width": 1920,
           "height": 1920
@@ -572,7 +596,7 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 1240,
-        "y": 9194,
+        "y": 9542,
         "naturalSize": {
           "width": 1920,
           "height": 1920
@@ -590,7 +614,7 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 1860,
-        "y": 9194,
+        "y": 9542,
         "naturalSize": {
           "width": 1680,
           "height": 2240
@@ -608,7 +632,7 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 2480,
-        "y": 9194,
+        "y": 9542,
         "naturalSize": {
           "width": 1920,
           "height": 1920
@@ -626,7 +650,7 @@
       "createdAt": 1785921000000,
       "canvasData": {
         "x": 3100,
-        "y": 9194,
+        "y": 9542,
         "naturalSize": {
           "width": 1920,
           "height": 1920
@@ -648,10 +672,10 @@
         "group": 0,
         "layoutSnapshot": {
           "version": 1,
-          "contentHeight": 900,
+          "contentHeight": 100,
           "viewportWidth": 1440,
           "sourceHash": "fnv1a-d4b10a93",
-          "measuredAt": 1786177168382
+          "measuredAt": 1786345544613
         }
       },
       "devMetadata": {
@@ -674,14 +698,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 0,
-        "y": 1131,
+        "y": 897,
         "group": 0,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-8929c911",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-15b319e3",
+          "measuredAt": 1786345544613
         }
       },
       "devMetadata": {
@@ -746,14 +770,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 0,
-        "y": 1508,
+        "y": 1274,
         "group": 0,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-1a596e92",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-f46fe656",
+          "measuredAt": 1786345544613
         }
       },
       "devMetadata": {
@@ -818,14 +842,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 0,
-        "y": 1885,
+        "y": 1651,
         "group": 0,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-d06d57d0",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-547d66b8",
+          "measuredAt": 1786345544613
         }
       },
       "devMetadata": {
@@ -890,14 +914,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 0,
-        "y": 2262,
+        "y": 2028,
         "group": 0,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-74898f64",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-bf00a9c8",
+          "measuredAt": 1786345544613
         }
       },
       "devMetadata": {
@@ -962,14 +986,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 0,
-        "y": 2639,
+        "y": 2405,
         "group": 0,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-f5118eea",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-e3b986e8",
+          "measuredAt": 1786345544613
         }
       },
       "devMetadata": {
@@ -1034,14 +1058,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 620,
-        "y": 3770,
+        "y": 4667,
         "group": 1,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-ef85e187",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-231439ad",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1076,6 +1100,12 @@
             "domId": "nav-tickets",
             "targetPageId": "page-artist-tickets",
             "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-messages",
+            "targetPageId": "page-artist-messages",
+            "action": "navigate"
           }
         ]
       }
@@ -1088,14 +1118,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 620,
-        "y": 4251,
+        "y": 4290,
         "group": 1,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-e88cd9f1",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-9222fb75",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1130,6 +1160,12 @@
             "domId": "nav-tickets",
             "targetPageId": "page-artist-tickets",
             "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-messages",
+            "targetPageId": "page-artist-messages",
+            "action": "navigate"
           }
         ]
       }
@@ -1142,14 +1178,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 620,
-        "y": 4904,
+        "y": 5044,
         "group": 1,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-432bf35a",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-aa9c8d60",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1184,6 +1220,12 @@
             "domId": "nav-tickets",
             "targetPageId": "page-artist-tickets",
             "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-messages",
+            "targetPageId": "page-artist-messages",
+            "action": "navigate"
           }
         ]
       }
@@ -1196,14 +1238,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 1240,
-        "y": 6531,
+        "y": 7010,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 1364,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-9045b04c",
-          "measuredAt": 1786094730496
+          "sourceHash": "fnv1a-6205e56f",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1244,14 +1286,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 1240,
-        "y": 7757,
+        "y": 8234,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 1635,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-b7b77c5c",
-          "measuredAt": 1786094730496
+          "sourceHash": "fnv1a-21a5e53f",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1322,14 +1364,14 @@
       "createdAt": 1785998577616,
       "canvasData": {
         "x": 1240,
-        "y": 7043,
+        "y": 7522,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 2050,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-4bfe2032",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-afb85515",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1369,66 +1411,6 @@
       }
     },
     {
-      "id": "page-buyer-orders",
-      "title": "买家官网 - 我的订单",
-      "type": "page",
-      "version": 1,
-      "createdAt": 1786096257590,
-      "canvasData": {
-        "x": 0,
-        "y": 5900,
-        "group": 2,
-        "layoutSnapshot": {
-          "version": 1,
-          "contentHeight": 1725,
-          "viewportWidth": 1440,
-          "sourceHash": "fnv1a-85bf5322",
-          "measuredAt": 1786177168382
-        }
-      },
-      "devMetadata": {
-        "htmlSrc": "pages/buyer-orders.html",
-        "interactions": [
-          {
-            "trigger": "click",
-            "domId": "nav-logo",
-            "targetPageId": "page-buyer-home",
-            "action": "navigate"
-          },
-          {
-            "trigger": "click",
-            "domId": "nav-cart",
-            "targetPageId": "page-buyer-cart",
-            "action": "navigate"
-          },
-          {
-            "trigger": "click",
-            "domId": "nav-login",
-            "targetPageId": "page-buyer-login",
-            "action": "navigate"
-          },
-          {
-            "trigger": "click",
-            "domId": "nav-category",
-            "targetPageId": "page-buyer-category",
-            "action": "navigate"
-          },
-          {
-            "trigger": "click",
-            "domId": "back-profile",
-            "targetPageId": "page-buyer-profile",
-            "action": "navigate"
-          },
-          {
-            "trigger": "click",
-            "domId": "pay-order",
-            "targetPageId": "page-buyer-payment",
-            "action": "navigate"
-          }
-        ]
-      }
-    },
-    {
       "id": "page-buyer-wallet",
       "title": "买家官网 - 我的钱包",
       "type": "page",
@@ -1436,14 +1418,14 @@
       "createdAt": 1786096257590,
       "canvasData": {
         "x": 620,
-        "y": 8020,
+        "y": 7849,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 1440,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-f3e9731c",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-5e6562ff",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1490,14 +1472,14 @@
       "createdAt": 1786096257590,
       "canvasData": {
         "x": 620,
-        "y": 7439,
+        "y": 7315,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 1441,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-376118ef",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-16afdc1a",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1592,14 +1574,14 @@
       "createdAt": 1786096257590,
       "canvasData": {
         "x": 0,
-        "y": 5319,
+        "y": 6175,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 1328,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-abcad8d1",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-074e4a54",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1694,14 +1676,14 @@
       "createdAt": 1786096257590,
       "canvasData": {
         "x": 620,
-        "y": 6858,
+        "y": 6748,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 1553,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-945f69f0",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-db7c1875",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1772,14 +1754,14 @@
       "createdAt": 1786096257590,
       "canvasData": {
         "x": 620,
-        "y": 6277,
+        "y": 6273,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 1239,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-bba00e28",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-6253772b",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1826,14 +1808,14 @@
       "createdAt": 1786096257590,
       "canvasData": {
         "x": 620,
-        "y": 5319,
+        "y": 5798,
         "group": 2,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 1239,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-b566f5d1",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-71908354",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1880,14 +1862,14 @@
       "createdAt": 1786096257590,
       "canvasData": {
         "x": 0,
-        "y": 3016,
+        "y": 3159,
         "group": 1,
         "layoutSnapshot": {
           "version": 1,
           "contentHeight": 900,
           "viewportWidth": 1440,
-          "sourceHash": "fnv1a-7c8c2197",
-          "measuredAt": 1786177168382
+          "sourceHash": "fnv1a-a76e64dd",
+          "measuredAt": 1786427369079
         }
       },
       "devMetadata": {
@@ -1927,6 +1909,198 @@
             "trigger": "click",
             "domId": "nav-tickets",
             "targetPageId": "page-artist-tickets",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-messages",
+            "targetPageId": "page-artist-messages",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-admin-tickets",
+      "title": "管理后台 - 客服工作台",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786345451182,
+      "canvasData": {
+        "x": 0,
+        "y": 2782,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-7c90e013",
+          "measuredAt": 1786427369079
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/admin-tickets.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-dashboard",
+            "targetPageId": "page-admin-dashboard",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-review",
+            "targetPageId": "page-artist-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-review",
+            "targetPageId": "page-artwork-review",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artist-mgmt",
+            "targetPageId": "page-admin-artist-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-admin-artwork-management",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-admin-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-admin-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-settings",
+            "targetPageId": "page-admin-settings",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artist-tickets",
+      "title": "艺术家工作台 - 工单消息",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786345451182,
+      "canvasData": {
+        "x": 620,
+        "y": 3913,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-334cd34f",
+          "measuredAt": 1786427369079
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artist-tickets.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-artist-artwork-mgmt",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-artist-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-artist-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-profile-edit",
+            "targetPageId": "page-artist-profile-edit",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-settings",
+            "targetPageId": "page-artist-settings",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-messages",
+            "targetPageId": "page-artist-messages",
+            "action": "navigate"
+          }
+        ]
+      }
+    },
+    {
+      "id": "page-artist-messages",
+      "title": "艺术家工作台 - 买家沟通",
+      "type": "page",
+      "version": 1,
+      "createdAt": 1786345966726,
+      "canvasData": {
+        "x": 620,
+        "y": 5421,
+        "group": 1,
+        "layoutSnapshot": {
+          "version": 1,
+          "contentHeight": 900,
+          "viewportWidth": 1440,
+          "sourceHash": "fnv1a-05368219",
+          "measuredAt": 1786427369079
+        }
+      },
+      "devMetadata": {
+        "htmlSrc": "pages/artist-messages.html",
+        "interactions": [
+          {
+            "trigger": "click",
+            "domId": "nav-artwork-mgmt",
+            "targetPageId": "page-artist-artwork-mgmt",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-orders",
+            "targetPageId": "page-artist-orders",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-finance",
+            "targetPageId": "page-artist-finance",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-tickets",
+            "targetPageId": "page-artist-tickets",
+            "action": "navigate"
+          },
+          {
+            "trigger": "click",
+            "domId": "nav-settings",
+            "targetPageId": "page-artist-settings",
             "action": "navigate"
           }
         ]

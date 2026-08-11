@@ -1094,5 +1094,52 @@ body {
 <span data-dom-id="nav-login" style="display:none"></span>
 <span data-dom-id="nav-profile" style="display:none"></span>
 <span data-dom-id="nav-category" style="display:none"></span>
+  <style>
+.ag-chat-launcher{position:fixed;right:24px;bottom:24px;z-index:9999;width:56px;height:56px;border-radius:50%;background:#1A365D;color:#fff;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 8px 24px rgba(0,0,0,0.18);}
+.ag-chat-badge{position:absolute;top:-2px;right:-2px;min-width:18px;height:18px;border-radius:9px;background:#E53935;color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;padding:0 4px;}
+.ag-chat-panel{position:fixed;right:24px;bottom:92px;z-index:9999;width:360px;max-width:calc(100vw - 32px);height:480px;max-height:calc(100vh - 120px);background:#fff;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.18);display:none;flex-direction:column;overflow:hidden;border:1px solid #E2E8F0;}
+.ag-chat-panel.open{display:flex;}
+.ag-chat-head{background:#1A365D;color:#fff;padding:14px 16px;display:flex;align-items:center;justify-content:space-between;}
+.ag-chat-status{font-size:12px;display:flex;align-items:center;gap:6px;opacity:.9;}
+.ag-chat-status::before{content:'';width:8px;height:8px;border-radius:50%;background:#81C784;}
+.ag-chat-close{background:none;border:none;color:#fff;cursor:pointer;font-size:20px;line-height:1;}
+.ag-chat-body{flex:1;overflow-y:auto;padding:16px;background:#F8FAFC;display:flex;flex-direction:column;gap:12px;}
+.ag-chat-msg{max-width:78%;padding:10px 14px;border-radius:12px;font-size:14px;line-height:1.6;word-break:break-word;}
+.ag-chat-msg.buyer{align-self:flex-end;background:#1A365D;color:#fff;border-bottom-right-radius:4px;}
+.ag-chat-msg.agent{align-self:flex-start;background:#fff;color:#1E293B;border:1px solid #E2E8F0;border-bottom-left-radius:4px;}
+.ag-chat-time{display:block;font-size:11px;opacity:.7;margin-top:4px;}
+.ag-chat-inputbar{border-top:1px solid #E2E8F0;padding:10px 12px;display:flex;gap:8px;align-items:flex-end;background:#fff;}
+.ag-chat-inputbar textarea{flex:1;border:1px solid #E2E8F0;border-radius:8px;padding:8px 10px;font-size:14px;resize:none;min-height:38px;max-height:80px;font-family:inherit;}
+.ag-chat-inputbar button{background:#1A365D;color:#fff;border:none;border-radius:8px;padding:8px 16px;cursor:pointer;font-size:14px;}
+  </style>
+  <div id="ag-chat-root">
+    <button class="ag-chat-launcher" id="ag-chat-launcher" type="button" aria-label="客服咨询"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span class="ag-chat-badge" id="ag-chat-badge" style="display:none;">1</span></button>
+    <div class="ag-chat-panel" id="ag-chat-panel" role="dialog" aria-label="在线客服">
+      <div class="ag-chat-head"><div><div style="font-size:15px;font-weight:600;">ArtGallery 客服</div><div class="ag-chat-status">客服在线 · 通常几秒内回复</div></div><button class="ag-chat-close" id="ag-chat-close" type="button" aria-label="关闭">×</button></div>
+      <div class="ag-chat-body" id="ag-chat-body"></div>
+      <div class="ag-chat-inputbar"><textarea id="ag-chat-input" placeholder="请输入您的问题…"></textarea><button id="ag-chat-send" type="button">发送</button></div>
+    </div>
+  </div>
+  <script>
+  (function(){
+    var SESSION='buyer-demo-1', KEY='ag_chat_conversations';
+    function read(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return{};}}
+    function write(conv){try{localStorage.setItem(KEY,JSON.stringify(conv));}catch(e){}}
+    function now(){var d=new Date();return (d.getMonth()+1)+'-'+d.getDate()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}
+    var launcher=document.getElementById('ag-chat-launcher');if(!launcher)return;
+    var panel=document.getElementById('ag-chat-panel'),body=document.getElementById('ag-chat-body'),input=document.getElementById('ag-chat-input'),send=document.getElementById('ag-chat-send'),closeBtn=document.getElementById('ag-chat-close'),badge=document.getElementById('ag-chat-badge');
+    var opened=false,unread=0;
+    function ensureSession(){var conv=read();if(!conv[SESSION]||!conv[SESSION].length){conv[SESSION]=[{role:'agent',text:'您好，欢迎来到 ArtGallery！我是平台客服小艺，请问有什么可以帮您？',time:now()}];write(conv);}}
+    function msgEl(m){var d=document.createElement('div');d.className='ag-chat-msg '+m.role;var t=document.createElement('span');t.className='ag-chat-time';t.textContent=m.time;d.appendChild(document.createTextNode(m.text));d.appendChild(t);return d;}
+    function render(){var conv=read()[SESSION]||[];body.innerHTML='';conv.forEach(function(m){body.appendChild(msgEl(m));});body.scrollTop=body.scrollHeight;}
+    function sendMsg(){var text=input.value.trim();if(!text)return;var conv=read();conv[SESSION]=conv[SESSION]||[];conv[SESSION].push({role:'buyer',text:text,time:now()});write(conv);input.value='';render();}
+    launcher.addEventListener('click',function(){opened=!opened;panel.classList.toggle('open',opened);if(opened){unread=0;badge.style.display='none';ensureSession();render();input.focus();}});
+    closeBtn.addEventListener('click',function(){opened=false;panel.classList.remove('open');});
+    send.addEventListener('click',sendMsg);
+    input.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+    window.addEventListener('storage',function(e){if(e.key!==KEY)return;var conv=read()[SESSION]||[];var last=conv[conv.length-1];if(opened){render();}else if(last&&last.role==='agent'){unread++;badge.style.display='flex';badge.textContent=unread;}});
+    ensureSession();
+  })();
+  </script>
 </body>
 </html>
