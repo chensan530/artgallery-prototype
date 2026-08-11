@@ -894,7 +894,7 @@ body {
               </div>
               <span class="artist-desc">抽象表现主义探索者</span>
             </div>
-            <a href="#" class="artist-link">查看主页</a>
+            <a href="buyer-artist.html?artist=minghua" class="artist-link">查看主页</a>
           </article>
 
           <article class="artist-card">
@@ -906,7 +906,7 @@ body {
               </div>
               <span class="artist-desc">古典技法传承工作室</span>
             </div>
-            <a href="#" class="artist-link">查看主页</a>
+            <a href="buyer-artist.html?artist=chens" class="artist-link">查看主页</a>
           </article>
 
           <article class="artist-card">
@@ -918,7 +918,7 @@ body {
               </div>
               <span class="artist-desc">宗教题材当代诠释</span>
             </div>
-            <a href="#" class="artist-link">查看主页</a>
+            <a href="buyer-artist.html?artist=zhao" class="artist-link">查看主页</a>
           </article>
         </div>
       </div>
@@ -983,8 +983,8 @@ body {
   <script>
     lucide.createIcons();
 
-    // ===== 通用示例链接反馈（页脚、艺术家主页等无对应页面链接） =====
-    document.querySelectorAll('.footer-links a, .artist-link').forEach(function (a) {
+    // ===== 通用示例链接反馈（仅页脚无对应页面链接） =====
+    document.querySelectorAll('.footer-links a').forEach(function (a) {
       a.addEventListener('click', function (e) { e.preventDefault(); alert('示例链接'); });
     });
 

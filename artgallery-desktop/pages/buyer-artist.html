@@ -407,22 +407,22 @@ body {
 
       <!-- 艺术家信息头部 -->
       <section class="artist-hero" aria-label="艺术家信息">
-        <div class="artist-avatar" style="background:var(--ag-primary);">李</div>
+        <div class="artist-avatar" id="ba-avatar" style="background:var(--ag-primary);">李</div>
         <div class="artist-main">
           <div class="artist-name-row">
-            <h1 class="artist-name">李明华</h1>
+            <h1 class="artist-name" id="ba-name">李明华</h1>
             <span class="tag-approved">认证艺术家</span>
           </div>
-          <p class="artist-title">抽象表现主义画家 · 现居中国北京</p>
-          <div class="artist-tags">
+          <p class="artist-title" id="ba-title">抽象表现主义画家 · 现居中国北京</p>
+          <div class="artist-tags" id="ba-tags">
             <span class="artist-tag">抽象</span>
             <span class="artist-tag">当代</span>
             <span class="artist-tag">布面油画</span>
           </div>
           <div class="artist-stats">
-            <span class="stat-item"><b>12.6k</b> 关注者</span>
-            <span class="stat-item"><b>48</b> 件在售作品</span>
-            <span class="stat-item"><b>386</b> 累计售出</span>
+            <span class="stat-item"><b id="ba-followers">12.6k</b> 关注者</span>
+            <span class="stat-item"><b id="ba-works">48</b> 件在售作品</span>
+            <span class="stat-item"><b id="ba-sold">386</b> 累计售出</span>
           </div>
         </div>
         <div class="artist-actions">
@@ -440,7 +440,7 @@ body {
           </h2>
           <a href="buyer-category.html" class="more-link">更多作品</a>
         </div>
-        <div class="works-grid">
+        <div class="works-grid" id="ba-works-grid">
           <a href="artwork-detail.html" class="work-card" data-dom-id="artist-work-1">
             <span class="work-img-wrap"><img class="work-img" src="../assets/art-abstract.jpg" alt="无界之境"></span>
             <span class="work-info">
@@ -483,7 +483,7 @@ body {
         <div class="about-grid">
           <div class="about-card">
             <h3 class="about-subtitle">个人简介</h3>
-            <p class="about-text">李明华，1988 年生于北京，2011 年毕业于中央美术学院油画系。作品以抽象表现主义为基底，探讨色彩、空间与情绪之间的边界，曾在国内外多个美术馆展出并被重要机构收藏。坚持「让每一笔都有呼吸」的创作理念，近年专注于大尺幅布面油画的实验性创作。</p>
+            <p class="about-text" id="ba-bio">李明华，1988 年生于北京，2011 年毕业于中央美术学院油画系。作品以抽象表现主义为基底，探讨色彩、空间与情绪之间的边界，曾在国内外多个美术馆展出并被重要机构收藏。坚持「让每一笔都有呼吸」的创作理念，近年专注于大尺幅布面油画的实验性创作。</p>
           </div>
         </div>
       </section>
@@ -618,6 +618,93 @@ body {
       @media (max-width: 640px) { .artist-hero { flex-direction: column; align-items: flex-start; } .artist-actions { width: 100%; flex-direction: row; } .about-grid { grid-template-columns: 1fr; } .works-grid { grid-template-columns: repeat(2, 1fr); } }
     </style>
   <script>
+    // ===== 艺术家数据（支持 ?artist=minghua|chens|zhao 切换） =====
+    var AG_ARTISTS = {
+      minghua: {
+        key: 'minghua', session: 'artist-li', avatar: '李', name: '李明华', title: '抽象表现主义画家 · 现居中国北京',
+        tags: ['抽象', '当代', '布面油画'], followers: '12.6k', worksCount: '48', sold: '386',
+        bio: '李明华，1988 年生于北京，2011 年毕业于中央美术学院油画系。作品以抽象表现主义为基底，探讨色彩、空间与情绪之间的边界，曾在国内外多个美术馆展出并被重要机构收藏。坚持「让每一笔都有呼吸」的创作理念，近年专注于大尺幅布面油画的实验性创作。',
+        works: [
+          { img: '../assets/art-abstract.jpg', name: '《无界之境》', price: '¥15,200' },
+          { img: '../assets/art-abstract.jpg', name: '《星夜行旅》', price: '¥12,800' },
+          { img: '../assets/art-abstract.jpg', name: '《光谱漫游》', price: '¥18,600' },
+          { img: '../assets/art-abstract.jpg', name: '《呼吸之间》', price: '¥9,800' }
+        ]
+      },
+      chens: {
+        key: 'chens', session: 'artist-chens', avatar: '陈', name: '陈工作室', title: '古典技法传承 · 油画与版画工作室',
+        tags: ['古典', '写实', '版画'], followers: '8.2k', worksCount: '31', sold: '205',
+        bio: '陈工作室创立于 2012 年，专注古典油画技法的研究传承与原创创作。工作室位于上海，成员包括四位受过系统学院训练的画家，擅长宗教题材、肖像与风景的写实表达。坚持传统手工艺精神，为每一幅作品提供鉴定证书与技法溯源。',
+        works: [
+          { img: '../assets/art-classical.jpg', name: '《静谧圣光》', price: '¥26,800' },
+          { img: '../assets/art-classical.jpg', name: '《古典花园》', price: '¥18,500' },
+          { img: '../assets/art-classical.jpg', name: '《时光肖像》', price: '¥22,000' },
+          { img: '../assets/art-classical.jpg', name: '《旧城晨光》', price: '¥14,600' }
+        ]
+      },
+      zhao: {
+        key: 'zhao', session: 'artist-zhao', avatar: '赵', name: '赵墨缘', title: '宗教题材当代诠释 · 现居中国西安',
+        tags: ['宗教', '当代', '综合材料'], followers: '5.7k', worksCount: '27', sold: '148',
+        bio: '赵墨缘，1991 年生于西安，2014 年毕业于西安美术学院。长期以宗教壁画与民间艺术为灵感源泉，用综合材料与当代语言重新诠释神圣题材。作品强调仪式感与精神性，曾在敦煌、法海寺等地驻留创作，多件作品被私人收藏家与艺术机构收藏。',
+        works: [
+          { img: '../assets/art-religious.jpg', name: '《梵音之境》', price: '¥32,000' },
+          { img: '../assets/art-religious.jpg', name: '《千手观》', price: '¥28,600' },
+          { img: '../assets/art-religious.jpg', name: '《敦煌余韵》', price: '¥24,800' },
+          { img: '../assets/art-religious.jpg', name: '《净土》', price: '¥19,900' }
+        ]
+      }
+    };
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var key = params.get('artist');
+      var artist = AG_ARTISTS[key] || AG_ARTISTS.minghua;
+      window.AG_CURRENT_ARTIST = artist;
+      function setText(id, v) { var el = document.getElementById(id); if (el) el.textContent = v; }
+      setText('ba-avatar', artist.avatar);
+      setText('ba-name', artist.name);
+      setText('ba-title', artist.title);
+      setText('ba-followers', artist.followers);
+      setText('ba-works', artist.worksCount);
+      setText('ba-sold', artist.sold);
+      setText('ba-bio', artist.bio);
+      var tagsBox = document.getElementById('ba-tags');
+      if (tagsBox) {
+        tagsBox.innerHTML = '';
+        artist.tags.forEach(function (t) {
+          var s = document.createElement('span');
+          s.className = 'artist-tag';
+          s.textContent = t;
+          tagsBox.appendChild(s);
+        });
+      }
+      var grid = document.getElementById('ba-works-grid');
+      if (grid) {
+        grid.innerHTML = '';
+        artist.works.forEach(function (w, i) {
+          var a = document.createElement('a');
+          a.href = 'artwork-detail.html';
+          a.className = 'work-card';
+          a.setAttribute('data-dom-id', 'artist-work-' + (i + 1));
+          a.innerHTML = '<span class="work-img-wrap"><img class="work-img" src="' + w.img + '" alt="' + w.name.replace(/《|》/g, '') + '"></span>' +
+            '<span class="work-info"><span class="work-name">' + w.name + '</span><span class="work-price">' + w.price + '</span></span>';
+          grid.appendChild(a);
+        });
+      }
+      var chatTitle = document.getElementById('ag-artist-panel-title');
+      if (chatTitle) { chatTitle.textContent = '艺术家 · ' + artist.name; }
+      var followBtn = document.getElementById('btn-follow');
+      if (followBtn) {
+        var followed = followBtn.classList.contains('is-followed');
+        followBtn.textContent = followed ? '已关注' : '+ 关注';
+        followBtn.addEventListener('click', function () {
+          var isFollowed = followBtn.classList.toggle('is-followed');
+          followBtn.textContent = isFollowed ? '已关注' : '+ 关注';
+          alert(isFollowed ? '已关注艺术家「' + artist.name + '」（示例）' : '已取消关注（示例）');
+        });
+      }
+    })();
+  </script>
+  <script>
     (function () {
       // ===== 页脚示例链接 =====
       document.querySelectorAll('.footer-links a').forEach(function (a) {
@@ -636,11 +723,13 @@ body {
 
       // ===== 关注艺术家（可切换已关注状态） =====
       var followBtn = document.getElementById('btn-follow');
-      if (followBtn) {
+      if (followBtn && !followBtn.hasAttribute('data-bound')) {
+        followBtn.setAttribute('data-bound', '1');
         followBtn.addEventListener('click', function () {
           var followed = followBtn.classList.toggle('is-followed');
           followBtn.textContent = followed ? '已关注' : '+ 关注';
-          alert(followed ? '已关注艺术家「李明华」（示例）' : '已取消关注（示例）');
+          var artist = window.AG_CURRENT_ARTIST || { name: '李明华' };
+          alert(followed ? '已关注艺术家「' + artist.name + '」（示例）' : '已取消关注（示例）');
         });
       }
     })();
@@ -678,7 +767,7 @@ body {
     <div class="ag-chat-panel" id="ag-artist-panel" role="dialog" aria-label="联系艺术家">
       <div class="ag-chat-head">
         <div>
-          <div style="font-size:15px;font-weight:600;">艺术家 · 李明华</div>
+          <div style="font-size:15px;font-weight:600;" id="ag-artist-panel-title">艺术家 · 李明华</div>
           <div class="ag-chat-status">艺术家在线 · 通常几秒内回复</div>
         </div>
         <button class="ag-chat-close" id="ag-artist-close" type="button" aria-label="关闭">×</button>
@@ -710,14 +799,15 @@ body {
   </script>
   <script>
   (function(){
-    var SESSION='artist-li', KEY='ag_artist_chat';
+    var artist = window.AG_CURRENT_ARTIST || { session: 'artist-li', name: '李明华' };
+    var SESSION = artist.session || 'artist-li', KEY='ag_artist_chat';
     function read(){try{return JSON.parse(localStorage.getItem(KEY))||{};}catch(e){return{};}}
     function write(conv){try{localStorage.setItem(KEY,JSON.stringify(conv));}catch(e){}}
     function now(){var d=new Date();return (d.getMonth()+1)+'-'+d.getDate()+' '+('0'+d.getHours()).slice(-2)+':'+('0'+d.getMinutes()).slice(-2);}
     var btn=document.getElementById('btn-contact');if(!btn)return;
     var panel=document.getElementById('ag-artist-panel'),body=document.getElementById('ag-artist-body'),input=document.getElementById('ag-artist-input'),send=document.getElementById('ag-artist-send'),closeBtn=document.getElementById('ag-artist-close'),badge=document.getElementById('ag-artist-badge');
     var opened=false,unread=0;
-    function ensureSession(){var conv=read();if(!conv[SESSION]||!conv[SESSION].length){conv[SESSION]=[{role:'artist',text:'您好！我是艺术家李明华，很高兴与您直接交流。有什么关于作品的问题都可以问我。',time:now()}];write(conv);}}
+    function ensureSession(){var conv=read();if(!conv[SESSION]||!conv[SESSION].length){conv[SESSION]=[{role:'artist',text:'您好！我是艺术家'+artist.name+'，很高兴与您直接交流。有什么关于作品的问题都可以问我。',time:now()}];write(conv);}}
     function msgEl(m){var d=document.createElement('div');d.className='ag-chat-msg '+m.role;var t=document.createElement('span');t.className='ag-chat-time';t.textContent=m.time;d.appendChild(document.createTextNode(m.text));d.appendChild(t);return d;}
     function render(){var conv=read()[SESSION]||[];body.innerHTML='';conv.forEach(function(m){body.appendChild(msgEl(m));});body.scrollTop=body.scrollHeight;}
     function sendMsg(){var text=input.value.trim();if(!text)return;var conv=read();conv[SESSION]=conv[SESSION]||[];conv[SESSION].push({role:'buyer',text:text,time:now()});write(conv);input.value='';render();}

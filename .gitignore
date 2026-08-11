@@ -4,6 +4,7 @@ node_modules/
 # Design runtime artifacts
 validation-report.json
 *.log
+.preview-server.js
 
 # OS / editor
 .DS_Store
